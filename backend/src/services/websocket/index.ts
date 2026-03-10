@@ -10,6 +10,18 @@ import { TaskProgress } from '../../types/task.types';
 import logger from '../../utils/logger';
 
 /**
+ * WebSocket message interface
+ */
+interface WebSocketMessage {
+  type: 'subscribe' | 'unsubscribe' | 'error' | 'update' | 'subscribe-task' | 'unsubscribe-task' | 'ping' | 'pong' | 'connected' | 'task-update';
+  taskId?: string;
+  data?: TaskProgress;
+  message?: string;
+  clientId?: string;
+  error?: string;
+}
+
+/**
  * WebSocket port configuration
  */
 const WS_PORT = 4001;
@@ -24,6 +36,11 @@ export let wssInstance: WebSocketServer | null = null;
  * HTTP server for WebSocket
  */
 let httpServer: ReturnType<typeof createServer> | null = null;
+
+/**
+ * Broadcast interval timer
+ */
+let broadcastInterval: NodeJS.Timeout | null = null;
 
 /**
  * Client subscriptions storage
@@ -41,15 +58,25 @@ const connections = new Map<string, WebSocket>();
  * Generate unique client ID
  */
 const generateClientId = (): string => {
-  return `client_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `client_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
 };
 
 /**
  * Send message to a specific client
  */
-const sendToClient = (ws: WebSocket, message: any): void => {
-  if (ws.readyState === WebSocket.OPEN) {
-    ws.send(JSON.stringify(message));
+const sendToClient = (ws: WebSocket, message: WebSocketMessage): void => {
+  try {
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify(message), (error) => {
+        if (error) {
+          logger.error('Failed to send WebSocket message', { error: error.message });
+        }
+      });
+    } else {
+      logger.warn('WebSocket not ready, skipping message');
+    }
+  } catch (error) {
+    logger.error('Error sending WebSocket message', { error });
   }
 };
 
@@ -106,7 +133,16 @@ const handleUnsubscribeTask = (clientId: string, taskId: string): void => {
  */
 const handleMessage = (clientId: string, ws: WebSocket, message: string): void => {
   try {
-    const data = JSON.parse(message);
+    const data: WebSocketMessage = JSON.parse(message);
+
+    // Validate message structure
+    if (!data.type || typeof data.type !== 'string') {
+      sendToClient(ws, {
+        type: 'error',
+        message: 'Invalid message format: type is required',
+      });
+      return;
+    }
 
     switch (data.type) {
       case 'subscribe-task':
@@ -148,9 +184,9 @@ const handleMessage = (clientId: string, ws: WebSocket, message: string): void =
       error: error instanceof Error ? error.message : String(error),
     });
 
-    const ws = connections.get(clientId);
-    if (ws) {
-      sendToClient(ws, {
+    const wsConnection = connections.get(clientId);
+    if (wsConnection) {
+      sendToClient(wsConnection, {
         type: 'error',
         message: 'Invalid JSON format',
       });
@@ -247,7 +283,7 @@ export const setupWebSocketServer = (): void => {
 
   // Start task progress broadcast interval (500ms)
   const BROADCAST_INTERVAL_MS = 500;
-  setInterval(broadcastTaskUpdates, BROADCAST_INTERVAL_MS);
+  broadcastInterval = setInterval(broadcastTaskUpdates, BROADCAST_INTERVAL_MS);
 
   logger.info('WebSocket task progress broadcasting started', {
     interval: `${BROADCAST_INTERVAL_MS}ms`,
@@ -269,6 +305,12 @@ export const setupWebSocketServer = (): void => {
 export const shutdownWebSocketServer = async (): Promise<void> => {
   if (wssInstance) {
     logger.info('Shutting down WebSocket server...');
+
+    // Clear broadcast interval to prevent memory leak
+    if (broadcastInterval) {
+      clearInterval(broadcastInterval);
+      broadcastInterval = null;
+    }
 
     // Close all connections
     wssInstance.clients.forEach((client) => {
