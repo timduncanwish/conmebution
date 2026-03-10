@@ -25,29 +25,6 @@ router.get('/health', (req: Request, res: Response) => {
 });
 
 /**
- * GET /api
- * API information endpoint
- */
-router.get('/', (req: Request, res: Response) => {
-  res.json({
-    success: true,
-    data: {
-      message: 'Conmebution API',
-      version: '1.0.0',
-      endpoints: {
-        health: '/api/health',
-        generate: {
-          text: '/api/generate/text',
-          textSync: '/api/generate/text/sync',
-          cost: '/api/generate/cost',
-        },
-        tasks: '/api/tasks/:taskId',
-      },
-    },
-  });
-});
-
-/**
  * Mount generation routes
  */
 router.use('/generate', generationRoutes);
