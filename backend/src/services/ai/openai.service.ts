@@ -3,6 +3,7 @@
  * Implements AI service for OpenAI's GPT-4 model
  */
 
+import axios from 'axios';
 import { BaseAIService } from './base.service';
 import {
   AIProvider,
@@ -23,13 +24,7 @@ export class OpenAIService extends BaseAIService {
       apiKey,
       'https://api.openai.com/v1',
       AIProvider.GPT_4,
-      AIModel.GPT_4,
-      {
-        inputCost: 0.00003, // $0.00003 per token
-        outputCost: 0.00006, // $0.00006 per token
-        currency: 'USD',
-        unit: 'token',
-      }
+      AIModel.GPT_4
     );
   }
 
@@ -51,23 +46,34 @@ export class OpenAIService extends BaseAIService {
       logger.info('GPT-4 text generation requested', { promptLength: request.prompt.length });
 
       const options = request.options || {};
-      const response = await this.client.post('/chat/completions', {
-        model: 'gpt-4',
-        messages: [
-          {
-            role: 'user',
-            content: request.prompt,
-          },
-        ],
-        temperature: options.temperature ?? 0.7,
-        max_tokens: options.maxTokens ?? 2000,
-        top_p: options.topP ?? 0.9,
-      });
+      const response = await axios.post(
+        `${this.baseUrl}/chat/completions`,
+        {
+          model: 'gpt-4',
+          messages: [
+            {
+              role: 'user',
+              content: request.prompt,
+            },
+          ],
+          temperature: options.temperature ?? 0.7,
+          max_tokens: options.maxTokens ?? 2000,
+          top_p: options.topP ?? 0.9,
+        },
+        {
+          headers: this.getHeaders(),
+          timeout: 30000,
+        }
+      );
 
       const data = response.data;
       const content = data.choices[0]?.message?.content || '';
-      const inputTokens = data.usage?.prompt_tokens || this.estimateTokens(request.prompt);
-      const outputTokens = data.usage?.completion_tokens || this.estimateTokens(content);
+      const inputTokens = data.usage?.prompt_tokens || Math.ceil(request.prompt.length / 4);
+      const outputTokens = data.usage?.completion_tokens || Math.ceil(content.length / 4);
+
+      // GPT-4 pricing: $0.00003 per input token, $0.00006 per output token
+      const openaiPricing = { inputCost: 0.00003, outputCost: 0.00006 };
+      const cost = this.calculateCost(inputTokens, outputTokens, openaiPricing);
 
       const result: TextGenerationResult = {
         content,
@@ -78,7 +84,7 @@ export class OpenAIService extends BaseAIService {
           output: outputTokens,
           total: inputTokens + outputTokens,
         },
-        cost: this.calculateCost(inputTokens, outputTokens),
+        cost,
         timestamp: new Date(),
       };
 
@@ -99,17 +105,18 @@ export class OpenAIService extends BaseAIService {
    * Estimate cost for GPT-4 generation
    */
   async estimateCost(prompt: string, options?: GenerateTextOptions): Promise<CostEstimate> {
-    const estimatedInputTokens = this.estimateTokens(prompt);
+    const estimatedInputTokens = Math.ceil(prompt.length / 4);
     const maxTokens = options?.maxTokens ?? 2000;
     const estimatedOutputTokens = Math.min(maxTokens, estimatedInputTokens * 2);
 
-    const inputCost = estimatedInputTokens * this.pricing.inputCost;
-    const outputCost = estimatedOutputTokens * this.pricing.outputCost;
+    // GPT-4 pricing: $0.00003 per input token, $0.00006 per output token
+    const inputCost = estimatedInputTokens * 0.00003;
+    const outputCost = estimatedOutputTokens * 0.00006;
 
     return {
       estimatedTokens: estimatedInputTokens + estimatedOutputTokens,
       estimatedCost: inputCost + outputCost,
-      currency: this.pricing.currency,
+      currency: 'USD',
       breakdown: {
         input: inputCost,
         output: outputCost,
@@ -122,11 +129,18 @@ export class OpenAIService extends BaseAIService {
    */
   async validateApiKey(): Promise<boolean> {
     try {
-      await this.client.post('/chat/completions', {
-        model: 'gpt-4',
-        messages: [{ role: 'user', content: 'test' }],
-        max_tokens: 1,
-      });
+      await axios.post(
+        `${this.baseUrl}/chat/completions`,
+        {
+          model: 'gpt-4',
+          messages: [{ role: 'user', content: 'test' }],
+          max_tokens: 1,
+        },
+        {
+          headers: this.getHeaders(),
+          timeout: 30000,
+        }
+      );
       return true;
     } catch (error) {
       const serviceError = this.handleError(error);

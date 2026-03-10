@@ -3,7 +3,6 @@
  * Provides common functionality for all AI provider implementations
  */
 
-import axios, { AxiosInstance } from 'axios';
 import logger from '../../utils/logger';
 import {
   AIProvider,
@@ -11,19 +10,17 @@ import {
   TextGenerationRequest,
   TextGenerationResult,
   CostEstimate,
-  AIServiceError,
-  ProviderPricing
+  AIServiceError
 } from '../../types/ai.types';
 
 /**
  * Abstract base class for AI service implementations
  */
 export abstract class BaseAIService {
-  protected client: AxiosInstance;
   protected provider: AIProvider;
   protected model: AIModel;
   protected apiKey: string;
-  protected pricing: ProviderPricing;
+  protected baseUrl: string;
 
   /**
    * Constructor
@@ -31,25 +28,17 @@ export abstract class BaseAIService {
    * @param baseUrl - Base URL for the API
    * @param provider - AI provider identifier
    * @param model - AI model identifier
-   * @param pricing - Pricing configuration
    */
   constructor(
     apiKey: string,
     baseUrl: string,
     provider: AIProvider,
-    model: AIModel,
-    pricing: ProviderPricing
+    model: AIModel
   ) {
     this.apiKey = apiKey;
+    this.baseUrl = baseUrl;
     this.provider = provider;
     this.model = model;
-    this.pricing = pricing;
-
-    this.client = axios.create({
-      baseURL: baseUrl,
-      headers: this.getHeaders(),
-      timeout: 30000,
-    });
 
     logger.info(`AI service initialized: ${provider}`, { model, baseUrl });
   }
@@ -122,23 +111,18 @@ export abstract class BaseAIService {
   }
 
   /**
-   * Calculate cost based on token usage
-   * @param inputTokens - Number of input tokens
-   * @param outputTokens - Number of output tokens
-   * @returns Cost in provider's currency
+   * Calculate cost based on pricing
+   * @param inputAmount - Amount of input tokens/characters used
+   * @param outputAmount - Amount of output tokens/characters used
+   * @param pricing - Pricing configuration with inputCost and outputCost
+   * @returns Total calculated cost
    */
-  protected calculateCost(inputTokens: number, outputTokens: number): number {
-    const inputCost = inputTokens * this.pricing.inputCost;
-    const outputCost = outputTokens * this.pricing.outputCost;
-    return inputCost + outputCost;
+  protected calculateCost(
+    inputAmount: number,
+    outputAmount: number,
+    pricing: { inputCost: number; outputCost: number }
+  ): number {
+    return (inputAmount * pricing.inputCost) + (outputAmount * pricing.outputCost);
   }
 
-  /**
-   * Estimate token count from text (rough estimate: 1 token ≈ 4 characters for English)
-   * @param text - Input text
-   * @returns Estimated token count
-   */
-  protected estimateTokens(text: string): number {
-    return Math.ceil(text.length / 4);
-  }
 }

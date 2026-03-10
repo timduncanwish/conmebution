@@ -3,6 +3,7 @@
  * Implements AI service for Google's Gemini Pro model
  */
 
+import axios from 'axios';
 import { BaseAIService } from './base.service';
 import {
   AIProvider,
@@ -23,13 +24,7 @@ export class GeminiService extends BaseAIService {
       apiKey,
       'https://generativelanguage.googleapis.com/v1beta',
       AIProvider.GEMINI_PRO,
-      AIModel.GEMINI_PRO,
-      {
-        inputCost: 0.000001, // $0.000001 per character
-        outputCost: 0.000001, // $0.000001 per character
-        currency: 'USD',
-        unit: 'character',
-      }
+      AIModel.GEMINI_PRO
     );
   }
 
@@ -50,8 +45,8 @@ export class GeminiService extends BaseAIService {
       logger.info('Gemini Pro text generation requested', { promptLength: request.prompt.length });
 
       const options = request.options || {};
-      const response = await this.client.post(
-        `/models/gemini-pro:generateContent?key=${this.apiKey}`,
+      const response = await axios.post(
+        `${this.baseUrl}/models/gemini-pro:generateContent?key=${this.apiKey}`,
         {
           contents: [
             {
@@ -67,15 +62,21 @@ export class GeminiService extends BaseAIService {
             maxOutputTokens: options.maxTokens ?? 2000,
             topP: options.topP ?? 0.9,
           },
+        },
+        {
+          headers: this.getHeaders(),
+          timeout: 30000,
         }
       );
 
       const data = response.data;
       const content = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
-      // Gemini uses character count for pricing
+      // Gemini uses character count for pricing: $0.000001 per character
       const inputCharacters = request.prompt.length;
       const outputCharacters = content.length;
+      const geminiPricing = { inputCost: 0.000001, outputCost: 0.000001 };
+      const cost = this.calculateCost(inputCharacters, outputCharacters, geminiPricing);
 
       // Estimate tokens (rough approximation: 1 token ≈ 4 characters)
       const inputTokens = Math.ceil(inputCharacters / 4);
@@ -90,7 +91,7 @@ export class GeminiService extends BaseAIService {
           output: outputTokens,
           total: inputTokens + outputTokens,
         },
-        cost: this.calculateCost(inputCharacters, outputCharacters),
+        cost,
         timestamp: new Date(),
       };
 
@@ -115,8 +116,9 @@ export class GeminiService extends BaseAIService {
     const maxTokens = options?.maxTokens ?? 2000;
     const estimatedOutputCharacters = Math.min(maxTokens * 4, inputCharacters * 2);
 
-    const inputCost = inputCharacters * this.pricing.inputCost;
-    const outputCost = estimatedOutputCharacters * this.pricing.outputCost;
+    // Gemini pricing: $0.000001 per character
+    const inputCost = inputCharacters * 0.000001;
+    const outputCost = estimatedOutputCharacters * 0.000001;
 
     // Estimate tokens
     const estimatedInputTokens = Math.ceil(inputCharacters / 4);
@@ -125,7 +127,7 @@ export class GeminiService extends BaseAIService {
     return {
       estimatedTokens: estimatedInputTokens + estimatedOutputTokens,
       estimatedCost: inputCost + outputCost,
-      currency: this.pricing.currency,
+      currency: 'USD',
       breakdown: {
         input: inputCost,
         output: outputCost,
@@ -138,17 +140,24 @@ export class GeminiService extends BaseAIService {
    */
   async validateApiKey(): Promise<boolean> {
     try {
-      await this.client.post(`/models/gemini-pro:generateContent?key=${this.apiKey}`, {
-        contents: [
-          {
-            parts: [
-              {
-                text: 'test',
-              },
-            ],
-          },
-        ],
-      });
+      await axios.post(
+        `${this.baseUrl}/models/gemini-pro:generateContent?key=${this.apiKey}`,
+        {
+          contents: [
+            {
+              parts: [
+                {
+                  text: 'test',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          headers: this.getHeaders(),
+          timeout: 30000,
+        }
+      );
       return true;
     } catch (error) {
       const serviceError = this.handleError(error);

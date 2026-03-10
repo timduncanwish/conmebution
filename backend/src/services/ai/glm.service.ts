@@ -3,6 +3,7 @@
  * Implements AI service for Zhipu AI's GLM-4 model
  */
 
+import axios from 'axios';
 import { BaseAIService } from './base.service';
 import {
   AIProvider,
@@ -23,13 +24,7 @@ export class GLMService extends BaseAIService {
       apiKey,
       'https://open.bigmodel.cn/api/paas/v4',
       AIProvider.GLM_4,
-      AIModel.GLM_4,
-      {
-        inputCost: 0.0001, // ¥0.0001 per token
-        outputCost: 0.0002, // ¥0.0002 per token
-        currency: 'CNY',
-        unit: 'token',
-      }
+      AIModel.GLM_4
     );
   }
 
@@ -51,23 +46,34 @@ export class GLMService extends BaseAIService {
       logger.info('GLM-4 text generation requested', { promptLength: request.prompt.length });
 
       const options = request.options || {};
-      const response = await this.client.post('/chat/completions', {
-        model: 'glm-4',
-        messages: [
-          {
-            role: 'user',
-            content: request.prompt,
-          },
-        ],
-        temperature: options.temperature ?? 0.7,
-        max_tokens: options.maxTokens ?? 2000,
-        top_p: options.topP ?? 0.9,
-      });
+      const response = await axios.post(
+        `${this.baseUrl}/chat/completions`,
+        {
+          model: 'glm-4',
+          messages: [
+            {
+              role: 'user',
+              content: request.prompt,
+            },
+          ],
+          temperature: options.temperature ?? 0.7,
+          max_tokens: options.maxTokens ?? 2000,
+          top_p: options.topP ?? 0.9,
+        },
+        {
+          headers: this.getHeaders(),
+          timeout: 30000,
+        }
+      );
 
       const data = response.data;
       const content = data.choices[0]?.message?.content || '';
-      const inputTokens = data.usage?.prompt_tokens || this.estimateTokens(request.prompt);
-      const outputTokens = data.usage?.completion_tokens || this.estimateTokens(content);
+      const inputTokens = data.usage?.prompt_tokens || Math.ceil(request.prompt.length / 4);
+      const outputTokens = data.usage?.completion_tokens || Math.ceil(content.length / 4);
+
+      // GLM pricing: ¥0.0001 per input token, ¥0.0002 per output token
+      const glmPricing = { inputCost: 0.0001, outputCost: 0.0002 };
+      const cost = this.calculateCost(inputTokens, outputTokens, glmPricing);
 
       const result: TextGenerationResult = {
         content,
@@ -78,7 +84,7 @@ export class GLMService extends BaseAIService {
           output: outputTokens,
           total: inputTokens + outputTokens,
         },
-        cost: this.calculateCost(inputTokens, outputTokens),
+        cost,
         timestamp: new Date(),
       };
 
@@ -99,17 +105,18 @@ export class GLMService extends BaseAIService {
    * Estimate cost for GLM-4 generation
    */
   async estimateCost(prompt: string, options?: GenerateTextOptions): Promise<CostEstimate> {
-    const estimatedInputTokens = this.estimateTokens(prompt);
+    const estimatedInputTokens = Math.ceil(prompt.length / 4);
     const maxTokens = options?.maxTokens ?? 2000;
     const estimatedOutputTokens = Math.min(maxTokens, estimatedInputTokens * 2);
 
-    const inputCost = estimatedInputTokens * this.pricing.inputCost;
-    const outputCost = estimatedOutputTokens * this.pricing.outputCost;
+    // GLM pricing: ¥0.0001 per input token, ¥0.0002 per output token
+    const inputCost = estimatedInputTokens * 0.0001;
+    const outputCost = estimatedOutputTokens * 0.0002;
 
     return {
       estimatedTokens: estimatedInputTokens + estimatedOutputTokens,
       estimatedCost: inputCost + outputCost,
-      currency: this.pricing.currency,
+      currency: 'CNY',
       breakdown: {
         input: inputCost,
         output: outputCost,
@@ -122,11 +129,18 @@ export class GLMService extends BaseAIService {
    */
   async validateApiKey(): Promise<boolean> {
     try {
-      await this.client.post('/chat/completions', {
-        model: 'glm-4',
-        messages: [{ role: 'user', content: 'test' }],
-        max_tokens: 1,
-      });
+      await axios.post(
+        `${this.baseUrl}/chat/completions`,
+        {
+          model: 'glm-4',
+          messages: [{ role: 'user', content: 'test' }],
+          max_tokens: 1,
+        },
+        {
+          headers: this.getHeaders(),
+          timeout: 30000,
+        }
+      );
       return true;
     } catch (error) {
       const serviceError = this.handleError(error);
