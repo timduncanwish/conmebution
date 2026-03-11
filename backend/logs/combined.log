@@ -1,0 +1,1055 @@
+{"level":"info","message":"This is an info message","timestamp":"2026-03-10 09:50:10"}
+{"level":"warn","message":"This is a warning message","timestamp":"2026-03-10 09:50:10"}
+{"level":"error","message":"This is an error message","timestamp":"2026-03-10 09:50:10"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"POST /api/generate/text/sync"}
+{"level":"info","message":"Synchronous text generation request received","promptLength":25,"provider":"glm-4"}
+{"fallbackEnabled":true,"level":"info","message":"Text generation requested","primaryProvider":"glm-4","promptLength":25}
+{"code":"SERVICE_NOT_AVAILABLE","error":"AI service not available for provider: glm-4","level":"error","message":"Attempt 1 failed for provider glm-4","retryable":true}
+{"level":"warn","message":"No more fallback providers available"}
+{"attempts":1,"lastError":"AI service not available for provider: glm-4","level":"error","message":"All text generation attempts failed"}
+{"body":{"length":"medium","prompt":"��������һ�ι���AI�������İ�","provider":"glm-4","style":"professional"},"error":"AI service not available for provider: glm-4","level":"error","message":"Synchronous text generation failed"}
+{"level":"error","message":"Error occurred AI service not available for provider: glm-4","method":"POST","path":"/api/generate/text/sync"}
+{"code":"SERVICE_NOT_AVAILABLE","level":"error","message":"AI service error AI service not available for provider: glm-4","path":"/api/generate/text/sync","provider":"glm-4","retryable":true}
+{"level":"info","message":"GET /api/tasks/test-task-123"}
+{"level":"warn","message":"Route not found","method":"GET","path":"/api/tasks/test-task-123"}
+{"level":"info","message":"GET /api"}
+{"level":"warn","message":"Route not found","method":"GET","path":"/api"}
+{"level":"info","message":"GET /api/generate/tasks/test-task-123"}
+{"level":"info","message":"Task status request received","taskId":"test-task-123"}
+{"level":"warn","message":"Task not found","taskId":"test-task-123"}
+{"level":"info","message":"POST /api/generate/text"}
+{"level":"info","message":"Text generation request received","promptLength":13,"provider":"glm-4"}
+{"body":{"prompt":"�����첽�����İ�"},"error":"Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","level":"error","message":"Failed to queue text generation job"}
+{"level":"error","message":"Error occurred Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","method":"POST","path":"/api/generate/text"}
+{"level":"error","message":"Unhandled error Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","path":"/api/generate/text","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (E:\\conmebution\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:623:26)\n    at Socket.emit (node:events:508:28)\n    at Socket.emit (node:domain:489:12)\n    at TCP.<anonymous> (node:net:346:12)"}
+{"level":"info","message":"POST /api/generate/text"}
+{"body":{"prompt":"�����첽�����İ�","provider":"openai"},"error":"[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"glm-4\",\n      \"gpt-4\",\n      \"gemini-pro\"\n    ],\n    \"path\": [\n      \"provider\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"glm-4\\\"|\\\"gpt-4\\\"|\\\"gemini-pro\\\"\"\n  }\n]","level":"error","message":"Failed to queue text generation job"}
+{"level":"error","message":"Error occurred [\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"glm-4\",\n      \"gpt-4\",\n      \"gemini-pro\"\n    ],\n    \"path\": [\n      \"provider\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"glm-4\\\"|\\\"gpt-4\\\"|\\\"gemini-pro\\\"\"\n  }\n]","method":"POST","path":"/api/generate/text"}
+{"errors":[{"code":"invalid_value","message":"Invalid option: expected one of \"glm-4\"|\"gpt-4\"|\"gemini-pro\"","path":"provider"}],"level":"warn","message":"Validation error","path":"/api/generate/text"}
+{"level":"info","message":"POST /api/generate/text"}
+{"level":"info","message":"Text generation request received","promptLength":13,"provider":"gpt-4"}
+{"body":{"prompt":"�����첽�����İ�","provider":"gpt-4"},"error":"Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","level":"error","message":"Failed to queue text generation job"}
+{"level":"error","message":"Error occurred Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","method":"POST","path":"/api/generate/text"}
+{"level":"error","message":"Unhandled error Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","path":"/api/generate/text","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (E:\\conmebution\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:623:26)\n    at Socket.emit (node:events:508:28)\n    at Socket.emit (node:domain:489:12)\n    at TCP.<anonymous> (node:net:346:12)"}
+{"level":"info","message":"POST /api/generate/text/sync"}
+{"level":"info","message":"Synchronous text generation request received","promptLength":69,"provider":"gpt-4"}
+{"fallbackEnabled":true,"level":"info","message":"Text generation requested","primaryProvider":"gpt-4","promptLength":69}
+{"code":"SERVICE_NOT_AVAILABLE","error":"AI service not available for provider: gpt-4","level":"error","message":"Attempt 1 failed for provider gpt-4","retryable":true}
+{"level":"warn","message":"No more fallback providers available"}
+{"attempts":1,"lastError":"AI service not available for provider: gpt-4","level":"error","message":"All text generation attempts failed"}
+{"body":{"prompt":"����ͬ������һ�ι���AI�������İ���������Ҫ����10���ַ����ϵ�������������֤Ҫ��","provider":"gpt-4"},"error":"AI service not available for provider: gpt-4","level":"error","message":"Synchronous text generation failed"}
+{"level":"error","message":"Error occurred AI service not available for provider: gpt-4","method":"POST","path":"/api/generate/text/sync"}
+{"code":"SERVICE_NOT_AVAILABLE","level":"error","message":"AI service error AI service not available for provider: gpt-4","path":"/api/generate/text/sync","provider":"gpt-4","retryable":true}
+{"level":"info","message":"GET /api/unknown-endpoint"}
+{"level":"warn","message":"Route not found","method":"GET","path":"/api/unknown-endpoint"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":4,"provider":"glm-4"}
+{"error":"AI service not available for provider: glm-4","level":"error","message":"Cost estimation failed","query":{"prompt":"test"}}
+{"level":"error","message":"Error occurred AI service not available for provider: glm-4","method":"GET","path":"/api/generate/cost"}
+{"code":"SERVICE_NOT_AVAILABLE","level":"error","message":"AI service error AI service not available for provider: glm-4","path":"/api/generate/cost","provider":"glm-4","retryable":false}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":7,"provider":"glm-4"}
+{"level":"warn","message":"AI service not available for glm-4, using default cost estimation"}
+{"estimatedCost":0.000009999999999999999,"estimatedTokens":7,"level":"info","message":"Cost estimation completed","provider":"glm-4"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"POST /api/generate/image"}
+{"level":"info","message":"Image generation request received","promptLength":20,"quality":"standard","size":"1024x1024","style":"vivid"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"POST /api/generate/text/sync"}
+{"level":"info","message":"Synchronous text generation request received","promptLength":71,"provider":"glm-4"}
+{"fallbackEnabled":true,"level":"info","message":"Text generation requested","primaryProvider":"glm-4","promptLength":71}
+{"code":"SERVICE_NOT_AVAILABLE","error":"AI service not available for provider: glm-4","level":"error","message":"Attempt 1 failed for provider glm-4","retryable":true}
+{"level":"warn","message":"No more fallback providers available"}
+{"attempts":1,"lastError":"AI service not available for provider: glm-4","level":"error","message":"All text generation attempts failed"}
+{"body":{"prompt":"����һ�������ı����ɵ���ʾ�ʣ�������֤Conmebution��Ŀ��AI�ı����ɹ����Ƿ���������"},"error":"AI service not available for provider: glm-4","level":"error","message":"Synchronous text generation failed"}
+{"level":"error","message":"Error occurred AI service not available for provider: glm-4","method":"POST","path":"/api/generate/text/sync"}
+{"code":"SERVICE_NOT_AVAILABLE","level":"error","message":"AI service error AI service not available for provider: glm-4","path":"/api/generate/text/sync","provider":"glm-4","retryable":true}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":4,"provider":"glm-4"}
+{"level":"warn","message":"AI service not available for glm-4, using default cost estimation"}
+{"estimatedCost":0.000006,"estimatedTokens":4,"level":"info","message":"Cost estimation completed","provider":"glm-4"}
+{"level":"info","message":"POST /api/generate/text"}
+{"level":"info","message":"Text generation request received","promptLength":10,"provider":"glm-4"}
+{"body":{"prompt":"�����첽����"},"error":"Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","level":"error","message":"Failed to queue text generation job"}
+{"level":"error","message":"Error occurred Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","method":"POST","path":"/api/generate/text"}
+{"level":"error","message":"Unhandled error Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","path":"/api/generate/text","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (E:\\conmebution\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:623:26)\n    at Socket.emit (node:events:508:28)\n    at Socket.emit (node:domain:489:12)\n    at TCP.<anonymous> (node:net:346:12)"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":5,"provider":"glm-4"}
+{"level":"warn","message":"AI service not available for glm-4, using default cost estimation"}
+{"estimatedCost":0.000009,"estimatedTokens":6,"level":"info","message":"Cost estimation completed","provider":"glm-4"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":4,"provider":"gpt-4"}
+{"level":"warn","message":"AI service not available for gpt-4, using default cost estimation"}
+{"estimatedCost":0.00018,"estimatedTokens":4,"level":"info","message":"Cost estimation completed","provider":"gpt-4"}
+{"level":"info","message":"GET /api/generate/tasks/nonexistent-task"}
+{"level":"info","message":"Task status request received","taskId":"nonexistent-task"}
+{"level":"warn","message":"Task not found","taskId":"nonexistent-task"}
+{"level":"info","message":"POST /api/generate/image"}
+{"level":"info","message":"Image generation request received","promptLength":10,"quality":"standard","size":"1024x1024","style":"vivid"}
+{"level":"info","message":"POST /api/generate/video"}
+{"duration":15,"level":"info","message":"Video generation request received","promptLength":10,"resolution":"1080p","style":"product"}
+{"duration":15,"level":"info","message":"Generating video with Seedance 2.0","prompt":"test video","resolution":"1080p"}
+{"error":"getaddrinfo ENOTFOUND api.dreamina.capcut.com","level":"error","message":"Failed to generate video with Seedance 2.0"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":4,"provider":"glm-4"}
+{"level":"warn","message":"AI service not available for glm-4, using default cost estimation"}
+{"estimatedCost":0.000006,"estimatedTokens":4,"level":"info","message":"Cost estimation completed","provider":"glm-4"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":4,"provider":"glm-4"}
+{"level":"warn","message":"AI service not available for glm-4, using default cost estimation"}
+{"estimatedCost":0.000006,"estimatedTokens":4,"level":"info","message":"Cost estimation completed","provider":"glm-4"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":4,"provider":"glm-4"}
+{"level":"warn","message":"AI service not available for glm-4, using default cost estimation"}
+{"estimatedCost":0.000006,"estimatedTokens":4,"level":"info","message":"Cost estimation completed","provider":"glm-4"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":4,"provider":"gpt-4"}
+{"level":"warn","message":"AI service not available for gpt-4, using default cost estimation"}
+{"estimatedCost":0.00018,"estimatedTokens":4,"level":"info","message":"Cost estimation completed","provider":"gpt-4"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":4,"provider":"gpt-4"}
+{"level":"warn","message":"AI service not available for gpt-4, using default cost estimation"}
+{"estimatedCost":0.00018,"estimatedTokens":4,"level":"info","message":"Cost estimation completed","provider":"gpt-4"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":5,"provider":"glm-4"}
+{"level":"warn","message":"AI service not available for glm-4, using default cost estimation"}
+{"estimatedCost":0.000009,"estimatedTokens":6,"level":"info","message":"Cost estimation completed","provider":"glm-4"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":5,"provider":"glm-4"}
+{"level":"warn","message":"AI service not available for glm-4, using default cost estimation"}
+{"estimatedCost":0.000009,"estimatedTokens":6,"level":"info","message":"Cost estimation completed","provider":"glm-4"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":5,"provider":"glm-4"}
+{"level":"warn","message":"AI service not available for glm-4, using default cost estimation"}
+{"estimatedCost":0.000009,"estimatedTokens":6,"level":"info","message":"Cost estimation completed","provider":"glm-4"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":4,"provider":"glm-4"}
+{"level":"warn","message":"AI service not available for glm-4, using default cost estimation"}
+{"estimatedCost":0.000006,"estimatedTokens":4,"level":"info","message":"Cost estimation completed","provider":"glm-4"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":4,"provider":"gpt-4"}
+{"level":"warn","message":"AI service not available for gpt-4, using default cost estimation"}
+{"estimatedCost":0.00018,"estimatedTokens":4,"level":"info","message":"Cost estimation completed","provider":"gpt-4"}
+{"level":"info","message":"GET /api/generate/cost"}
+{"level":"info","message":"Cost estimation request received","promptLength":4,"provider":"gemini-pro"}
+{"level":"warn","message":"AI service not available for gemini-pro, using default cost estimation"}
+{"estimatedCost":0.000006,"estimatedTokens":4,"level":"info","message":"Cost estimation completed","provider":"gemini-pro"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"warn","message":"GLM-4 service not initialized: API key missing"}
+{"level":"warn","message":"GPT-4 service not initialized: API key missing"}
+{"level":"warn","message":"Gemini Pro service not initialized: API key missing"}
+{"availableProviders":[],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}

@@ -1,10 +1,17 @@
 import winston from 'winston';
 import path from 'path';
+import fs from 'fs';
 
 /**
  * Logger utility using Winston
  * Provides both console and file logging with different levels
  */
+
+// Ensure logs directory exists
+const logsDir = path.join(process.cwd(), 'logs');
+if (!fs.existsSync(logsDir)) {
+  fs.mkdirSync(logsDir, { recursive: true });
+}
 
 // Create the logger instance
 const logger = winston.createLogger({

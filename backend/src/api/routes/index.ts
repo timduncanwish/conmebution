@@ -5,6 +5,7 @@
 
 import { Router, Request, Response } from 'express';
 import generationRoutes from './generation.routes';
+import mediaRoutes from './media.routes';
 
 const router = Router();
 
@@ -28,6 +29,11 @@ router.get('/health', (req: Request, res: Response) => {
  * Mount generation routes
  */
 router.use('/generate', generationRoutes);
+
+/**
+ * Mount media generation routes
+ */
+router.use('/generate', mediaRoutes);
 
 /**
  * Mount task status routes

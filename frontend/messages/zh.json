@@ -1,0 +1,124 @@
+{
+  "home": {
+    "title": "Conmebution - AI内容自动化创作与分发",
+    "subtitle": "从提示词到多平台分发的一站式AI内容自动化系统",
+    "description": "输入简单提示词，自动生成文案、图片、视频，并一键分发到多个社交媒体平台",
+    "welcome": "欢迎使用Conmebution",
+    "recentActivity": "最近活动",
+    "noRecentActivity": "暂无最近活动",
+    "quickActions": {
+      "createContent": "创建内容",
+      "createContentDesc": "使用AI生成新内容",
+      "viewLibrary": "内容库",
+      "viewLibraryDesc": "查看和管理所有内容",
+      "publish": "发布内容",
+      "publishDesc": "分发到多个平台",
+      "analytics": "数据分析",
+      "analyticsDesc": "查看统计数据和报告"
+    },
+    "stats": {
+      "totalContent": "总内容数",
+      "published": "已发布",
+      "costThisMonth": "本月成本"
+    }
+  },
+  "nav": {
+    "home": "首页",
+    "templates": "模板库",
+    "history": "历史记录",
+    "distribution": "分发",
+    "analytics": "数据分析",
+    "settings": "设置"
+  },
+  "create": {
+    "title": "创建新内容",
+    "subtitle": "使用AI生成文本、图片或视频内容",
+    "describeContent": "描述您想创建的内容",
+    "promptPlaceholder": "在这里输入您的想法...至少10个字符",
+    "contentType": "选择内容类型",
+    "types": {
+      "text": "文本",
+      "image": "图片",
+      "video": "视频",
+      "all": "全部"
+    },
+    "generating": "生成中...",
+    "startCreating": "开始创作",
+    "recentTemplates": "最近使用的模板"
+  },
+  "generate": {
+    "generating": "AI正在生成...",
+    "completed": "生成完成",
+    "failed": "生成失败",
+    "cost": "本次成本",
+    "versions": "已生成 {count} 个版本",
+    "regenerate": "重新生成"
+  },
+  "preview": {
+    "title": "内容预览",
+    "edit": "编辑",
+    "save": "保存",
+    "publish": "发布"
+  },
+  "platforms": {
+    "douyin": "抖音",
+    "bilibili": "B站",
+    "xiaohongshu": "小红书",
+    "wechat_mp": "微信公众号",
+    "wechat_channel": "微信视频号",
+    "youtube": "YouTube",
+    "twitter": "Twitter/X",
+    "medium": "Medium"
+  },
+  "content": {
+    "title": "内容库",
+    "subtitle": "查看和管理所有生成的内容",
+    "filter": {
+      "all": "全部",
+      "draft": "草稿",
+      "generated": "已生成",
+      "published": "已发布"
+    },
+    "status": {
+      "draft": "草稿",
+      "generated": "已生成",
+      "published": "已发布"
+    },
+    "actions": {
+      "view": "查看",
+      "edit": "编辑",
+      "delete": "删除"
+    },
+    "loading": "加载中...",
+    "empty": "暂无内容"
+  },
+  "publish": {
+    "title": "平台发布",
+    "subtitle": "选择平台并发布内容",
+    "selectPlatforms": "选择发布平台",
+    "platforms": {
+      "douyin": "抖音",
+      "bilibili": "B站",
+      "xiaohongshu": "小红书",
+      "youtube": "YouTube",
+      "twitter": "Twitter/X"
+    },
+    "domesticPlatforms": "国内平台",
+    "internationalPlatforms": "国际平台",
+    "publishSettings": "发布设置",
+    "publishType": "发布方式",
+    "immediate": "立即发布",
+    "scheduled": "定时发布",
+    "publish": "确认发布",
+    "publishing": "发布中...",
+    "cancel": "取消"
+  },
+  "settings": {
+    "title": "设置",
+    "tabs": {
+      "ai": "AI服务",
+      "platforms": "平台管理",
+      "account": "账号"
+    }
+  }
+}

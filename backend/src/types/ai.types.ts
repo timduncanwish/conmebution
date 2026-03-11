@@ -78,13 +78,3 @@ export interface AIServiceError {
   retryable: boolean;
   originalError?: any;
 }
-
-/**
- * Provider pricing configuration
- */
-export interface ProviderPricing {
-  inputCost: number;
-  outputCost: number;
-  currency: string;
-  unit: 'token' | 'character';
-}

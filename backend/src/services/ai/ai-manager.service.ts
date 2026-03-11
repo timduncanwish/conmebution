@@ -10,7 +10,8 @@ import {
   TextGenerationRequest,
   TextGenerationResult,
   CostEstimate,
-  AIServiceError
+  AIServiceError,
+  GenerateTextOptions
 } from '../../types/ai.types';
 import { BaseAIService } from './base.service';
 import { GLMService } from './glm.service';
@@ -105,7 +106,7 @@ export class AIServiceManager {
             message: `AI service not available for provider: ${currentProvider}`,
             provider: currentProvider,
             retryable: true
-          } as AIServiceError;
+          };
         }
 
         logger.info(`Attempt ${attempts}: Using provider ${currentProvider}`);
@@ -132,7 +133,14 @@ export class AIServiceManager {
         return result;
 
       } catch (error) {
-        lastError = error as AIServiceError;
+        lastError = error && typeof error === 'object' && 'code' in error
+          ? error as AIServiceError
+          : {
+              code: 'UNKNOWN_ERROR',
+              message: String(error),
+              provider: currentProvider,
+              retryable: false
+            };
         logger.error(`Attempt ${attempts} failed for provider ${currentProvider}`, {
           error: lastError.message,
           code: lastError.code,
@@ -174,7 +182,7 @@ export class AIServiceManager {
       message: 'Failed to generate text after multiple attempts',
       provider: primaryProvider,
       retryable: false
-    } as AIServiceError;
+    };
   }
 
   /**
@@ -187,17 +195,37 @@ export class AIServiceManager {
   async estimateCost(
     prompt: string,
     provider: AIProvider,
-    options?: any
+    options?: GenerateTextOptions
   ): Promise<CostEstimate> {
     const service = this.services.get(provider);
 
     if (!service) {
-      throw {
-        code: 'SERVICE_NOT_AVAILABLE',
-        message: `AI service not available for provider: ${provider}`,
-        provider,
-        retryable: false
-      } as AIServiceError;
+      // 提供基于字符的默认成本估算
+      logger.warn(`AI service not available for ${provider}, using default cost estimation`);
+
+      const estimatedTokens = Math.ceil(prompt.length / 2); // 粗略估算：2字符≈1token
+      const estimatedOutputTokens = Math.ceil(estimatedTokens * 0.75); // 输出通常是输入的75%
+
+      // 默认定价（每1000 tokens的价格）
+      const defaultPricing = {
+        [AIProvider.GLM_4]: { input: 0.001, output: 0.002 },
+        [AIProvider.GPT_4]: { input: 0.03, output: 0.06 },
+        [AIProvider.GEMINI_PRO]: { input: 0.001, output: 0.002 }
+      };
+
+      const pricing = defaultPricing[provider] || defaultPricing[AIProvider.GLM_4];
+      const inputCost = (estimatedTokens / 1000) * pricing.input;
+      const outputCost = (estimatedOutputTokens / 1000) * pricing.output;
+
+      return {
+        estimatedTokens: estimatedTokens + estimatedOutputTokens,
+        estimatedCost: inputCost + outputCost,
+        currency: 'USD',
+        breakdown: {
+          input: inputCost,
+          output: outputCost
+        }
+      };
     }
 
     logger.info('Cost estimation requested', {
@@ -214,8 +242,19 @@ export class AIServiceManager {
       });
       return estimate;
     } catch (error) {
-      const serviceError = error as AIServiceError;
-      logger.error('Cost estimation failed', serviceError);
+      const serviceError = error && typeof error === 'object' && 'code' in error
+        ? error as AIServiceError
+        : {
+            code: 'UNKNOWN_ERROR',
+            message: String(error),
+            provider,
+            retryable: false
+          };
+      logger.error('Cost estimation failed', {
+        code: serviceError.code,
+        message: serviceError.message,
+        provider: serviceError.provider
+      });
       throw serviceError;
     }
   }
@@ -262,44 +301,6 @@ export class AIServiceManager {
     return Array.from(this.services.keys());
   }
 
-  /**
-   * Get default provider
-   * @returns Default provider identifier
-   */
-  getDefaultProvider(): AIProvider {
-    return this.defaultProvider;
-  }
-
-  /**
-   * Set default provider
-   * @param provider - Provider to set as default
-   */
-  setDefaultProvider(provider: AIProvider): void {
-    if (!this.services.has(provider)) {
-      logger.warn(`Cannot set default provider: ${provider} not available`);
-      return;
-    }
-    this.defaultProvider = provider;
-    logger.info(`Default provider set to ${provider}`);
-  }
-
-  /**
-   * Check if a specific provider is available
-   * @param provider - Provider to check
-   * @returns True if provider is available
-   */
-  isProviderAvailable(provider: AIProvider): boolean {
-    return this.services.has(provider);
-  }
-
-  /**
-   * Get service instance for a specific provider
-   * @param provider - Provider to get service for
-   * @returns Service instance or undefined
-   */
-  getService(provider: AIProvider): BaseAIService | undefined {
-    return this.services.get(provider);
-  }
 }
 
 /**

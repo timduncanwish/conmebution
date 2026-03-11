@@ -1,0 +1,109 @@
+{"level":"error","message":"This is an error message","timestamp":"2026-03-10 09:50:10"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"code":"SERVICE_NOT_AVAILABLE","error":"AI service not available for provider: glm-4","level":"error","message":"Attempt 1 failed for provider glm-4","retryable":true}
+{"attempts":1,"lastError":"AI service not available for provider: glm-4","level":"error","message":"All text generation attempts failed"}
+{"body":{"length":"medium","prompt":"��������һ�ι���AI�������İ�","provider":"glm-4","style":"professional"},"error":"AI service not available for provider: glm-4","level":"error","message":"Synchronous text generation failed"}
+{"level":"error","message":"Error occurred AI service not available for provider: glm-4","method":"POST","path":"/api/generate/text/sync"}
+{"code":"SERVICE_NOT_AVAILABLE","level":"error","message":"AI service error AI service not available for provider: glm-4","path":"/api/generate/text/sync","provider":"glm-4","retryable":true}
+{"body":{"prompt":"�����첽�����İ�"},"error":"Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","level":"error","message":"Failed to queue text generation job"}
+{"level":"error","message":"Error occurred Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","method":"POST","path":"/api/generate/text"}
+{"level":"error","message":"Unhandled error Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","path":"/api/generate/text","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (E:\\conmebution\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:623:26)\n    at Socket.emit (node:events:508:28)\n    at Socket.emit (node:domain:489:12)\n    at TCP.<anonymous> (node:net:346:12)"}
+{"body":{"prompt":"�����첽�����İ�","provider":"openai"},"error":"[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"glm-4\",\n      \"gpt-4\",\n      \"gemini-pro\"\n    ],\n    \"path\": [\n      \"provider\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"glm-4\\\"|\\\"gpt-4\\\"|\\\"gemini-pro\\\"\"\n  }\n]","level":"error","message":"Failed to queue text generation job"}
+{"level":"error","message":"Error occurred [\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"glm-4\",\n      \"gpt-4\",\n      \"gemini-pro\"\n    ],\n    \"path\": [\n      \"provider\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"glm-4\\\"|\\\"gpt-4\\\"|\\\"gemini-pro\\\"\"\n  }\n]","method":"POST","path":"/api/generate/text"}
+{"body":{"prompt":"�����첽�����İ�","provider":"gpt-4"},"error":"Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","level":"error","message":"Failed to queue text generation job"}
+{"level":"error","message":"Error occurred Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","method":"POST","path":"/api/generate/text"}
+{"level":"error","message":"Unhandled error Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","path":"/api/generate/text","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (E:\\conmebution\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:623:26)\n    at Socket.emit (node:events:508:28)\n    at Socket.emit (node:domain:489:12)\n    at TCP.<anonymous> (node:net:346:12)"}
+{"code":"SERVICE_NOT_AVAILABLE","error":"AI service not available for provider: gpt-4","level":"error","message":"Attempt 1 failed for provider gpt-4","retryable":true}
+{"attempts":1,"lastError":"AI service not available for provider: gpt-4","level":"error","message":"All text generation attempts failed"}
+{"body":{"prompt":"����ͬ������һ�ι���AI�������İ���������Ҫ����10���ַ����ϵ�������������֤Ҫ��","provider":"gpt-4"},"error":"AI service not available for provider: gpt-4","level":"error","message":"Synchronous text generation failed"}
+{"level":"error","message":"Error occurred AI service not available for provider: gpt-4","method":"POST","path":"/api/generate/text/sync"}
+{"code":"SERVICE_NOT_AVAILABLE","level":"error","message":"AI service error AI service not available for provider: gpt-4","path":"/api/generate/text/sync","provider":"gpt-4","retryable":true}
+{"error":"AI service not available for provider: glm-4","level":"error","message":"Cost estimation failed","query":{"prompt":"test"}}
+{"level":"error","message":"Error occurred AI service not available for provider: glm-4","method":"GET","path":"/api/generate/cost"}
+{"code":"SERVICE_NOT_AVAILABLE","level":"error","message":"AI service error AI service not available for provider: glm-4","path":"/api/generate/cost","provider":"glm-4","retryable":false}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"code":"SERVICE_NOT_AVAILABLE","error":"AI service not available for provider: glm-4","level":"error","message":"Attempt 1 failed for provider glm-4","retryable":true}
+{"attempts":1,"lastError":"AI service not available for provider: glm-4","level":"error","message":"All text generation attempts failed"}
+{"body":{"prompt":"����һ�������ı����ɵ���ʾ�ʣ�������֤Conmebution��Ŀ��AI�ı����ɹ����Ƿ���������"},"error":"AI service not available for provider: glm-4","level":"error","message":"Synchronous text generation failed"}
+{"level":"error","message":"Error occurred AI service not available for provider: glm-4","method":"POST","path":"/api/generate/text/sync"}
+{"code":"SERVICE_NOT_AVAILABLE","level":"error","message":"AI service error AI service not available for provider: glm-4","path":"/api/generate/text/sync","provider":"glm-4","retryable":true}
+{"body":{"prompt":"�����첽����"},"error":"Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","level":"error","message":"Failed to queue text generation job"}
+{"level":"error","message":"Error occurred Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","method":"POST","path":"/api/generate/text"}
+{"level":"error","message":"Unhandled error Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.","path":"/api/generate/text","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 3). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (E:\\conmebution\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:623:26)\n    at Socket.emit (node:events:508:28)\n    at Socket.emit (node:domain:489:12)\n    at TCP.<anonymous> (node:net:346:12)"}
+{"error":"getaddrinfo ENOTFOUND api.dreamina.capcut.com","level":"error","message":"Failed to generate video with Seedance 2.0"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}

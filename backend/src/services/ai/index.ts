@@ -8,3 +8,5 @@ export { GLMService } from './glm.service';
 export { OpenAIService } from './openai.service';
 export { GeminiService } from './gemini.service';
 export { AIServiceManager, aiServiceManager } from './ai-manager.service';
+export { DalleImageGenerator } from './image-generation';
+export { SeedanceVideoGenerator, HeyGenVideoGenerator } from './video-generation';
