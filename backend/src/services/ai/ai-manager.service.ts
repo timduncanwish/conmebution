@@ -17,6 +17,7 @@ import { BaseAIService } from './base.service';
 import { GLMService } from './glm.service';
 import { OpenAIService } from './openai.service';
 import { GeminiService } from './gemini.service';
+import { MockAIService } from './mock.service';
 
 /**
  * Fallback chain configuration
@@ -33,7 +34,7 @@ const FALLBACK_CHAIN: Record<AIProvider, AIProvider[]> = {
  * Manages multiple AI services and provides automatic fallback on failure
  */
 export class AIServiceManager {
-  private services: Map<AIProvider, BaseAIService>;
+  private services: Map<AIProvider, any>; // Use 'any' to support both BaseAIService and MockAIService
   private defaultProvider: AIProvider;
 
   constructor() {
@@ -50,6 +51,20 @@ export class AIServiceManager {
    * Initialize all available AI services based on API key configuration
    */
   private initializeServices(): void {
+    // Check if MOCK mode is enabled
+    const useMockService = config.ai.mock?.enabled || false;
+
+    if (useMockService) {
+      // Initialize Mock service for demo/testing purposes
+      const mockService = new MockAIService();
+      this.services.set(AIProvider.GLM_4, mockService);
+      this.services.set(AIProvider.GPT_4, mockService);
+      this.services.set(AIProvider.GEMINI_PRO, mockService);
+      logger.info('Mock AI service initialized for all providers');
+      return;
+    }
+
+    // Normal initialization with real API keys
     if (config.ai.glm.apiKey) {
       this.services.set(AIProvider.GLM_4, new GLMService(config.ai.glm.apiKey));
       logger.info('GLM-4 service initialized');
@@ -69,6 +84,15 @@ export class AIServiceManager {
       logger.info('Gemini Pro service initialized');
     } else {
       logger.warn('Gemini Pro service not initialized: API key missing');
+    }
+
+    // If no services are initialized, use Mock service as fallback
+    if (this.services.size === 0) {
+      logger.warn('No AI services initialized, using Mock service for demo');
+      const mockService = new MockAIService();
+      this.services.set(AIProvider.GLM_4, mockService);
+      this.services.set(AIProvider.GPT_4, mockService);
+      this.services.set(AIProvider.GEMINI_PRO, mockService);
     }
   }
 

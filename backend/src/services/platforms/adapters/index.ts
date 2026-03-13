@@ -12,6 +12,7 @@ export { XiaohongshuAdapter, XiaohongshuCredentials } from './china/xiaohongshu.
 export { YouTubeAdapter, YouTubeCredentials } from './international/youtube.adapter';
 export { TwitterAdapter, TwitterCredentials } from './international/twitter.adapter';
 export { MediumAdapter, MediumCredentials } from './international/medium.adapter';
+export { MockPlatformAdapter, getMockPlatformConfig, createMockCredentials } from './mock.adapter';
 
 import { BasePlatformAdapter, PlatformCredentials } from './base.adapter';
 import { BilibiliAdapter } from './china/bilibili.adapter';
@@ -22,6 +23,7 @@ import { XiaohongshuAdapter } from './china/xiaohongshu.adapter';
 import { YouTubeAdapter } from './international/youtube.adapter';
 import { TwitterAdapter } from './international/twitter.adapter';
 import { MediumAdapter } from './international/medium.adapter';
+import { MockPlatformAdapter, getMockPlatformConfig } from './mock.adapter';
 
 export type PlatformType = 'bilibili' | 'douyin' | 'wechat_mp' | 'wechat_channel' | 'xiaohongshu' | 'youtube' | 'twitter' | 'medium';
 
@@ -33,8 +35,20 @@ export interface PlatformAdapterFactoryConfig {
 export class PlatformAdapterFactory {
   /**
    * Create platform adapter instance
+   * @param platformType - Platform type
+   * @param credentials - Platform credentials
+   * @param useMock - Whether to use mock adapter (default: false)
    */
-  static createAdapter(platformType: PlatformType, credentials: PlatformCredentials): BasePlatformAdapter {
+  static createAdapter(
+    platformType: PlatformType,
+    credentials: PlatformCredentials,
+    useMock: boolean = false
+  ): BasePlatformAdapter {
+    // Use Mock adapter if explicitly requested or if credentials indicate mock mode
+    if (useMock || credentials.accessToken.startsWith('mock_')) {
+      return new MockPlatformAdapter(credentials, getMockPlatformConfig(platformType));
+    }
+
     switch (platformType) {
       case 'bilibili':
         return new BilibiliAdapter(credentials as any);
