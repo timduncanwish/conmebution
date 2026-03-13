@@ -25,8 +25,9 @@
   "nav": {
     "home": "首页",
     "templates": "模板库",
-    "history": "历史记录",
-    "distribution": "分发",
+    "create": "创建内容",
+    "content": "内容库",
+    "publish": "发布",
     "analytics": "数据分析",
     "settings": "设置"
   },
