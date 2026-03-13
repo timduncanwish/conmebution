@@ -18,6 +18,44 @@ export default function CreatePage() {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState('');
   const [estimatedCost, setEstimatedCost] = useState<number | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedContent, setEditedContent] = useState('');
+  const [savedDrafts, setSavedDrafts] = useState<any[]>([]);
+  const [showTemplates, setShowTemplates] = useState(false);
+
+  // 从URL参数获取模板ID
+  const [templateId, setTemplateId] = useState<string | null>(null);
+
+  // 保存草稿到localStorage
+  const saveDraft = (content: any) => {
+    const drafts = JSON.parse(localStorage.getItem('drafts') || '[]');
+    const newDraft = {
+      id: Date.now(),
+      prompt,
+      contentType,
+      content,
+      timestamp: new Date().toISOString()
+    };
+    drafts.unshift(newDraft);
+    localStorage.setItem('drafts', JSON.stringify(drafts.slice(0, 10))); // 只保留最近10个
+    setSavedDrafts(drafts.slice(0, 10));
+  };
+
+  // 加载草稿
+  const loadDrafts = () => {
+    const drafts = JSON.parse(localStorage.getItem('drafts') || '[]');
+    setSavedDrafts(drafts);
+  };
+
+  // 应用草稿
+  const applyDraft = (draft: any) => {
+    setPrompt(draft.prompt);
+    setContentType(draft.contentType);
+    if (draft.content) {
+      setResult(draft.content);
+      setEditedContent(draft.content.data?.content || draft.content.data?.url || '');
+    }
+  };
 
   const handleGenerate = async () => {
     if (!prompt.trim() || prompt.length < 10) {
@@ -215,12 +253,77 @@ export default function CreatePage() {
           {/* Display Results */}
           {result && (
             <div className="bg-white shadow-sm rounded-lg p-6 mb-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">✨ 生成结果</h2>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-900">✨ 生成结果</h2>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      saveDraft(result);
+                      alert('草稿已保存！');
+                    }}
+                    className="text-sm px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200"
+                  >
+                    💾 保存草稿
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsEditing(!isEditing);
+                      if (!isEditing && result.type === 'text') {
+                        setEditedContent(result.data.content);
+                      }
+                    }}
+                    className="text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
+                  >
+                    ✏️ {isEditing ? '取消编辑' : '编辑内容'}
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (confirm('确定要发布此内容吗？')) {
+                        window.location.href = `/zh/publish?content=${encodeURIComponent(JSON.stringify(result))}`;
+                      }
+                    }}
+                    className="text-sm px-3 py-1 bg-indigo-100 text-indigo-700 rounded hover:bg-indigo-200"
+                  >
+                    🚀 去发布
+                  </button>
+                </div>
+              </div>
               {result.type === 'text' && (
                 <div>
-                  <div className="p-4 bg-gray-50 rounded-lg mb-4">
-                    <p className="text-gray-700 whitespace-pre-wrap">{result.data.content}</p>
-                  </div>
+                  {isEditing ? (
+                    <div>
+                      <textarea
+                        value={editedContent}
+                        onChange={(e) => setEditedContent(e.target.value)}
+                        rows={10}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      />
+                      <div className="mt-4 flex gap-2">
+                        <button
+                          onClick={() => {
+                            setResult({
+                              ...result,
+                              data: { ...result.data, content: editedContent }
+                            });
+                            setIsEditing(false);
+                          }}
+                                                          className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                        >
+                          保存修改
+                        </button>
+                        <button
+                          onClick={() => setIsEditing(false)}
+                                                          className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50"
+                        >
+                          取消
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="p-4 bg-gray-50 rounded-lg mb-4">
+                      <p className="text-gray-700 whitespace-pre-wrap">{result.data.content}</p>
+                    </div>
+                  )}
                   <div className="grid grid-cols-3 gap-4 text-sm text-gray-600">
                     <div>
                       <p className="font-medium">提供商</p>
@@ -284,6 +387,99 @@ export default function CreatePage() {
               )}
             </div>
           )}
+
+          {/* Saved Drafts */}
+          {savedDrafts.length > 0 && (
+            <div className="bg-white shadow-sm rounded-lg p-6 mb-6">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-900">📝 草稿箱</h2>
+                <button
+                  onClick={loadDrafts}
+                  className="text-sm text-indigo-600 hover:text-indigo-700"
+                >
+                  刷新
+                </button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {savedDrafts.map((draft) => (
+                  <div
+                    key={draft.id}
+                    className="p-4 border border-gray-200 rounded-lg hover:border-indigo-500 transition-colors"
+                  >
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-gray-900 line-clamp-1">
+                          {draft.prompt.substring(0, 50)}...
+                        </p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {new Date(draft.timestamp).toLocaleString('zh-CN')}
+                        </p>
+                      </div>
+                      <div className="flex gap-1">
+                        <button
+                          onClick={() => applyDraft(draft)}
+                          className="text-xs px-2 py-1 bg-indigo-100 text-indigo-700 rounded hover:bg-indigo-200"
+                        >
+                          加载
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (confirm('确定删除此草稿吗？')) {
+                              const drafts = savedDrafts.filter(d => d.id !== draft.id);
+                              localStorage.setItem('drafts', JSON.stringify(drafts));
+                              setSavedDrafts(drafts);
+                            }
+                          }}
+                                                          className="text-xs px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200"
+                        >
+                          删除
+                        </button>
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-600">
+                      类型: {draft.contentType === 'text' ? '文本' : draft.contentType === 'image' ? '图片' : '视频'}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Quick Actions */}
+          <div className="bg-white shadow-sm rounded-lg p-6 mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">⚡ 快速操作</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <button
+                onClick={loadDrafts}
+                className="p-4 border border-gray-200 rounded-lg hover:border-indigo-500 hover:bg-indigo-50 transition-colors text-sm"
+              >
+                📂 加载草稿
+              </button>
+              <button
+                onClick={() => {
+                  if (confirm('确定清除所有草稿吗？')) {
+                    localStorage.removeItem('drafts');
+                    setSavedDrafts([]);
+                  }
+                }}
+                className="p-4 border border-gray-200 rounded-lg hover:border-red-500 hover:bg-red-50 transition-colors text-sm"
+              >
+                🗑️ 清除草稿
+              </button>
+              <button
+                onClick={() => window.location.href = '/zh/templates'}
+                className="p-4 border border-gray-200 rounded-lg hover:border-indigo-500 hover:bg-indigo-50 transition-colors text-sm"
+              >
+                📋 模板库
+              </button>
+              <button
+                onClick={() => window.location.href = '/zh/publish'}
+                className="p-4 border border-gray-200 rounded-lg hover:border-indigo-500 hover:bg-indigo-50 transition-colors text-sm"
+              >
+                🚀 去发布
+              </button>
+            </div>
+          </div>
 
           {/* Templates */}
           <div className="bg-white shadow-sm rounded-lg p-6">
