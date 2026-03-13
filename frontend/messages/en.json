@@ -1,0 +1,109 @@
+{
+  "home": {
+    "title": "Conmebution - AI Content Automation System",
+    "subtitle": "AI-powered content automation for creating and distributing to multiple platforms",
+    "description": "Enter a simple prompt to automatically generate text, images, and videos, then distribute to multiple social media platforms with one click"
+  },
+  "nav": {
+    "home": "Home",
+    "templates": "Templates",
+    "history": "History",
+    "distribution": "Distribution",
+    "analytics": "Analytics",
+    "settings": "Settings"
+  },
+  "create": {
+    "title": "Create New Content",
+    "step1": "Describe the content you want to create",
+    "step2": "Select content type",
+    "step3": "Select publishing platforms",
+    "placeholder": "Enter your ideas here...",
+    "contentTypes": {
+      "text": "Text",
+      "image": "Image",
+      "video": "Video",
+      "all": "All"
+    },
+    "platforms": {
+      "domestic": "Domestic Platforms",
+      "international": "International Platforms"
+    },
+    "advanced": "Advanced Settings",
+    "start": "Start Creating"
+  },
+  "generate": {
+    "generating": "AI is generating...",
+    "completed": "Generation completed",
+    "failed": "Generation failed",
+    "cost": "This cost",
+    "versions": "{count} versions generated",
+    "regenerate": "Regenerate"
+  },
+  "preview": {
+    "title": "Content Preview",
+    "edit": "Edit",
+    "save": "Save",
+    "publish": "Publish"
+  },
+  "platforms": {
+    "douyin": "Douyin",
+    "bilibili": "Bilibili",
+    "xiaohongshu": "Xiaohongshu",
+    "wechat_mp": "WeChat MP",
+    "wechat_channel": "WeChat Channel",
+    "youtube": "YouTube",
+    "twitter": "Twitter/X",
+    "medium": "Medium"
+  },
+  "content": {
+    "title": "Content Library",
+    "subtitle": "View and manage all generated content",
+    "filter": {
+      "all": "All",
+      "draft": "Draft",
+      "generated": "Generated",
+      "published": "Published"
+    },
+    "status": {
+      "draft": "Draft",
+      "generated": "Generated",
+      "published": "Published"
+    },
+    "actions": {
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "loading": "Loading...",
+    "empty": "No content available"
+  },
+  "publish": {
+    "title": "Platform Publishing",
+    "subtitle": "Select platforms and publish content",
+    "selectPlatforms": "Select Publishing Platforms",
+    "platforms": {
+      "douyin": "Douyin",
+      "bilibili": "Bilibili",
+      "xiaohongshu": "Xiaohongshu",
+      "youtube": "YouTube",
+      "twitter": "Twitter/X"
+    },
+    "domesticPlatforms": "Domestic Platforms",
+    "internationalPlatforms": "International Platforms",
+    "publishSettings": "Publish Settings",
+    "publishType": "Publish Type",
+    "immediate": "Immediate",
+    "scheduled": "Scheduled",
+    "publish": "Confirm Publish",
+    "publishing": "Publishing...",
+    "cancel": "Cancel"
+  },
+  "settings": {
+    "title": "Settings",
+    "tabs": {
+      "ai": "AI Services",
+      "platforms": "Platforms",
+      "account": "Account"
+    }
+  }
+}

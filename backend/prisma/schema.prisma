@@ -1,0 +1,150 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// 用户模型
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String?
+  avatar        String?
+  language      String    @default("zh")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // 关系
+  contentTemplates ContentTemplate[]
+  contentHistory   ContentHistory[]
+  platformCredentials PlatformCredential[]
+  workflowTasks    WorkflowTask[]
+  scheduledPosts     ScheduledPost[]
+
+  @@map("users")
+}
+
+// 内容模板
+model ContentTemplate {
+  id             String   @id @default(cuid())
+  userId         String
+  name           String
+  description     String?
+  type           String   // text, image, video, all
+  promptTemplate String   @map("prompt_template")
+  aiProvider     String   @map("ai_provider")
+  style          String?
+  platforms      String? // JSON
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // 关系
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contentHistory  ContentHistory[]
+
+  @@map("content_templates")
+}
+
+// 生成历史
+model ContentHistory {
+  id               String   @id @default(cuid())
+  userId           String
+  templateId        String?  @map("template_id")
+  prompt           String
+  type             String   // text, image, video, all
+  generatedContent  String   @map("generated_content") // JSON
+  aiProvider       String   @map("ai_provider")
+  cost             Int?
+  status           String   @default("draft") // draft, generated, published
+  createdAt        DateTime @default(now())
+
+  // 关系
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  template         ContentTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  distributionRecords DistributionRecord[]
+  scheduledPosts     ScheduledPost[]
+
+  @@map("content_history")
+}
+
+// 平台凭证
+model PlatformCredential {
+  id              String    @id @default(cuid())
+  userId          String
+  platform        String    // douyin, bilibili, xiaohongshu, youtube, twitter, medium
+  accountName      String    @map("account_name")
+  accessToken     String    @map("access_token")  // 加密
+  refreshToken    String?   @map("refresh_token") // 加密
+  expiresAt       DateTime? @map("expires_at")
+  status          String    @default("active") // active, inactive, expired
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // 关系
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("platform_credentials")
+}
+
+// 分发记录
+model DistributionRecord {
+  id                String   @id @default(cuid())
+  contentId         String   @map("content_id")
+  userId           String
+  platform          String
+  platformPostId    String?  @map("platform_post_id")
+  platformUrl       String?  @map("platform_url")
+  status            String   // pending, success, failed
+  errorMessage      String?  @map("error_message")
+  publishedAt        DateTime? @map("published_at")
+  createdAt         DateTime @default(now())
+
+  // 关系
+  content           ContentHistory @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@map("distribution_records")
+}
+
+// 工作流任务
+model WorkflowTask {
+  id             String   @id @default(cuid())
+  userId         String
+  workflowType  String   @map("workflow_type")
+  inputData      String   @map("input_data") // JSON
+  status         String   @default("pending") // pending, running, completed, failed
+  currentStep    String?  @map("current_step")
+  result         String?  @map("result") // JSON
+  error          String?
+  createdAt      DateTime @default(now())
+  completedAt    DateTime? @map("completed_at")
+
+  // 关系
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("workflow_tasks")
+}
+
+// 定时发布
+model ScheduledPost {
+  id              String   @id @default(cuid())
+  userId          String
+  contentId        String   @map("content_id")
+  platforms       String   // JSON
+  scheduledTime   DateTime @map("scheduled_time")
+  timezone       String   @default("Asia/Shanghai")
+  status          String   @default("pending") // pending, sent, failed, cancelled
+  createdAt       DateTime @default(now())
+
+  // 关系
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content         ContentHistory @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@map("scheduled_posts")
+}
