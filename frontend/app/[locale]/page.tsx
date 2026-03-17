@@ -11,7 +11,7 @@ export default async function HomePage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const locale = await params;
+  const { locale } = await params;
 
   const quickActions = [
     {

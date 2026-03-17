@@ -13,17 +13,23 @@ export default function Navigation() {
   const pathname = usePathname();
   const t = useTranslations('nav');
 
-  // 获取当前语言前缀
-  const locale = pathname.split('/')[1] || 'zh';
+  // 获取当前语言前缀，确保始终是字符串
+  const pathSegments = pathname.split('/').filter(Boolean);
+  const locale = (pathSegments[0] === 'zh' || pathSegments[0] === 'en') ? pathSegments[0] : 'zh';
+
+  // 构建 href 辅助函数，确保返回字符串
+  const createHref = (path: string) => {
+    return `/${locale}${path ? `/${path}` : ''}`;
+  };
 
   const navItems = [
-    { href: `/${locale}`, label: t('home') },
-    { href: `/${locale}/templates`, label: t('templates') },
-    { href: `/${locale}/create`, label: t('create') },
-    { href: `/${locale}/content`, label: t('content') },
-    { href: `/${locale}/publish`, label: t('publish') },
-    { href: `/${locale}/analytics`, label: t('analytics') },
-    { href: `/${locale}/settings`, label: t('settings') },
+    { href: createHref(''), label: t('home') },
+    { href: createHref('templates'), label: t('templates') },
+    { href: createHref('create'), label: t('create') },
+    { href: createHref('content'), label: t('content') },
+    { href: createHref('publish'), label: t('publish') },
+    { href: createHref('analytics'), label: t('analytics') },
+    { href: createHref('settings'), label: t('settings') },
   ];
 
   return (
@@ -32,7 +38,7 @@ export default function Navigation() {
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link href={`/${locale}`} className="text-2xl font-bold text-indigo-600">
+              <Link href={createHref('')} className="text-2xl font-bold text-indigo-600">
                 Conmebution
               </Link>
             </div>
@@ -40,7 +46,7 @@ export default function Navigation() {
               {navItems.map((item) => {
                 // 判断当前激活状态
                 const isActive = pathname === item.href ||
-                                 (item.href !== `/${locale}` && pathname.startsWith(item.href));
+                                 (item.href !== createHref('') && pathname.startsWith(item.href));
                 return (
                   <Link
                     key={item.href}
@@ -59,7 +65,7 @@ export default function Navigation() {
           </div>
           <div className="flex items-center">
             <Link
-              href={`/${locale}/settings`}
+              href={createHref('settings')}
               className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <span className="sr-only">Settings</span>
