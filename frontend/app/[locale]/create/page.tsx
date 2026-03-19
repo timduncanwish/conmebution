@@ -69,7 +69,7 @@ export default function CreatePage() {
 
     try {
       if (contentType === 'text' || contentType === 'all') {
-        const response = await api.generateTextSync(prompt, 'glm-4');
+        const response = await api.generateTextSync(prompt, 'doubao');
         if (response.success) {
           setResult({ type: 'text', data: response.data });
         } else {
@@ -105,7 +105,7 @@ export default function CreatePage() {
     }
 
     try {
-      const response = await api.estimateCost(prompt, 'glm-4');
+      const response = await api.estimateCost(prompt, 'doubao');
       if (response.success) {
         setEstimatedCost(response.data.estimatedCost);
       }

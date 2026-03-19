@@ -107,3 +107,11 @@
 {"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
 {"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
 {"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}

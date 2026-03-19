@@ -15,6 +15,7 @@ const envSchema = z.object({
   GLM_API_KEY: z.string().optional().default(''),
   OPENAI_API_KEY: z.string().optional().default(''),
   GEMINI_API_KEY: z.string().optional().default(''),
+  DOUBAO_API_KEY: z.string().optional().default(''),
   USE_MOCK_AI: z.string().optional().default('true'), // Enable Mock AI service by default
   REDIS_HOST: z.string().optional().default('localhost'),
   REDIS_PORT: z.string().optional().default('6379'),
@@ -61,6 +62,9 @@ export const config = {
     },
     gemini: {
       apiKey: env.GEMINI_API_KEY,
+    },
+    doubao: {
+      apiKey: env.DOUBAO_API_KEY,
     },
     mock: {
       enabled: env.USE_MOCK_AI === 'true',

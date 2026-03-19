@@ -17,6 +17,7 @@ import { BaseAIService } from './base.service';
 import { GLMService } from './glm.service';
 import { OpenAIService } from './openai.service';
 import { GeminiService } from './gemini.service';
+import { DoubaoService } from './doubao.service';
 import { MockAIService } from './mock.service';
 
 /**
@@ -24,9 +25,10 @@ import { MockAIService } from './mock.service';
  * Defines the order of fallback providers for each primary provider
  */
 const FALLBACK_CHAIN: Record<AIProvider, AIProvider[]> = {
-  [AIProvider.GLM_4]: [AIProvider.GPT_4, AIProvider.GEMINI_PRO],
-  [AIProvider.GPT_4]: [AIProvider.GLM_4, AIProvider.GEMINI_PRO],
-  [AIProvider.GEMINI_PRO]: [AIProvider.GLM_4, AIProvider.GPT_4]
+  [AIProvider.GLM_4]: [AIProvider.DOUBAO, AIProvider.GPT_4, AIProvider.GEMINI_PRO],
+  [AIProvider.DOUBAO]: [AIProvider.GLM_4, AIProvider.GPT_4, AIProvider.GEMINI_PRO],
+  [AIProvider.GPT_4]: [AIProvider.DOUBAO, AIProvider.GLM_4, AIProvider.GEMINI_PRO],
+  [AIProvider.GEMINI_PRO]: [AIProvider.DOUBAO, AIProvider.GLM_4, AIProvider.GPT_4]
 };
 
 /**
@@ -40,7 +42,7 @@ export class AIServiceManager {
   constructor() {
     this.services = new Map();
     this.initializeServices();
-    this.defaultProvider = AIProvider.GLM_4;
+    this.defaultProvider = AIProvider.DOUBAO; // Set Doubao as default
     logger.info('AI Service Manager initialized', {
       availableProviders: this.getAvailableProviders(),
       defaultProvider: this.defaultProvider
@@ -60,11 +62,20 @@ export class AIServiceManager {
       this.services.set(AIProvider.GLM_4, mockService);
       this.services.set(AIProvider.GPT_4, mockService);
       this.services.set(AIProvider.GEMINI_PRO, mockService);
+      this.services.set(AIProvider.DOUBAO, mockService);
       logger.info('Mock AI service initialized for all providers');
       return;
     }
 
     // Normal initialization with real API keys
+    // Doubao - Initialize first as it's the default
+    if (config.ai.doubao.apiKey) {
+      this.services.set(AIProvider.DOUBAO, new DoubaoService(config.ai.doubao.apiKey));
+      logger.info('Doubao service initialized');
+    } else {
+      logger.warn('Doubao service not initialized: API key missing');
+    }
+
     if (config.ai.glm.apiKey) {
       this.services.set(AIProvider.GLM_4, new GLMService(config.ai.glm.apiKey));
       logger.info('GLM-4 service initialized');
@@ -93,6 +104,7 @@ export class AIServiceManager {
       this.services.set(AIProvider.GLM_4, mockService);
       this.services.set(AIProvider.GPT_4, mockService);
       this.services.set(AIProvider.GEMINI_PRO, mockService);
+      this.services.set(AIProvider.DOUBAO, mockService);
     }
   }
 
@@ -234,7 +246,8 @@ export class AIServiceManager {
       const defaultPricing = {
         [AIProvider.GLM_4]: { input: 0.001, output: 0.002 },
         [AIProvider.GPT_4]: { input: 0.03, output: 0.06 },
-        [AIProvider.GEMINI_PRO]: { input: 0.001, output: 0.002 }
+        [AIProvider.GEMINI_PRO]: { input: 0.001, output: 0.002 },
+        [AIProvider.DOUBAO]: { input: 0.00011, output: 0.00028 }  // Doubao pricing (CNY converted to USD)
       };
 
       const pricing = defaultPricing[provider] || defaultPricing[AIProvider.GLM_4];

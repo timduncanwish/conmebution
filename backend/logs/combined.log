@@ -1053,3 +1053,147 @@
 {"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
 {"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
 {"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"info","message":"Mock AI service initialized for all providers"}
+{"availableProviders":["glm-4","gpt-4","gemini-pro"],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"GET /api/platforms/test/list"}
+{"level":"info","message":"POST /api/generate/text/sync"}
+{"level":"info","message":"Synchronous text generation request received","promptLength":21,"provider":"glm-4"}
+{"fallbackEnabled":true,"level":"info","message":"Text generation requested","primaryProvider":"glm-4","promptLength":21}
+{"level":"info","message":"Attempt 1: Using provider glm-4"}
+{"cost":0.00001,"level":"info","message":"Text generation successful","provider":"glm-4","tokensUsed":161}
+{"cost":0.00001,"level":"info","message":"Synchronous text generation completed","provider":"glm-4","tokensUsed":161}
+{"level":"info","message":"POST /api/platforms/test/publish"}
+{"contentTitle":"���Ա���","level":"info","message":"Test publishing requested","platform":"bilibili"}
+{"level":"info","message":"Test publishing completed","platform":"bilibili","postId":"mock_bilibili_1773724944030_1rbkuwiaj","success":true}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"info","message":"Mock AI service initialized for all providers"}
+{"availableProviders":["glm-4","gpt-4","gemini-pro"],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"POST /api/generate/text/sync"}
+{"level":"info","message":"Synchronous text generation request received","promptLength":21,"provider":"glm-4"}
+{"fallbackEnabled":true,"level":"info","message":"Text generation requested","primaryProvider":"glm-4","promptLength":21}
+{"level":"info","message":"Attempt 1: Using provider glm-4"}
+{"cost":0.00001,"level":"info","message":"Text generation successful","provider":"glm-4","tokensUsed":161}
+{"cost":0.00001,"level":"info","message":"Synchronous text generation completed","provider":"glm-4","tokensUsed":161}
+{"level":"info","message":"POST /api/platforms/test/publish"}
+{"contentTitle":"������Ƶ","level":"info","message":"Test publishing requested","platform":"bilibili"}
+{"level":"info","message":"Test publishing completed","platform":"bilibili","postId":"mock_bilibili_1773802735662_4sp5a2z8i","success":true}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"POST /api/generate/text/sync"}
+{"level":"info","message":"Synchronous text generation request received","promptLength":21,"provider":"glm-4"}
+{"fallbackEnabled":true,"level":"info","message":"Text generation requested","primaryProvider":"glm-4","promptLength":21}
+{"level":"info","message":"Attempt 1: Using provider glm-4"}
+{"cost":0.00001,"level":"info","message":"Text generation successful","provider":"glm-4","tokensUsed":161}
+{"cost":0.00001,"level":"info","message":"Synchronous text generation completed","provider":"glm-4","tokensUsed":161}
+{"level":"info","message":"POST /api/platforms/test/publish"}
+{"contentTitle":"������Ƶ","level":"info","message":"Test publishing requested","platform":"bilibili"}
+{"level":"info","message":"Test publishing completed","platform":"bilibili","postId":"mock_bilibili_1773802747820_fk089imdx","success":true}
+{"level":"info","message":"POST /api/generate/text/sync"}
+{"level":"info","message":"Synchronous text generation request received","promptLength":65,"provider":"glm-4"}
+{"fallbackEnabled":true,"level":"info","message":"Text generation requested","primaryProvider":"glm-4","promptLength":65}
+{"level":"info","message":"Attempt 1: Using provider glm-4"}
+{"cost":0.00001,"level":"info","message":"Text generation successful","provider":"glm-4","tokensUsed":183}
+{"cost":0.00001,"level":"info","message":"Synchronous text generation completed","provider":"glm-4","tokensUsed":183}
+{"level":"info","message":"POST /api/generate/text/sync"}
+{"level":"info","message":"Synchronous text generation request received","promptLength":47,"provider":"glm-4"}
+{"fallbackEnabled":true,"level":"info","message":"Text generation requested","primaryProvider":"glm-4","promptLength":47}
+{"level":"info","message":"Attempt 1: Using provider glm-4"}
+{"cost":0.00001,"level":"info","message":"Text generation successful","provider":"glm-4","tokensUsed":159}
+{"cost":0.00001,"level":"info","message":"Synchronous text generation completed","provider":"glm-4","tokensUsed":159}
+{"level":"info","message":"POST /api/generate/image"}
+{"level":"info","message":"Image generation request received","promptLength":19,"quality":"standard","size":"1024x1024","style":"vivid"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"info","message":"Mock AI service initialized for all providers"}
+{"availableProviders":["glm-4","gpt-4","gemini-pro"],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"info","message":"Mock AI service initialized for all providers"}
+{"availableProviders":["glm-4","gpt-4","gemini-pro"],"defaultProvider":"glm-4","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"POST /api/generate/text/sync"}
+{"level":"info","message":"Synchronous text generation request received","promptLength":21,"provider":"glm-4"}
+{"fallbackEnabled":true,"level":"info","message":"Text generation requested","primaryProvider":"glm-4","promptLength":21}
+{"level":"info","message":"Attempt 1: Using provider glm-4"}
+{"cost":0.00001,"level":"info","message":"Text generation successful","provider":"glm-4","tokensUsed":148}
+{"cost":0.00001,"level":"info","message":"Synchronous text generation completed","provider":"glm-4","tokensUsed":148}
+{"level":"info","message":"POST /api/generate/text/sync"}
+{"level":"info","message":"Synchronous text generation request received","promptLength":21,"provider":"glm-4"}
+{"fallbackEnabled":true,"level":"info","message":"Text generation requested","primaryProvider":"glm-4","promptLength":21}
+{"level":"info","message":"Attempt 1: Using provider glm-4"}
+{"cost":0.00001,"level":"info","message":"Text generation successful","provider":"glm-4","tokensUsed":148}
+{"cost":0.00001,"level":"info","message":"Synchronous text generation completed","provider":"glm-4","tokensUsed":148}
+{"level":"info","message":"POST /api/generate/text/sync"}
+{"level":"info","message":"Synchronous text generation request received","promptLength":21,"provider":"glm-4"}
+{"fallbackEnabled":true,"level":"info","message":"Text generation requested","primaryProvider":"glm-4","promptLength":21}
+{"level":"info","message":"Attempt 1: Using provider glm-4"}
+{"cost":0.00001,"level":"info","message":"Text generation successful","provider":"glm-4","tokensUsed":148}
+{"cost":0.00001,"level":"info","message":"Synchronous text generation completed","provider":"glm-4","tokensUsed":148}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"info","message":"Mock AI service initialized for all providers"}
+{"availableProviders":["glm-4","gpt-4","gemini-pro","doubao"],"defaultProvider":"doubao","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"info","message":"Mock AI service initialized for all providers"}
+{"availableProviders":["glm-4","gpt-4","gemini-pro","doubao"],"defaultProvider":"doubao","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"Bull queue system initialized","queueName":"text-generation","redisHost":"localhost","redisPort":6379}
+{"level":"info","message":"Mock AI service initialized for all providers"}
+{"availableProviders":["glm-4","gpt-4","gemini-pro","doubao"],"defaultProvider":"doubao","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"level":"info","message":"🔌 WebSocket server running on port 4001"}
+{"level":"info","message":"Mock AI service initialized for all providers"}
+{"availableProviders":["glm-4","gpt-4","gemini-pro","doubao"],"defaultProvider":"doubao","level":"info","message":"AI Service Manager initialized"}
+{"interval":"500ms","level":"info","message":"WebSocket task progress broadcasting started"}
+{"level":"info","message":"🚀 Server running on http://localhost:4000"}
+{"level":"info","message":"📝 Environment: development"}
+{"level":"info","message":"🌐 Health check: http://localhost:4000/health"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"WebSocket server error"}
+{"error":"listen EADDRINUSE: address already in use :::4001","level":"error","message":"HTTP server error for WebSocket"}
+{"level":"info","message":"GET /api/health"}
+{"level":"info","message":"POST /api/generate/text/sync"}
+{"level":"info","message":"Synchronous text generation request received","promptLength":21,"provider":"doubao"}
+{"fallbackEnabled":true,"level":"info","message":"Text generation requested","primaryProvider":"doubao","promptLength":21}
+{"level":"info","message":"Attempt 1: Using provider doubao"}
+{"cost":0.00001,"level":"info","message":"Text generation successful","provider":"doubao","tokensUsed":161}
+{"cost":0.00001,"level":"info","message":"Synchronous text generation completed","provider":"doubao","tokensUsed":161}

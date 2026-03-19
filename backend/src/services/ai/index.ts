@@ -7,6 +7,7 @@ export { BaseAIService } from './base.service';
 export { GLMService } from './glm.service';
 export { OpenAIService } from './openai.service';
 export { GeminiService } from './gemini.service';
+export { DoubaoService } from './doubao.service';
 export { AIServiceManager, aiServiceManager } from './ai-manager.service';
 export { DalleImageGenerator } from './image-generation';
 export { SeedanceVideoGenerator, HeyGenVideoGenerator } from './video-generation';

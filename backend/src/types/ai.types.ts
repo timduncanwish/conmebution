@@ -9,7 +9,8 @@
 export enum AIProvider {
   GLM_4 = 'glm-4',
   GPT_4 = 'gpt-4',
-  GEMINI_PRO = 'gemini-pro'
+  GEMINI_PRO = 'gemini-pro',
+  DOUBAO = 'doubao'
 }
 
 /**
@@ -18,7 +19,8 @@ export enum AIProvider {
 export enum AIModel {
   GLM_4 = 'glm-4',
   GPT_4 = 'gpt-4',
-  GEMINI_PRO = 'gemini-pro'
+  GEMINI_PRO = 'gemini-pro',
+  DOUBAO_PRO = 'doubao-pro'
 }
 
 /**
