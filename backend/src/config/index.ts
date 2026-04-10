@@ -12,6 +12,8 @@ const envSchema = z.object({
   PORT: z.string().optional().default('4000'),
   NODE_ENV: z.enum(['development', 'production', 'test']).optional().default('development'),
   DATABASE_URL: z.string().min(1, 'DATABASE_URL is required'),
+  JWT_SECRET: z.string().min(1, 'JWT_SECRET is required').default('change-this-to-a-strong-random-string-in-production'),
+  CORS_ORIGIN: z.string().optional().default('http://localhost:3001'),
   GLM_API_KEY: z.string().optional().default(''),
   OPENAI_API_KEY: z.string().optional().default(''),
   GEMINI_API_KEY: z.string().optional().default(''),
@@ -53,6 +55,8 @@ export const config = {
   port: safeParseInt(env.PORT, 4000),
   nodeEnv: env.NODE_ENV,
   databaseUrl: env.DATABASE_URL,
+  jwtSecret: env.JWT_SECRET,
+  corsOrigin: env.CORS_ORIGIN,
   ai: {
     glm: {
       apiKey: env.GLM_API_KEY,

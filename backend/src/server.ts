@@ -1,7 +1,9 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
+import path from 'path';
 import { apiRouter } from './api/routes';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
+import { apiLimiter } from './middleware/rate-limit.middleware';
 import { setupWebSocketServer, shutdownWebSocketServer } from './services/websocket';
 import logger from './utils/logger';
 import config from './config';
@@ -11,15 +13,24 @@ const app = express();
 const PORT = config.port;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: config.corsOrigin,
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Static file serving for uploads
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 // Request logging
 app.use((req, res, next) => {
   logger.info(`${req.method} ${req.path}`);
   next();
 });
+
+// Rate limiting
+app.use('/api', apiLimiter);
 
 // API routes
 app.use('/api', apiRouter);

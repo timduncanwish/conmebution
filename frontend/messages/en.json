@@ -2,34 +2,92 @@
   "home": {
     "title": "Conmebution - AI Content Automation System",
     "subtitle": "AI-powered content automation for creating and distributing to multiple platforms",
-    "description": "Enter a simple prompt to automatically generate text, images, and videos, then distribute to multiple social media platforms with one click"
+    "description": "Enter a simple prompt to automatically generate text, images, and videos, then distribute to multiple social media platforms with one click",
+    "welcome": "Welcome to Conmebution",
+    "recentActivity": "Recent Activity",
+    "noRecentActivity": "No recent activity",
+    "quickActions": {
+      "createContent": "Create Content",
+      "createContentDesc": "Generate new content with AI",
+      "viewLibrary": "Content Library",
+      "viewLibraryDesc": "View and manage all content",
+      "publish": "Publish Content",
+      "publishDesc": "Distribute to multiple platforms",
+      "analytics": "Analytics",
+      "analyticsDesc": "View statistics and reports"
+    },
+    "stats": {
+      "totalContent": "Total Content",
+      "published": "Published",
+      "costThisMonth": "Cost This Month"
+    }
   },
   "nav": {
     "home": "Home",
     "templates": "Templates",
-    "history": "History",
-    "distribution": "Distribution",
+    "create": "Create Content",
+    "content": "Content Library",
+    "publish": "Publish",
     "analytics": "Analytics",
     "settings": "Settings"
   },
   "create": {
     "title": "Create New Content",
-    "step1": "Describe the content you want to create",
-    "step2": "Select content type",
-    "step3": "Select publishing platforms",
-    "placeholder": "Enter your ideas here...",
-    "contentTypes": {
+    "subtitle": "Generate text, images, or video content with AI",
+    "describeContent": "Describe the content you want to create",
+    "promptPlaceholder": "Enter your ideas here... at least 10 characters",
+    "promptMinLength": "minimum 10 characters",
+    "promptMaxLength": "/5000",
+    "contentType": "Select content type",
+    "types": {
       "text": "Text",
       "image": "Image",
       "video": "Video",
       "all": "All"
     },
-    "platforms": {
-      "domestic": "Domestic Platforms",
-      "international": "International Platforms"
-    },
-    "advanced": "Advanced Settings",
-    "start": "Start Creating"
+    "generating": "Generating...",
+    "startCreating": "Start Creating",
+    "recentTemplates": "Recent Templates",
+    "estimateCost": "Estimate Cost",
+    "estimatedCostLabel": "Estimated Cost",
+    "clearResults": "Clear Results",
+    "resultTitle": "Generation Result",
+    "saveDraft": "Save Draft",
+    "editContent": "Edit",
+    "cancelEdit": "Cancel Edit",
+    "goPublish": "Publish",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel",
+    "provider": "Provider",
+    "tokenUsage": "Token Usage",
+    "cost": "Cost",
+    "optimizedPrompt": "Optimized prompt",
+    "generatingVideo": "Video generating...",
+    "taskId": "Task ID",
+    "duration": "Duration",
+    "seconds": "seconds",
+    "draftTitle": "Drafts",
+    "refresh": "Refresh",
+    "load": "Load",
+    "delete": "Delete",
+    "confirmDelete": "Are you sure you want to delete this draft?",
+    "loadDrafts": "Load Drafts",
+    "clearDrafts": "Clear Drafts",
+    "confirmClearDrafts": "Are you sure you want to clear all drafts?",
+    "templateLibrary": "Template Library",
+    "draftSaved": "Draft saved!",
+    "confirmPublish": "Are you sure you want to publish this content?",
+    "minPromptError": "Please enter at least 10 characters",
+    "typeText": "Text",
+    "typeImage": "Image",
+    "typeVideo": "Video",
+    "quickActions": "Quick Actions",
+    "templateNames": {
+      "product": "Product Intro",
+      "tutorial": "Tutorial Video",
+      "entertainment": "Entertainment",
+      "news": "News"
+    }
   },
   "generate": {
     "generating": "AI is generating...",
