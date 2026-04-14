@@ -8,6 +8,11 @@ import generationRoutes from './generation.routes';
 import mediaRoutes from './media.routes';
 import batchPlatformsRoutes from './platforms.batch.routes';
 import testPlatformsRoutes from './platforms.test.routes';
+import authRoutes from './auth.routes';
+import uploadRoutes from './upload.routes';
+import contentRoutes from './content.routes';
+import templateRoutes from './template.routes';
+import { optionalAuth, authenticateToken } from '../../middleware/auth.middleware';
 
 const router = Router();
 
@@ -22,34 +27,30 @@ router.get('/health', (req: Request, res: Response) => {
       status: 'ok',
       timestamp: new Date().toISOString(),
       service: 'conmebution-api',
-      version: '1.0.0',
+      version: '2.0.0',
     },
   });
 });
 
 /**
- * Mount generation routes
+ * Auth routes (public)
  */
-router.use('/generate', generationRoutes);
+router.use('/auth', authRoutes);
 
 /**
- * Mount media generation routes
+ * Protected routes — require auth
  */
-router.use('/generate', mediaRoutes);
+router.use('/upload', authenticateToken, uploadRoutes);
+router.use('/content', authenticateToken, contentRoutes);
+router.use('/templates', authenticateToken, templateRoutes);
 
 /**
- * Mount batch platforms routes
+ * Routes with optional auth — work with or without token
  */
-router.use('/platforms/batch', batchPlatformsRoutes);
-
-/**
- * Mount test platforms routes
- */
+router.use('/generate', optionalAuth, generationRoutes);
+router.use('/generate', optionalAuth, mediaRoutes);
+router.use('/platforms/batch', optionalAuth, batchPlatformsRoutes);
 router.use('/platforms/test', testPlatformsRoutes);
-
-/**
- * Mount task status routes
- */
 router.use('/tasks', generationRoutes);
 
 export const apiRouter = router;

@@ -36,7 +36,7 @@ const FALLBACK_CHAIN: Record<AIProvider, AIProvider[]> = {
  * Manages multiple AI services and provides automatic fallback on failure
  */
 export class AIServiceManager {
-  private services: Map<AIProvider, any>; // Use 'any' to support both BaseAIService and MockAIService
+  private services: Map<AIProvider, BaseAIService>;
   private defaultProvider: AIProvider;
 
   constructor() {

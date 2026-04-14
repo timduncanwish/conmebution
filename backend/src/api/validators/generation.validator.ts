@@ -24,7 +24,6 @@ export const generateTextSchema = z.object({
     .max(5000, 'Prompt must not exceed 5000 characters'),
   provider: z.nativeEnum(AIProvider).default(AIProvider.GLM_4),
   options: generationOptionsSchema,
-  userId: z.string().optional(), // TODO: authentication
 });
 
 /**

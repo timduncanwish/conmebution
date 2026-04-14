@@ -5,6 +5,7 @@
 
 import { PlatformAdapterFactory, PlatformType } from './adapters';
 import { BasePlatformAdapter, PlatformContent, PlatformCredentials } from './adapters/base.adapter';
+import logger from '../../utils/logger';
 
 export interface BatchPublishTask {
   id: string;
@@ -42,6 +43,7 @@ export interface BatchPublishOptions {
 export class BatchPublisherService {
   private activeTasks: Map<string, BatchPublishTask> = new Map();
   private taskHistory: BatchPublishTask[] = [];
+  private static readonly MAX_HISTORY = 100;
 
   /**
    * Create a new batch publishing task
@@ -72,7 +74,7 @@ export class BatchPublisherService {
 
     // Start publishing asynchronously
     this.executeBatchPublish(taskId, options).catch(error => {
-      console.error(`Batch publish task ${taskId} failed:`, error);
+      logger.error(`Batch publish task ${taskId} failed:`, { error });
     });
 
     return taskId;
@@ -121,10 +123,13 @@ export class BatchPublisherService {
     } catch (error) {
       task.status = 'failed';
       task.endTime = new Date();
-      console.error(`Batch publish task ${taskId} error:`, error);
+      logger.error(`Batch publish task ${taskId} error:`, { error });
     } finally {
-      // Move to history
+      // Move to history with cap
       this.taskHistory.push(task);
+      if (this.taskHistory.length > BatchPublisherService.MAX_HISTORY) {
+        this.taskHistory.splice(0, this.taskHistory.length - BatchPublisherService.MAX_HISTORY);
+      }
       this.activeTasks.delete(taskId);
     }
   }

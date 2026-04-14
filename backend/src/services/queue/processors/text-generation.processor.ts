@@ -119,6 +119,18 @@ const textGenerationProcessor = async (job: Job<TextGenerationTaskData>) => {
  */
 import { textGenerationQueue } from '../index';
 
-textGenerationQueue.process(textGenerationProcessor);
+export { textGenerationProcessor };
 
-logger.info('Text generation processor registered');
+// Auto-register: the processor attaches itself when this module is imported.
+// Note: queue is now lazy-loaded, so registration happens when Redis connects.
+(async () => {
+  try {
+    const queue = await textGenerationQueue;
+    if (queue) {
+      queue.process(textGenerationProcessor);
+      logger.info('Text generation processor registered');
+    }
+  } catch {
+    logger.warn('Text generation processor not registered — queue unavailable');
+  }
+})();

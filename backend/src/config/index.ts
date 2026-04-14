@@ -12,7 +12,7 @@ const envSchema = z.object({
   PORT: z.string().optional().default('4000'),
   NODE_ENV: z.enum(['development', 'production', 'test']).optional().default('development'),
   DATABASE_URL: z.string().min(1, 'DATABASE_URL is required'),
-  JWT_SECRET: z.string().min(1, 'JWT_SECRET is required').default('change-this-to-a-strong-random-string-in-production'),
+  JWT_SECRET: z.string().min(1, 'JWT_SECRET is required'),
   CORS_ORIGIN: z.string().optional().default('http://localhost:3001'),
   GLM_API_KEY: z.string().optional().default(''),
   OPENAI_API_KEY: z.string().optional().default(''),
@@ -24,6 +24,7 @@ const envSchema = z.object({
   REDIS_PASSWORD: z.string().optional().default(''),
   STORAGE_TYPE: z.string().optional().default('local'),
   UPLOAD_PATH: z.string().optional().default('./uploads'),
+  CREDENTIAL_ENCRYPTION_KEY: z.string().optional().default('dev-only-key-change-in-production'),
 });
 
 // Validate environment variables on import
@@ -84,7 +85,8 @@ export const config = {
     local: {
       uploadPath: env.UPLOAD_PATH,
     }
-  }
+  },
+  credentialEncryptionKey: env.CREDENTIAL_ENCRYPTION_KEY,
 };
 
 export default config;

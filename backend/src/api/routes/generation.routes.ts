@@ -26,7 +26,8 @@ router.post('/text', async (req: Request, res: Response) => {
   try {
     // Validate request body
     const validatedData = generateTextSchema.parse(req.body);
-    const { prompt, provider, options, userId } = validatedData;
+    const { prompt, provider, options } = validatedData;
+    const userId = req.userId || 'anonymous';
 
     logger.info('Text generation request received', {
       promptLength: prompt.length,
@@ -34,15 +35,29 @@ router.post('/text', async (req: Request, res: Response) => {
       userId,
     });
 
+    // Check if queue is available (requires Redis)
+    const queue = await textGenerationQueue;
+    if (!queue) {
+      res.status(503).json({
+        success: false,
+        error: {
+          type: 'SERVICE_UNAVAILABLE',
+          message: 'Async generation requires Redis. Use /api/generate/text/sync instead.',
+          retryable: false,
+        },
+      });
+      return;
+    }
+
     // Generate task ID
     const taskId = uuidv4();
 
     // Add job to queue
-    const job = await textGenerationQueue.add(
+    const job = await queue.add(
       TaskType.GENERATE_TEXT,
       {
         taskId,
-        userId: userId || 'anonymous', // TODO: replace with authenticated user ID
+        userId,
         prompt,
         provider,
         options,
@@ -86,7 +101,8 @@ router.post('/text/sync', async (req: Request, res: Response) => {
   try {
     // Validate request body
     const validatedData = generateTextSchema.parse(req.body);
-    const { prompt, provider, options, userId } = validatedData;
+    const { prompt, provider, options } = validatedData;
+    const userId = req.userId || 'anonymous';
 
     logger.info('Synchronous text generation request received', {
       promptLength: prompt.length,

@@ -4,6 +4,7 @@
  */
 
 import axios, { AxiosInstance } from 'axios';
+import logger from '../../../../utils/logger';
 import {
   BasePlatformAdapter,
   PlatformCredentials,
@@ -82,7 +83,7 @@ export class DouyinAdapter extends BasePlatformAdapter {
 
       return response.data.data.error_code === 0;
     } catch (error) {
-      console.error('Failed to validate Douyin credentials:', error);
+      logger.error('Failed to validate Douyin credentials:', error);
       return false;
     }
   }
@@ -116,7 +117,7 @@ export class DouyinAdapter extends BasePlatformAdapter {
       expiresAt.setSeconds(expiresAt.getSeconds() + expires_in);
       this.credentials.expiresAt = expiresAt;
     } catch (error) {
-      console.error('Failed to refresh Douyin credentials:', error);
+      logger.error('Failed to refresh Douyin credentials:', error);
       throw new Error('Failed to refresh access token');
     }
   }
@@ -162,7 +163,7 @@ export class DouyinAdapter extends BasePlatformAdapter {
 
       return uploadResponse.data.data.video_id;
     } catch (error) {
-      console.error('Failed to upload media to Douyin:', error);
+      logger.error('Failed to upload media to Douyin:', error);
       throw error;
     }
   }
@@ -207,7 +208,7 @@ export class DouyinAdapter extends BasePlatformAdapter {
         publishedAt: new Date(),
       };
     } catch (error) {
-      console.error('Failed to publish content to Douyin:', error);
+      logger.error('Failed to publish content to Douyin:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
@@ -228,7 +229,7 @@ export class DouyinAdapter extends BasePlatformAdapter {
 
       return response.data.data.error_code === 0;
     } catch (error) {
-      console.error('Failed to delete content from Douyin:', error);
+      logger.error('Failed to delete content from Douyin:', error);
       return false;
     }
   }
@@ -262,7 +263,7 @@ export class DouyinAdapter extends BasePlatformAdapter {
         shares: stats.share_count,
       };
     } catch (error) {
-      console.error('Failed to get content status from Douyin:', error);
+      logger.error('Failed to get content status from Douyin:', error);
       return {
         views: 0,
         likes: 0,

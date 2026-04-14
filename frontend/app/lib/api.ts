@@ -5,142 +5,187 @@
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
-/**
- * 生成配置的API基础URL
- */
-const getApiUrl = (path: string): string => {
-  return `${API_BASE_URL}${path}`;
-};
+// ============ Auth Token Management ============
 
-/**
- * 处理API响应
- */
-const handleResponse = async (response: Response) => {
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error?.message || 'API请求失败');
+const TOKEN_KEY = 'conmebution_token';
+
+export function getToken(): string | null {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem(TOKEN_KEY);
+}
+
+export function setToken(token: string): void {
+  localStorage.setItem(TOKEN_KEY, token);
+}
+
+export function clearToken(): void {
+  localStorage.removeItem(TOKEN_KEY);
+}
+
+export function isAuthenticated(): boolean {
+  return !!getToken();
+}
+
+// ============ Helpers ============
+
+const getApiUrl = (path: string): string => `${API_BASE_URL}${path}`;
+
+function getAuthHeaders(): Record<string, string> {
+  const token = getToken();
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  return headers;
+}
+
+async function handleResponse<T = any>(response: Response): Promise<T> {
+  if (response.status === 401) {
+    clearToken();
+    if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
+      // Extract locale from current path for correct redirect
+      const segments = window.location.pathname.split('/').filter(Boolean);
+      const locale = (segments[0] === 'zh' || segments[0] === 'en') ? segments[0] : 'zh';
+      window.location.href = `/${locale}/login`;
+    }
+    throw new Error('Session expired. Please login again.');
   }
-  return response.json();
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error?.message || 'API request failed');
+  }
+  return data;
+}
+
+async function apiGet<T = any>(path: string): Promise<T> {
+  const response = await fetch(getApiUrl(path), { headers: getAuthHeaders() });
+  return handleResponse<T>(response);
+}
+
+async function apiPost<T = any>(path: string, body?: any): Promise<T> {
+  const response = await fetch(getApiUrl(path), {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  return handleResponse<T>(response);
+}
+
+async function apiPut<T = any>(path: string, body?: any): Promise<T> {
+  const response = await fetch(getApiUrl(path), {
+    method: 'PUT',
+    headers: getAuthHeaders(),
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  return handleResponse<T>(response);
+}
+
+async function apiDelete<T = any>(path: string): Promise<T> {
+  const response = await fetch(getApiUrl(path), {
+    method: 'DELETE',
+    headers: getAuthHeaders(),
+  });
+  return handleResponse<T>(response);
+}
+
+// ============ Auth API ============
+
+export const authApi = {
+  register: (email: string, password: string, name?: string) =>
+    apiPost('/api/auth/register', { email, password, name }),
+
+  login: (email: string, password: string) =>
+    apiPost('/api/auth/login', { email, password }),
+
+  getMe: () => apiGet('/api/auth/me'),
 };
 
-/**
- * 健康检查API
- */
-export const healthCheck = async () => {
-  const response = await fetch(getApiUrl('/api/health'));
+// ============ Content API ============
+
+export const contentApi = {
+  list: (params?: { page?: number; limit?: number; status?: string }) => {
+    const query = new URLSearchParams();
+    if (params?.page) query.set('page', String(params.page));
+    if (params?.limit) query.set('limit', String(params.limit));
+    if (params?.status) query.set('status', params.status);
+    return apiGet(`/api/content?${query}`);
+  },
+
+  get: (id: string) => apiGet(`/api/content/${id}`),
+
+  create: (data: { prompt: string; type?: string; generatedContent: any; aiProvider?: string; cost?: number }) =>
+    apiPost('/api/content', data),
+
+  update: (id: string, data: { generatedContent?: any; status?: string }) =>
+    apiPut(`/api/content/${id}`, data),
+
+  delete: (id: string) => apiDelete(`/api/content/${id}`),
+};
+
+// ============ Template API ============
+
+export const templateApi = {
+  list: () => apiGet('/api/templates'),
+
+  create: (data: { name: string; promptTemplate: string; type?: string; aiProvider?: string; style?: string; platforms?: string[] }) =>
+    apiPost('/api/templates', data),
+
+  update: (id: string, data: any) => apiPut(`/api/templates/${id}`, data),
+
+  delete: (id: string) => apiDelete(`/api/templates/${id}`),
+};
+
+// ============ Upload API ============
+
+export const uploadFile = async (file: File) => {
+  const token = getToken();
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch(getApiUrl('/api/upload'), {
+    method: 'POST',
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+    body: formData,
+  });
   return handleResponse(response);
 };
 
-/**
- * 成本估算API
- */
-export const estimateCost = async (prompt: string, provider?: string) => {
+// ============ Generation API ============
+
+export const healthCheck = () => apiGet('/api/health');
+
+export const estimateCost = (prompt: string, provider?: string) => {
   const params = new URLSearchParams({ prompt });
   if (provider) params.append('provider', provider);
-
-  const response = await fetch(getApiUrl(`/api/generate/cost?${params}`));
-  return handleResponse(response);
+  return apiGet(`/api/generate/cost?${params}`);
 };
 
-/**
- * 同步文本生成API
- */
-export const generateTextSync = async (prompt: string, provider?: string, options?: any) => {
-  const response = await fetch(getApiUrl('/api/generate/text/sync'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      prompt,
-      provider,
-      options
-    })
-  });
-  return handleResponse(response);
-};
+export const generateTextSync = (prompt: string, provider?: string, options?: any) =>
+  apiPost('/api/generate/text/sync', { prompt, provider, options });
 
-/**
- * 异步文本生成API
- */
-export const generateTextAsync = async (prompt: string, provider?: string, options?: any) => {
-  const response = await fetch(getApiUrl('/api/generate/text'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      prompt,
-      provider,
-      options
-    })
-  });
-  return handleResponse(response);
-};
+export const generateTextAsync = (prompt: string, provider?: string, options?: any) =>
+  apiPost('/api/generate/text', { prompt, provider, options });
 
-/**
- * 获取任务状态API
- */
-export const getTaskStatus = async (taskId: string) => {
-  const response = await fetch(getApiUrl(`/api/generate/tasks/${taskId}`));
-  return handleResponse(response);
-};
+export const getTaskStatus = (taskId: string) =>
+  apiGet(`/api/generate/tasks/${taskId}`);
 
-/**
- * 图片生成API
- */
-export const generateImage = async (prompt: string, options?: {
-  style?: 'natural' | 'vivid' | 'precise';
-  quality?: 'standard' | 'hd';
-  size?: '1024x1024' | '1792x1024' | '1024x1792';
-  n?: number;
-}) => {
-  const response = await fetch(getApiUrl('/api/generate/image'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt, ...options })
-  });
-  return handleResponse(response);
-};
+export const generateImage = (prompt: string, options?: any) =>
+  apiPost('/api/generate/image', { prompt, ...options });
 
-/**
- * 视频生成API
- */
-export const generateVideo = async (prompt: string, options?: {
-  duration?: 5 | 10 | 15 | 30;
-  resolution?: '720p' | '1080p';
-  style?: 'product' | 'story' | 'fast' | 'cinematic';
-  ratio?: '16:9' | '9:16' | '1:1';
-}) => {
-  const response = await fetch(getApiUrl('/api/generate/video'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt, ...options })
-  });
-  return handleResponse(response);
-};
+export const generateVideo = (prompt: string, options?: any) =>
+  apiPost('/api/generate/video', { prompt, ...options });
 
-/**
- * 平台发布API
- */
-export const publishToPlatforms = async (contentId: string, platforms: string[], credentials: any) => {
-  const response = await fetch(getApiUrl('/api/publish'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contentId,
-      platforms,
-      credentials
-    })
-  });
-  return handleResponse(response);
-};
+// ============ Platform API ============
 
-/**
- * 获取平台发布状态API
- */
-export const getPublishStatus = async (publishId: string) => {
-  const response = await fetch(getApiUrl(`/api/publish/${publishId}`));
-  return handleResponse(response);
-};
+export const publishToPlatforms = (contentId: string, platforms: string[], credentials: any) =>
+  apiPost('/api/publish', { contentId, platforms, credentials });
+
+export const getPublishStatus = (publishId: string) =>
+  apiGet(`/api/publish/${publishId}`);
 
 export default {
+  auth: authApi,
+  content: contentApi,
+  template: templateApi,
+  upload: uploadFile,
   healthCheck,
   estimateCost,
   generateTextSync,
@@ -149,5 +194,5 @@ export default {
   generateImage,
   generateVideo,
   publishToPlatforms,
-  getPublishStatus
+  getPublishStatus,
 };

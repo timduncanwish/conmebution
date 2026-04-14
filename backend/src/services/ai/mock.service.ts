@@ -3,24 +3,23 @@
  * 用于演示和测试的模拟AI服务
  */
 
+import logger from '../../utils/logger';
+import { BaseAIService } from './base.service';
 import {
   TextGenerationRequest,
   TextGenerationResult,
   CostEstimate,
-  GenerateTextOptions,
   AIProvider,
   AIModel
 } from '../../types/ai.types';
 
-/**
- * 简化的Mock AI服务实现
- * 直接实现所需接口，不继承BaseAIService
- */
-export class MockAIService {
-  private apiKey: string;
+export class MockAIService extends BaseAIService {
+  constructor() {
+    super('mock-api-key', 'http://localhost', AIProvider.GLM_4, AIModel.GLM_4);
+  }
 
-  constructor(apiKey: string = 'mock-api-key') {
-    this.apiKey = apiKey;
+  protected getHeaders(): Record<string, string> {
+    return { 'Content-Type': 'application/json' };
   }
 
   /**
@@ -28,62 +27,64 @@ export class MockAIService {
    */
   async generateText(request: TextGenerationRequest): Promise<TextGenerationResult> {
     const prompt = request.prompt.toLowerCase();
-    const options = request.options || {};
     let generatedText = '';
 
-    // 根据提示词生成相关内容
     if (prompt.includes('iphone') || prompt.includes('手机')) {
-      generatedText = this.generatePhoneContent(prompt);
+      generatedText = this.generatePhoneContent();
     } else if (prompt.includes('护肤') || prompt.includes('美妆')) {
-      generatedText = this.generateBeautyContent(prompt);
+      generatedText = this.generateBeautyContent();
     } else if (prompt.includes('教程') || prompt.includes('如何')) {
-      generatedText = this.generateTutorialContent(prompt);
+      generatedText = this.generateTutorialContent();
     } else if (prompt.includes('美食') || prompt.includes('菜谱')) {
-      generatedText = this.generateFoodContent(prompt);
+      generatedText = this.generateFoodContent();
     } else {
-      generatedText = this.generateGenericContent(prompt);
+      generatedText = this.generateGenericContent(request.prompt);
     }
 
-    // 模拟API延迟
     await this.delay(500 + Math.random() * 1000);
+
+    const inputTokens = Math.ceil(request.prompt.length / 2);
+    const outputTokens = Math.ceil(generatedText.length / 2);
 
     return {
       content: generatedText,
       provider: request.provider || AIProvider.GLM_4,
       model: AIModel.GLM_4,
       tokensUsed: {
-        input: Math.ceil(request.prompt.length / 2),
-        output: Math.ceil(generatedText.length / 2),
-        total: Math.ceil((request.prompt.length + generatedText.length) / 2)
+        input: inputTokens,
+        output: outputTokens,
+        total: inputTokens + outputTokens,
       },
       cost: 0.00001,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
   }
 
   /**
    * 估算成本（返回模拟数据）
    */
-  async estimateCost(prompt: string, options?: GenerateTextOptions): Promise<CostEstimate> {
+  async estimateCost(prompt: string): Promise<CostEstimate> {
     const inputTokens = Math.ceil(prompt.length / 2);
     const outputTokens = Math.ceil(prompt.length * 2);
-
-    // 模拟定价 (GLM-4最便宜)
     const pricePerToken = 0.000001;
-
-    const inputCost = inputTokens * pricePerToken;
-    const outputCost = outputTokens * pricePerToken * 2;
-    const totalCost = inputCost + outputCost;
 
     return {
       estimatedTokens: inputTokens + outputTokens,
-      estimatedCost: totalCost,
+      estimatedCost: (inputTokens + outputTokens * 2) * pricePerToken,
       currency: 'USD',
       breakdown: {
-        input: inputCost,
-        output: outputCost
-      }
+        input: inputTokens * pricePerToken,
+        output: outputTokens * pricePerToken * 2,
+      },
     };
+  }
+
+  /**
+   * Mock API key 验证 — 始终通过
+   */
+  async validateApiKey(): Promise<boolean> {
+    logger.info('Mock AI service: API key validation (always true)');
+    return true;
   }
 
   // ========== 私有辅助方法 ==========
@@ -92,7 +93,7 @@ export class MockAIService {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  private generatePhoneContent(prompt: string): string {
+  private generatePhoneContent(): string {
     return `# iPhone 16 Pro Max 深度评测
 
 ## 设计与工艺
@@ -110,12 +111,12 @@ iPhone 16 Pro Max 延续了苹果一贯的精湛工艺，采用钛金属边框�
 适合追求极致体验的用户首选。`;
   }
 
-  private generateBeautyContent(prompt: string): string {
-    return `# 春季护肤新品推荐 🌸
+  private generateBeautyContent(): string {
+    return `# 春季护肤新品推荐
 
 春天来了，肌肤也需要焕新！今天为大家推荐几款超好用的春季护肤新品：
 
-## 🏆 明星产品推荐
+## 明星产品推荐
 
 ### 1. 舒缓保湿喷雾
 - 含天然温泉水成分
@@ -132,7 +133,7 @@ iPhone 16 Pro Max 延续了苹果一贯的精湛工艺，采用钛金属边框�
 - 质地轻薄，不油腻
 - 防护同时养肤
 
-## 💡 使用小贴士
+## 使用小贴士
 1. 喷雾随时补，水润一整天
 2. 精华早晚用，坚持见效果
 3. 防晒不能忘，防晒最重要
@@ -140,7 +141,7 @@ iPhone 16 Pro Max 延续了苹果一贯的精湛工艺，采用钛金属边框�
 记住：护肤要耐心，适合自己的才是最好的！`;
   }
 
-  private generateTutorialContent(prompt: string): string {
+  private generateTutorialContent(): string {
     return `# 如何使用AI内容创作平台
 
 ## 第一步：登录注册
@@ -167,12 +168,12 @@ iPhone 16 Pro Max 延续了苹果一贯的精湛工艺，采用钛金属边框�
 就这么简单！快去试试吧～`;
   }
 
-  private generateFoodContent(prompt: string): string {
-    return `# 美味家常菜：红烧肉 🍖
+  private generateFoodContent(): string {
+    return `# 美味家常菜：红烧肉
 
 今天教大家做一道超好吃的红烧肉，简单易学，新手也能成功！
 
-## 📝 食材准备
+## 食材准备
 - 五花肉 500g
 - 冰糖 30g
 - 生抽 3勺
@@ -180,7 +181,7 @@ iPhone 16 Pro Max 延续了苹果一贯的精湛工艺，采用钛金属边框�
 - 料酒 2勺
 - 葱姜蒜 适量
 
-## 👩‍🍳 制作步骤
+## 制作步骤
 
 ### 1. 处理五花肉
 五花肉切成3cm见方的块，冷水下锅焯水，撇去浮沫后捞出。
@@ -197,7 +198,7 @@ iPhone 16 Pro Max 延续了苹果一贯的精湛工艺，采用钛金属边框�
 ### 5. 收汁出锅
 大火收汁至浓稠，撒上葱花即可。
 
-## 💡 小贴士
+## 小贴士
 - 炒糖色要用小火，避免糊掉
 - 炖煮时间要足，肉质才软烂
 - 最后收汁要不断翻炒

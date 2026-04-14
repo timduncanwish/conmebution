@@ -4,6 +4,7 @@
  */
 
 import axios, { AxiosInstance } from 'axios';
+import logger from '../../../../utils/logger';
 import {
   BasePlatformAdapter,
   PlatformCredentials,
@@ -85,7 +86,7 @@ export class BilibiliAdapter extends BasePlatformAdapter {
 
       return response.data.code === 0;
     } catch (error) {
-      console.error('Failed to validate Bilibili credentials:', error);
+      logger.error('Failed to validate Bilibili credentials:', { error });
       return false;
     }
   }
@@ -126,15 +127,20 @@ export class BilibiliAdapter extends BasePlatformAdapter {
 
       const { upload_url, retrieve_url } = preResponse.data.data;
 
-      // Step 2: Upload video file
-      const uploadFormData = new FormData();
-      uploadFormData.append('file', mediaFile);
-      uploadFormData.append('name', 'video.mp4');
-      uploadFormData.append('size', Buffer.byteLength(mediaFile as Buffer).toString());
+      // Step 2: Upload video file using axios with buffer
+      const fileBuffer = Buffer.isBuffer(mediaFile) ? mediaFile : Buffer.from(mediaFile as string);
+      const boundary = `----FormBoundary${Date.now()}`;
+      const multipartBody = Buffer.concat([
+        Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="file"; filename="video.mp4"\r\nContent-Type: video/mp4\r\n\r\n`),
+        fileBuffer,
+        Buffer.from(`\r\n--${boundary}\r\nContent-Disposition: form-data; name="name"\r\n\r\nvideo.mp4\r\n`),
+        Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="size"\r\n\r\n${fileBuffer.byteLength}\r\n--${boundary}--\r\n`),
+      ]);
 
-      const uploadResponse = await axios.post(upload_url, uploadFormData, {
+      const uploadResponse = await axios.post(upload_url, multipartBody, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': `multipart/form-data; boundary=${boundary}`,
+          'Content-Length': multipartBody.byteLength.toString(),
         },
       });
 
@@ -151,7 +157,7 @@ export class BilibiliAdapter extends BasePlatformAdapter {
 
       return retrieveResponse.data.data.filename;
     } catch (error) {
-      console.error('Failed to upload media to Bilibili:', error);
+      logger.error('Failed to upload media to Bilibili:', { error });
       throw error;
     }
   }
@@ -206,7 +212,7 @@ export class BilibiliAdapter extends BasePlatformAdapter {
         publishedAt: new Date(),
       };
     } catch (error) {
-      console.error('Failed to publish content to Bilibili:', error);
+      logger.error('Failed to publish content to Bilibili:', { error });
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
@@ -227,7 +233,7 @@ export class BilibiliAdapter extends BasePlatformAdapter {
 
       return response.data.code === 0;
     } catch (error) {
-      console.error('Failed to delete content from Bilibili:', error);
+      logger.error('Failed to delete content from Bilibili:', { error });
       return false;
     }
   }
@@ -261,7 +267,7 @@ export class BilibiliAdapter extends BasePlatformAdapter {
         shares: stat.share,
       };
     } catch (error) {
-      console.error('Failed to get content status from Bilibili:', error);
+      logger.error('Failed to get content status from Bilibili:', { error });
       return {
         views: 0,
         likes: 0,

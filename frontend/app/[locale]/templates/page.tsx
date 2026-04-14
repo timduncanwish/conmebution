@@ -1,288 +1,93 @@
 /**
- * 模板库页面
- * 管理和使用内容模板
+ * Templates Page — Bento Card Grid
  */
 
 'use client';
 
 import { useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import Navigation from '../../components/Navigation';
 
-interface Template {
-  id: string;
-  name: string;
-  description: string;
-  type: 'text' | 'image' | 'video' | 'all';
-  prompt: string;
-  platforms: string[];
-  category: string;
-  createdAt: string;
-}
+interface Template { id: string; name: string; description: string; type: string; prompt: string; platforms: string[]; category: string; }
+
+const typeColors: Record<string, string> = { text: 'bg-blue-50 text-blue-600', image: 'bg-pink-50 text-pink-600', video: 'bg-amber-50 text-amber-600', all: 'bg-indigo-50 text-indigo-600' };
 
 export default function TemplatesPage() {
+  const t = useTranslations('nav');
+  const locale = useParams().locale as string;
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  // Mock模板数据
   const templates: Template[] = [
-    {
-      id: '1',
-      name: '产品评测模板',
-      description: '用于生成产品评测文案，包含优缺点分析',
-      type: 'all',
-      prompt: '请为{产品名称}写一篇评测文案，包含以下内容：产品特点、使用体验、优缺点分析、购买建议',
-      platforms: ['bilibili', 'xiaohongshu'],
-      category: '电商',
-      createdAt: '2026-03-10'
-    },
-    {
-      id: '2',
-      name: '美妆教程模板',
-      description: '美妆教程视频脚本模板',
-      type: 'video',
-      prompt: '创建一个{化妆主题}教程视频，包含步骤说明和注意事项',
-      platforms: ['douyin', 'xiaohongshu'],
-      category: '美妆',
-      createdAt: '2026-03-09'
-    },
-    {
-      id: '3',
-      name: '美食分享模板',
-      description: '美食制作分享内容模板',
-      type: 'all',
-      prompt: '分享{菜品名称}的制作方法，包含食材、步骤和技巧',
-      platforms: ['xiaohongshu', 'douyin'],
-      category: '美食',
-      createdAt: '2026-03-08'
-    },
-    {
-      id: '4',
-      name: '科技新闻模板',
-      description: '科技资讯报道模板',
-      type: 'text',
-      prompt: '报道关于{科技主题}的最新消息，分析其影响和意义',
-      platforms: ['wechat_mp', 'bilibili'],
-      category: '科技',
-      createdAt: '2026-03-07'
-    }
+    { id: '1', name: 'Product Review', description: 'Generate product review content with pros/cons', type: 'all', prompt: 'Write a review for {product name} including features, experience, pros/cons, and recommendation', platforms: ['bilibili', 'xiaohongshu'], category: 'ecommerce' },
+    { id: '2', name: 'Beauty Tutorial', description: 'Beauty tutorial video script template', type: 'video', prompt: 'Create a {makeup topic} tutorial video with step-by-step instructions', platforms: ['douyin', 'xiaohongshu'], category: 'beauty' },
+    { id: '3', name: 'Food Sharing', description: 'Food recipe sharing template', type: 'all', prompt: 'Share the recipe for {dish name} with ingredients, steps, and tips', platforms: ['xiaohongshu', 'douyin'], category: 'food' },
+    { id: '4', name: 'Tech News', description: 'Tech news reporting template', type: 'text', prompt: 'Report on the latest {tech topic} news, analyze its impact and significance', platforms: ['wechat-mp', 'bilibili'], category: 'tech' },
   ];
 
-  const categories = ['all', '电商', '美妆', '美食', '科技'];
-
-  const filteredTemplates = selectedCategory === 'all'
-    ? templates
-    : templates.filter(t => t.category === selectedCategory);
-
-  const handleUseTemplate = (template: Template) => {
-    alert(`使用模板: ${template.name}\n\n提示词: ${template.prompt}\n\n跳转到创建页面...`);
-    // 实际应用中应该跳转到创建页面并预填充模板内容
-    window.location.href = `/zh/create?template=${template.id}`;
-  };
-
-  const handleCreateTemplate = () => {
-    setShowCreateModal(true);
-  };
+  const categories = [{ key: 'all', label: 'All' }, { key: 'ecommerce', label: 'E-Commerce' }, { key: 'beauty', label: 'Beauty' }, { key: 'food', label: 'Food' }, { key: 'tech', label: 'Tech' }];
+  const filtered = selectedCategory === 'all' ? templates : templates.filter(t => t.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+    <div className="min-h-screen bg-[var(--color-bg)]">
+      <Navigation />
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">模板库</h1>
-            <p className="text-gray-600 mt-2">管理和使用内容模板，提高创作效率</p>
+            <h1 className="text-3xl font-bold text-[var(--color-text)]">{locale === 'zh' ? '模板库' : 'Templates'}</h1>
+            <p className="mt-1 text-[var(--color-text-secondary)]">{locale === 'zh' ? '管理和使用内容模板' : 'Manage and use content templates'}</p>
           </div>
-          <button
-            onClick={handleCreateTemplate}
-            className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-          >
-            + 创建模板
+          <button onClick={() => setShowCreateModal(true)} className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[var(--color-primary)] text-white text-sm font-medium hover:bg-[var(--color-primary-dark)] transition-colors cursor-pointer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+            {locale === 'zh' ? '创建模板' : 'Create'}
           </button>
         </div>
 
-        {/* Category Filter */}
-        <div className="bg-white rounded-lg shadow p-4 mb-6">
-          <div className="flex space-x-4">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-lg ${
-                  selectedCategory === category
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                {category === 'all' ? '全部' : category}
-              </button>
-            ))}
-          </div>
+        {/* Category Pills */}
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-1">
+          {categories.map(c => (
+            <button key={c.key} onClick={() => setSelectedCategory(c.key)} className={`pill flex-shrink-0 cursor-pointer ${selectedCategory === c.key ? 'pill-active' : ''}`}>{c.label}</button>
+          ))}
         </div>
 
-        {/* Templates Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTemplates.map((template) => (
-            <div
-              key={template.id}
-              className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
-            >
-              {/* Template Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900">{template.name}</h3>
-                  <p className="text-sm text-gray-600 mt-1">{template.description}</p>
-                </div>
-                <span className="px-2 py-1 text-xs font-medium bg-indigo-100 text-indigo-800 rounded">
-                  {template.category}
-                </span>
+        {/* Template Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filtered.map(template => (
+            <div key={template.id} className="bento-card flex flex-col">
+              <div className="flex items-start justify-between mb-3">
+                <div><h3 className="text-base font-semibold text-[var(--color-text)]">{template.name}</h3><p className="text-xs text-[var(--color-text-muted)] mt-0.5">{template.description}</p></div>
+                <span className={`px-2 py-0.5 text-xs font-medium rounded-lg ${typeColors[template.type]}`}>{template.type}</span>
               </div>
-
-              {/* Template Details */}
-              <div className="space-y-3 mb-4">
-                <div className="flex items-center text-sm text-gray-600">
-                  <span className="font-medium mr-2">类型:</span>
-                  <span>
-                    {template.type === 'all' ? '全部' :
-                     template.type === 'text' ? '文本' :
-                     template.type === 'image' ? '图片' : '视频'}
-                  </span>
-                </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <span className="font-medium mr-2">平台:</span>
-                  <div className="flex flex-wrap gap-1">
-                    {template.platforms.map((platform) => (
-                      <span
-                        key={platform}
-                        className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded"
-                      >
-                        {platform === 'bilibili' ? 'B站' :
-                         platform === 'douyin' ? '抖音' :
-                         platform === 'xiaohongshu' ? '小红书' :
-                         platform === 'wechat_mp' ? '公众号' : platform}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+              <div className="flex gap-1 mb-3">{template.platforms.map(p => <span key={p} className="pill text-[10px] py-0.5 px-1.5">{p}</span>)}</div>
+              <div className="flex-1 px-3 py-2 bg-[var(--color-bg)] rounded-lg mb-3">
+                <p className="text-xs text-[var(--color-text-secondary)] line-clamp-2">{template.prompt}</p>
               </div>
-
-              {/* Prompt Preview */}
-              <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-700 overflow-hidden" style={{
-                  display: '-webkit-box',
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: 'vertical'
-                }}>
-                  {template.prompt}
-                </p>
-              </div>
-
-              {/* Actions */}
-              <div className="flex space-x-2">
-                <button
-                  onClick={() => handleUseTemplate(template)}
-                  className="flex-1 bg-indigo-600 text-white px-3 py-2 rounded-lg hover:bg-indigo-700 text-sm font-medium"
-                >
-                  使用模板
-                </button>
-                <button className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm">
-                  编辑
-                </button>
+              <div className="flex gap-2">
+                <button onClick={() => { window.location.href = `/${locale}/create?template=${template.id}`; }} className="flex-1 py-2 rounded-xl bg-[var(--color-primary)] text-white text-sm font-medium hover:bg-[var(--color-primary-dark)] transition-colors cursor-pointer">{locale === 'zh' ? '使用' : 'Use'}</button>
+                <button className="py-2 px-3 rounded-xl border border-[var(--color-border)] text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-bg)] transition-colors cursor-pointer">{locale === 'zh' ? '编辑' : 'Edit'}</button>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Create Template Modal */}
+        {/* Create Modal */}
         {showCreateModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 p-6">
-              <h2 className="text-2xl font-bold mb-4">创建新模板</h2>
-
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    模板名称
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                    placeholder="例如：产品评测模板"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    描述
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                    placeholder="模板的用途说明"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    提示词模板
-                  </label>
-                  <textarea
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                    rows={4}
-                    placeholder="使用{变量名}来表示可替换的部分，例如：为{产品名称}写一篇评测..."
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      内容类型
-                    </label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-lg">
-                      <option value="all">全部</option>
-                      <option value="text">文本</option>
-                      <option value="image">图片</option>
-                      <option value="video">视频</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      分类
-                    </label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-lg">
-                      <option value="电商">电商</option>
-                      <option value="美妆">美妆</option>
-                      <option value="美食">美食</option>
-                      <option value="科技">科技</option>
-                    </select>
-                  </div>
-                </div>
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50" onClick={() => setShowCreateModal(false)}>
+            <div className="bento-card-static max-w-lg w-full mx-4" onClick={e => e.stopPropagation()}>
+              <h2 className="text-xl font-bold text-[var(--color-text)] mb-4">{locale === 'zh' ? '创建新模板' : 'New Template'}</h2>
+              <div className="space-y-3">
+                <input type="text" placeholder={locale === 'zh' ? '模板名称' : 'Template name'} className="w-full px-4 py-2.5 border border-[var(--color-border)] rounded-xl bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+                <textarea placeholder={locale === 'zh' ? '提示词模板（用 {变量} 表示可替换部分）' : 'Prompt template (use {variable} for placeholders)'} rows={4} className="w-full px-4 py-2.5 border border-[var(--color-border)] rounded-xl bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none" />
               </div>
-
-              <div className="flex justify-end space-x-3 mt-6">
-                <button
-                  onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-                >
-                  取消
-                </button>
-                <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
-                  创建模板
-                </button>
+              <div className="flex justify-end gap-2 mt-4">
+                <button onClick={() => setShowCreateModal(false)} className="px-4 py-2 rounded-xl border border-[var(--color-border)] text-sm cursor-pointer hover:bg-[var(--color-bg)] transition-colors">{locale === 'zh' ? '取消' : 'Cancel'}</button>
+                <button className="px-4 py-2 rounded-xl bg-[var(--color-primary)] text-white text-sm cursor-pointer hover:bg-[var(--color-primary-dark)] transition-colors">{locale === 'zh' ? '创建' : 'Create'}</button>
               </div>
             </div>
           </div>
         )}
-
-        {/* Help Text */}
-        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h3 className="font-semibold text-blue-900 mb-2">💡 模板使用技巧</h3>
-          <ul className="text-sm text-blue-800 space-y-1">
-            <li>• 使用 <code className="bg-blue-100 px-1 rounded">{'{'}变量名{'}'}</code> 来表示可替换的内容</li>
-            <li>• 模板可以预设目标平台，自动适配格式</li>
-            <li>• 点击"使用模板"会自动跳转到创建页面并预填充内容</li>
-            <li>• 建议为常用的内容类型创建模板，提高效率</li>
-          </ul>
-        </div>
-      </div>
+      </main>
     </div>
   );
 }

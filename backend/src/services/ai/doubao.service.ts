@@ -3,6 +3,8 @@
  * Integrates with Doubao API for text generation
  */
 
+import logger from '../../utils/logger';
+import { BaseAIService } from './base.service';
 import {
   TextGenerationRequest,
   TextGenerationResult,
@@ -21,7 +23,6 @@ const DOUBAO_MODEL = 'ep-20250401134129-qzlfj'; // Doubao model endpoint ID
 
 /**
  * Doubao API pricing (per 1K tokens)
- * Based on official Doubao pricing
  */
 const DOUBAO_PRICING = {
   input: 0.0008,  // ¥0.0008 per 1K input tokens
@@ -31,13 +32,19 @@ const DOUBAO_PRICING = {
 /**
  * Doubao AI Service Implementation
  */
-export class DoubaoService {
-  private apiKey: string;
-  private apiBase: string;
+export class DoubaoService extends BaseAIService {
+  private doubaoModel: string;
 
   constructor(apiKey: string) {
-    this.apiKey = apiKey;
-    this.apiBase = DOUBAO_API_BASE;
+    super(apiKey, DOUBAO_API_BASE, AIProvider.DOUBAO, AIModel.DOUBAO_PRO);
+    this.doubaoModel = DOUBAO_MODEL;
+  }
+
+  protected getHeaders(): Record<string, string> {
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.apiKey}`,
+    };
   }
 
   /**
@@ -47,14 +54,11 @@ export class DoubaoService {
     const { prompt, options = {} } = request;
 
     try {
-      const response = await fetch(`${this.apiBase}/chat/completions`, {
+      const response = await fetch(`${this.baseUrl}/chat/completions`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.apiKey}`
-        },
+        headers: this.getHeaders(),
         body: JSON.stringify({
-          model: DOUBAO_MODEL,
+          model: this.doubaoModel,
           messages: [
             {
               role: 'user',
@@ -80,20 +84,19 @@ export class DoubaoService {
 
       const data: any = await response.json();
 
-      // Extract generated content
       const content = data.choices[0]?.message?.content || '';
       const usage = data.usage || {};
 
-      // Calculate tokens used
       const inputTokens = usage.prompt_tokens || this.estimateTokens(prompt);
       const outputTokens = usage.completion_tokens || this.estimateTokens(content);
       const totalTokens = usage.total_tokens || inputTokens + outputTokens;
 
       // Calculate cost (convert CNY to USD)
-      const exchangeRate = 0.14; // 1 CNY ≈ 0.14 USD
-      const inputCost = (inputTokens / 1000) * DOUBAO_PRICING.input * exchangeRate;
-      const outputCost = (outputTokens / 1000) * DOUBAO_PRICING.output * exchangeRate;
-      const totalCost = inputCost + outputCost;
+      const exchangeRate = 0.14;
+      const totalCost = this.calculateCost(inputTokens, outputTokens, {
+        inputCost: DOUBAO_PRICING.input * exchangeRate / 1000,
+        outputCost: DOUBAO_PRICING.output * exchangeRate / 1000,
+      });
 
       return {
         content,
@@ -128,17 +131,15 @@ export class DoubaoService {
    */
   async estimateCost(prompt: string, options?: GenerateTextOptions): Promise<CostEstimate> {
     const inputTokens = this.estimateTokens(prompt);
-    const outputTokens = Math.ceil(inputTokens * 0.75); // Estimate output as 75% of input
+    const outputTokens = Math.ceil(inputTokens * 0.75);
 
-    // Calculate cost (convert CNY to USD)
-    const exchangeRate = 0.14; // 1 CNY ≈ 0.14 USD
+    const exchangeRate = 0.14;
     const inputCost = (inputTokens / 1000) * DOUBAO_PRICING.input * exchangeRate;
     const outputCost = (outputTokens / 1000) * DOUBAO_PRICING.output * exchangeRate;
-    const totalCost = inputCost + outputCost;
 
     return {
       estimatedTokens: inputTokens + outputTokens,
-      estimatedCost: totalCost,
+      estimatedCost: inputCost + outputCost,
       currency: 'USD',
       breakdown: {
         input: inputCost,
@@ -152,20 +153,12 @@ export class DoubaoService {
    */
   async validateApiKey(): Promise<boolean> {
     try {
-      const response = await fetch(`${this.apiBase}/chat/completions`, {
+      const response = await fetch(`${this.baseUrl}/chat/completions`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.apiKey}`
-        },
+        headers: this.getHeaders(),
         body: JSON.stringify({
-          model: DOUBAO_MODEL,
-          messages: [
-            {
-              role: 'user',
-              content: 'Hi'
-            }
-          ],
+          model: this.doubaoModel,
+          messages: [{ role: 'user', content: 'Hi' }],
           max_tokens: 5
         })
       });
@@ -178,16 +171,10 @@ export class DoubaoService {
 
   /**
    * Estimate tokens from text (rough approximation)
-   * Chinese: ~1.5 characters per token
-   * English: ~4 characters per token
    */
   private estimateTokens(text: string): number {
     const chineseChars = (text.match(/[\u4e00-\u9fa5]/g) || []).length;
     const nonChineseChars = text.length - chineseChars;
-
-    const chineseTokens = Math.ceil(chineseChars / 1.5);
-    const nonChineseTokens = Math.ceil(nonChineseChars / 4);
-
-    return chineseTokens + nonChineseTokens;
+    return Math.ceil(chineseChars / 1.5) + Math.ceil(nonChineseChars / 4);
   }
 }

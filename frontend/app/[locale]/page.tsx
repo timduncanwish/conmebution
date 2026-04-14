@@ -1,10 +1,32 @@
 /**
- * Home Page - Dashboard
- * Simplified version to debug routing issues
+ * Home Page — Bento Grid Dashboard
  */
 
 import Navigation from '../components/Navigation';
 import Link from 'next/link';
+
+const icons = {
+  create: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  ),
+  library: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 19.5A2.5 2.5 0 016.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
+    </svg>
+  ),
+  publish: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 2L11 13" /><path d="M22 2l-7 20-4-9-9-4 20-7z" />
+    </svg>
+  ),
+  analytics: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" />
+    </svg>
+  ),
+};
 
 export default async function HomePage({
   params
@@ -12,91 +34,83 @@ export default async function HomePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const messages = (await import(`../../messages/${locale}.json`)).default;
+  const t = messages.home;
 
   const quickActions = [
-    {
-      title: '创建内容',
-      description: '使用AI生成新内容',
-      href: '/create',
-      icon: '✨',
-    },
-    {
-      title: '内容库',
-      description: '查看和管理所有内容',
-      href: '/content',
-      icon: '📚',
-    },
-    {
-      title: '发布内容',
-      description: '分发到多个平台',
-      href: '/publish',
-      icon: '🚀',
-    },
-    {
-      title: '数据分析',
-      description: '查看统计数据和报告',
-      href: '/analytics',
-      icon: '📊',
-    },
+    { title: t.quickActions.createContent, desc: t.quickActions.createContentDesc, href: '/create', icon: icons.create, color: 'bg-indigo-50 text-indigo-600' },
+    { title: t.quickActions.viewLibrary, desc: t.quickActions.viewLibraryDesc, href: '/content', icon: icons.library, color: 'bg-emerald-50 text-emerald-600' },
+    { title: t.quickActions.publish, desc: t.quickActions.publishDesc, href: '/publish', icon: icons.publish, color: 'bg-amber-50 text-amber-600' },
+    { title: t.quickActions.analytics, desc: t.quickActions.analyticsDesc, href: '/analytics', icon: icons.analytics, color: 'bg-pink-50 text-pink-600' },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[var(--color-bg)]">
       <Navigation />
 
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">
-              欢迎使用Conmebution
-            </h1>
-            <p className="mt-2 text-gray-600">
-              从提示词到多平台分发的一站式AI内容自动化系统
-            </p>
-          </div>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-[var(--color-text)]">
+            {t.welcome}
+          </h1>
+          <p className="mt-1 text-[var(--color-text-secondary)]">
+            {t.subtitle}
+          </p>
+        </div>
 
-          {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {quickActions.map((action) => (
-              <Link
-                key={action.href}
-                href={`/${locale}${action.href}`}
-                className="relative group bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="text-4xl mb-4">{action.icon}</div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {action.title}
-                </h3>
-                <p className="text-sm text-gray-600">
-                  {action.description}
-                </p>
-              </Link>
-            ))}
-          </div>
+        {/* Bento Grid — Quick Actions */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          {quickActions.map((action) => (
+            <Link
+              key={action.href}
+              href={`/${locale}${action.href}`}
+              className="bento-card group cursor-pointer"
+            >
+              <div className={`w-12 h-12 rounded-xl ${action.color} flex items-center justify-center mb-4`}>
+                {action.icon}
+              </div>
+              <h3 className="text-base font-semibold text-[var(--color-text)] mb-1">
+                {action.title}
+              </h3>
+              <p className="text-sm text-[var(--color-text-muted)]">
+                {action.desc}
+              </p>
+            </Link>
+          ))}
+        </div>
 
-          {/* Recent Activity */}
-          <div className="bg-white shadow-sm rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              最近活动
-            </h2>
-            <div className="text-center py-8 text-gray-500">
-              暂无最近活动
+        {/* Main Bento — 2 columns */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+          {/* Recent Activity — spans 2 cols */}
+          <div className="lg:col-span-2 bento-card-static">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-[var(--color-text)]">
+                {t.recentActivity}
+              </h2>
+              <span className="pill text-xs">{locale === 'zh' ? '查看全部' : 'View All'}</span>
+            </div>
+            <div className="flex flex-col items-center justify-center py-10 text-[var(--color-text-muted)]">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mb-3 opacity-40">
+                <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+              </svg>
+              <p className="text-sm">{t.noRecentActivity}</p>
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="text-3xl font-bold text-indigo-600">0</div>
-              <div className="text-sm text-gray-600 mt-2">总内容数</div>
+          {/* Stats Column */}
+          <div className="flex flex-col gap-4">
+            <div className="bento-card-static flex-1">
+              <p className="text-sm text-[var(--color-text-muted)] mb-1">{t.stats.totalContent}</p>
+              <p className="text-3xl font-bold num-accent text-[var(--color-text)]">0</p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="text-3xl font-bold text-green-600">0</div>
-              <div className="text-sm text-gray-600 mt-2">已发布</div>
+            <div className="bento-card-static flex-1">
+              <p className="text-sm text-[var(--color-text-muted)] mb-1">{t.stats.published}</p>
+              <p className="text-3xl font-bold num-accent text-emerald-600">0</p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="text-3xl font-bold text-blue-600">¥0</div>
-              <div className="text-sm text-gray-600 mt-2">本月成本</div>
+            <div className="bento-card-static flex-1">
+              <p className="text-sm text-[var(--color-text-muted)] mb-1">{t.stats.costThisMonth}</p>
+              <p className="text-3xl font-bold num-accent text-[var(--color-primary)]">¥0</p>
             </div>
           </div>
         </div>

@@ -7,6 +7,7 @@ import { Router } from 'express';
 import { BatchPublisherService } from '../../services/platforms/batch-publisher.service';
 import { PlatformContent, PlatformCredentials } from '../../services/platforms/adapters/base.adapter';
 import { PlatformType } from '../../services/platforms/adapters';
+import logger from '../../utils/logger';
 
 const router = Router();
 const batchPublisher = new BatchPublisherService();
@@ -72,7 +73,7 @@ router.post('/publish', async (req, res) => {
       },
     });
   } catch (error: any) {
-    console.error('Error creating batch publish task:', error);
+    logger.error('Error creating batch publish task:', error);
     res.status(500).json({
       success: false,
       error: error.message || 'Failed to create batch publish task',
@@ -114,7 +115,7 @@ router.get('/status/:taskId', (req, res) => {
       },
     });
   } catch (error: any) {
-    console.error('Error getting task status:', error);
+    logger.error('Error getting task status:', error);
     res.status(500).json({
       success: false,
       error: error.message || 'Failed to get task status',
@@ -147,7 +148,7 @@ router.get('/active', (req, res) => {
       },
     });
   } catch (error: any) {
-    console.error('Error getting active tasks:', error);
+    logger.error('Error getting active tasks:', error);
     res.status(500).json({
       success: false,
       error: error.message || 'Failed to get active tasks',
@@ -179,7 +180,7 @@ router.post('/cancel/:taskId', (req, res) => {
       },
     });
   } catch (error: any) {
-    console.error('Error cancelling task:', error);
+    logger.error('Error cancelling task:', error);
     res.status(500).json({
       success: false,
       error: error.message || 'Failed to cancel task',
@@ -210,7 +211,7 @@ router.get('/statistics', (req, res) => {
       },
     });
   } catch (error: any) {
-    console.error('Error getting statistics:', error);
+    logger.error('Error getting statistics:', error);
     res.status(500).json({
       success: false,
       error: error.message || 'Failed to get statistics',
@@ -253,7 +254,7 @@ router.get('/history', (req, res) => {
       },
     });
   } catch (error: any) {
-    console.error('Error getting history:', error);
+    logger.error('Error getting history:', error);
     res.status(500).json({
       success: false,
       error: error.message || 'Failed to get history',
@@ -279,7 +280,7 @@ router.delete('/history', (req, res) => {
       },
     });
   } catch (error: any) {
-    console.error('Error clearing history:', error);
+    logger.error('Error clearing history:', error);
     res.status(500).json({
       success: false,
       error: error.message || 'Failed to clear history',

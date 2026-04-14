@@ -14,7 +14,7 @@ const PORT = config.port;
 
 // Middleware
 app.use(cors({
-  origin: config.corsOrigin,
+  origin: config.corsOrigin.split(',').map(s => s.trim()),
   credentials: true,
 }));
 app.use(express.json());
