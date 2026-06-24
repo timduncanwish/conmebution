@@ -17,6 +17,7 @@ import scheduleRoutes from './schedule.routes';
 import inboxRoutes from './inbox.routes';
 import analyticsRoutes from './analytics.routes';
 import publishRoutes from './publish.routes';
+import settingsRoutes from './settings.routes';
 import { optionalAuth, authenticateToken } from '../../middleware/auth.middleware';
 
 const router = Router();
@@ -53,6 +54,7 @@ router.use('/schedule', authenticateToken, scheduleRoutes);
 router.use('/inbox', authenticateToken, inboxRoutes);
 router.use('/analytics', authenticateToken, analyticsRoutes);
 router.use('/publish', authenticateToken, publishRoutes);
+router.use('/settings', authenticateToken, settingsRoutes);
 
 /**
  * Routes with optional auth — work with or without token

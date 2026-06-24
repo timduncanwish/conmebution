@@ -30,8 +30,40 @@ model User {
   ideas            Idea[]
   postingSchedules PostingSchedule[]
   engagements      Engagement[]
+  aiProviderConfigs AiProviderConfig[]
+  setting          UserSetting?
 
   @@map("users")
+}
+
+// AI provider 配置 (F11 — API 密钥按用户加密存储)
+model AiProviderConfig {
+  id        String   @id @default(cuid())
+  userId    String
+  provider  String   // glm-4, gpt-4, gemini-pro, doubao
+  apiKey    String   @map("api_key") // AES-256-GCM 加密存储,不回传明文
+  priority  Int      @default(1)
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, provider])
+  @@map("ai_provider_configs")
+}
+
+// 用户级设置 (F11 — 预算与自动选择)
+model UserSetting {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  monthlyBudget       Int      @default(500) @map("monthly_budget")
+  autoSelectCheapest  Boolean  @default(true) @map("auto_select_cheapest")
+  updatedAt           DateTime @updatedAt
+
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_settings")
 }
 
 // 互动消息 (F12 — 借鉴 Buffer Community)

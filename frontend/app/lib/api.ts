@@ -213,6 +213,36 @@ export const scheduleApi = {
   deletePost: (id: string) => apiDelete(`/api/schedule/posts/${id}`),
 };
 
+// ============ Settings API (F11 AI 配置 + 成本) ============
+
+export interface ProviderConfig {
+  provider: string;
+  hasKey: boolean;
+  keyMasked: string;
+  priority: number;
+  enabled: boolean;
+}
+
+export interface SettingsData {
+  providers: ProviderConfig[];
+  monthlyBudget: number;
+  autoSelectCheapest: boolean;
+  costThisMonth: number;
+}
+
+export const settingsApi = {
+  get: () => apiGet<{ success: boolean; data: SettingsData }>('/api/settings'),
+
+  saveProvider: (provider: string, data: { apiKey?: string; priority?: number; enabled?: boolean }) =>
+    apiPut(`/api/settings/providers/${provider}`, data),
+
+  testProvider: (provider: string) =>
+    apiPost<{ success: boolean; data: { provider: string; connected: boolean } }>(`/api/settings/providers/${provider}/test`),
+
+  save: (data: { monthlyBudget?: number; autoSelectCheapest?: boolean }) =>
+    apiPut('/api/settings', data),
+};
+
 // ============ Inbox API (F12 互动收件箱) ============
 
 export interface Engagement {
@@ -326,6 +356,7 @@ export default {
   schedule: scheduleApi,
   inbox: inboxApi,
   analytics: analyticsApi,
+  settings: settingsApi,
   upload: uploadFile,
   healthCheck,
   estimateCost,
