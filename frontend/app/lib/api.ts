@@ -278,16 +278,17 @@ export const inboxApi = {
 // ============ Analytics API (F13 可行动分析) ============
 
 export interface AnalyticsSummary {
-  overview: { contentGenerated: number; published: number; engagements: number; replied: number; replyRate: number; totalCost: number };
-  byPlatform: { platform: string; published: number; engagements: number }[];
+  overview: { contentGenerated: number; published: number; engagements: number; replied: number; replyRate: number; totalCost: number; totalViews: number; totalLikes: number; totalShares: number };
+  byPlatform: { platform: string; published: number; engagements: number; views: number; likes: number }[];
   bestTimes: { platform: string; recommendedSlots: string[]; basis: string }[];
-  topContent: { contentId: string; prompt: string; type: string; published: number; engagements: number }[];
+  topContent: { contentId: string; prompt: string; type: string; published: number; engagements: number; views: number }[];
   trend: { date: string; label: string; published: number; engagements: number }[];
   suggestion: string;
 }
 
 export const analyticsApi = {
   summary: () => apiGet<{ success: boolean; data: AnalyticsSummary }>('/api/analytics/summary'),
+  syncMetrics: () => apiPost<{ success: boolean; data: { updated: number } }>('/api/analytics/sync-metrics'),
 };
 
 // ============ Upload API ============

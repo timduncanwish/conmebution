@@ -31,6 +31,7 @@ export default function AnalyticsPage() {
 
   const [data, setData] = useState<AnalyticsSummary | null>(null);
   const [loading, setLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
   const [error, setError] = useState('');
   const [applied, setApplied] = useState<Record<string, boolean>>({});
 
@@ -48,6 +49,20 @@ export default function AnalyticsPage() {
   }, []);
 
   useEffect(() => { load(); }, [load]);
+
+  // 拉取平台数据(Mock 刷新 浏览/点赞/转发)
+  const syncMetrics = async () => {
+    setSyncing(true);
+    setError('');
+    try {
+      await analyticsApi.syncMetrics();
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   // 最佳时间一键应用到 F8 发布队列
   const applyToQueue = async (platform: string, slots: string[]) => {
@@ -70,6 +85,9 @@ export default function AnalyticsPage() {
     rows.push(`Overview,Engagements,${o.engagements}`);
     rows.push(`Overview,Replied,${o.replied}`);
     rows.push(`Overview,ReplyRate,${o.replyRate}%`);
+    rows.push(`Overview,TotalViews,${o.totalViews}`);
+    rows.push(`Overview,TotalLikes,${o.totalLikes}`);
+    rows.push(`Overview,TotalShares,${o.totalShares}`);
     rows.push(`Overview,TotalCost,${o.totalCost}`);
     data.byPlatform.forEach((p) => rows.push(`Platform,${p.platform},published=${p.published};engagements=${p.engagements}`));
     data.bestTimes.forEach((b) => rows.push(`BestTime,${b.platform},${b.recommendedSlots.join('|')}`));
@@ -83,11 +101,12 @@ export default function AnalyticsPage() {
     URL.revokeObjectURL(url);
   };
 
+  const fmt = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(1)}K` : String(n));
   const metricCards = data ? [
-    { title: zh ? '已生成' : 'Generated', value: data.overview.contentGenerated },
-    { title: zh ? '已发布' : 'Published', value: data.overview.published },
-    { title: zh ? '互动数' : 'Engagements', value: data.overview.engagements },
-    { title: zh ? '回复率' : 'Reply Rate', value: `${data.overview.replyRate}%` },
+    { title: zh ? '浏览' : 'Views', value: fmt(data.overview.totalViews) },
+    { title: zh ? '点赞' : 'Likes', value: fmt(data.overview.totalLikes) },
+    { title: zh ? '评论' : 'Comments', value: fmt(data.overview.engagements) },
+    { title: zh ? '转发' : 'Shares', value: fmt(data.overview.totalShares) },
   ] : [];
 
   const pieData = (data?.byPlatform || []).map((p, i) => ({ name: pLabel(p.platform), value: p.published, color: COLORS[i % COLORS.length] }));
@@ -103,7 +122,7 @@ export default function AnalyticsPage() {
             <p className="mt-1 text-[var(--color-text-secondary)]">{zh ? '基于真实发布与互动数据' : 'Based on real publish & engagement data'}</p>
           </div>
           <div className="flex gap-2">
-            <button onClick={load} className="px-4 py-2.5 rounded-xl border border-[var(--color-border)] text-sm font-medium text-[var(--color-text-secondary)] hover:bg-[var(--color-bg)] transition-colors cursor-pointer">{zh ? '刷新' : 'Refresh'}</button>
+            <button onClick={syncMetrics} disabled={syncing} className="px-4 py-2.5 rounded-xl border border-[var(--color-border)] text-sm font-medium text-[var(--color-text-secondary)] hover:bg-[var(--color-bg)] disabled:opacity-50 transition-colors cursor-pointer">{syncing ? (zh ? '拉取中…' : 'Fetching…') : (zh ? '拉取数据' : 'Fetch metrics')}</button>
             <button onClick={exportReport} disabled={!hasData} className="px-4 py-2.5 rounded-xl bg-[var(--color-primary)] text-white text-sm font-medium hover:bg-[var(--color-primary-dark)] disabled:bg-gray-300 transition-colors cursor-pointer">{zh ? '导出报告' : 'Export'}</button>
           </div>
         </div>
@@ -204,12 +223,13 @@ export default function AnalyticsPage() {
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead><tr className="border-b border-[var(--color-border)]">
-                    {[zh ? '内容' : 'Content', zh ? '类型' : 'Type', zh ? '发布' : 'Published', zh ? '互动' : 'Engagements'].map((h) => <th key={h} className="pb-2 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">{h}</th>)}
+                    {[zh ? '内容' : 'Content', zh ? '类型' : 'Type', zh ? '浏览' : 'Views', zh ? '发布' : 'Published', zh ? '互动' : 'Engagements'].map((h) => <th key={h} className="pb-2 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">{h}</th>)}
                   </tr></thead>
                   <tbody>{data!.topContent.map((c) => (
                     <tr key={c.contentId} className="border-b border-[var(--color-border)] last:border-0 hover:bg-[var(--color-bg)] transition-colors">
                       <td className="py-3 text-sm font-medium text-[var(--color-text)]">{c.prompt || c.contentId.slice(0, 8)}</td>
                       <td className="py-3"><span className="pill text-xs">{c.type}</span></td>
+                      <td className="py-3 text-sm num-accent text-[var(--color-text)]">{fmt(c.views)}</td>
                       <td className="py-3 text-sm num-accent text-[var(--color-text)]">{c.published}</td>
                       <td className="py-3 text-sm num-accent text-emerald-600">{c.engagements}</td>
                     </tr>

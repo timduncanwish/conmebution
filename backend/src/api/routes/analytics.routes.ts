@@ -15,6 +15,39 @@ function dayKey(d: Date): string {
 }
 
 /**
+ * 为一条分发记录生成「随时间增长」的 Mock 指标(确定性:由 id 种子 + 发布时长决定)。
+ * 真实模式应改为调用平台数据 API。
+ */
+function mockMetrics(recordId: string, publishedAt: Date | null): { views: number; likes: number; shares: number } {
+  const seed = recordId.split('').reduce((s, ch) => s + ch.charCodeAt(0), 0);
+  const hours = publishedAt ? Math.min(720, Math.max(0, (Date.now() - new Date(publishedAt).getTime()) / 3_600_000)) : 0;
+  const growth = 1 + hours; // 越久浏览越多
+  const views = Math.round((50 + (seed % 200)) * growth);
+  const likes = Math.round(views * (0.03 + (seed % 7) / 100));
+  const shares = Math.round(likes * 0.2);
+  return { views, likes, shares };
+}
+
+/**
+ * POST /api/analytics/sync-metrics
+ * 为当前用户成功发布的分发记录刷新 Mock 浏览/点赞/转发数据。
+ */
+export async function syncMetricsHandler(req: Request, res: Response): Promise<void> {
+  const userId = req.userId!;
+  const records = await prisma.distributionRecord.findMany({ where: { userId, status: 'success' } });
+  let updated = 0;
+  for (const r of records) {
+    const m = mockMetrics(r.id, r.publishedAt);
+    await prisma.distributionRecord.update({
+      where: { id: r.id },
+      data: { views: m.views, likes: m.likes, shares: m.shares, metricsSyncedAt: new Date() },
+    });
+    updated += 1;
+  }
+  res.json({ success: true, data: { updated } });
+}
+
+/**
  * GET /api/analytics/summary
  * 汇总当前用户的内容运营数据,并给出可行动建议。
  */
@@ -30,6 +63,9 @@ router.get('/summary', authenticateToken, async (req: Request, res: Response) =>
   // ---- overview ----
   const replied = engagements.filter((e) => e.status === 'replied').length;
   const totalCost = contents.reduce((s, c) => s + (c.cost ?? 0), 0);
+  const totalViews = records.reduce((s, r) => s + (r.views ?? 0), 0);
+  const totalLikes = records.reduce((s, r) => s + (r.likes ?? 0), 0);
+  const totalShares = records.reduce((s, r) => s + (r.shares ?? 0), 0);
   const overview = {
     contentGenerated: contents.length,
     published: records.length,
@@ -37,6 +73,9 @@ router.get('/summary', authenticateToken, async (req: Request, res: Response) =>
     replied,
     replyRate: engagements.length ? Math.round((replied / engagements.length) * 100) : 0,
     totalCost,
+    totalViews,
+    totalLikes,
+    totalShares,
   };
 
   // 每条分发记录的互动数
@@ -48,11 +87,13 @@ router.get('/summary', authenticateToken, async (req: Request, res: Response) =>
   }
 
   // ---- byPlatform ----
-  const platformMap = new Map<string, { platform: string; published: number; engagements: number }>();
+  const platformMap = new Map<string, { platform: string; published: number; engagements: number; views: number; likes: number }>();
   for (const r of records) {
-    const p = platformMap.get(r.platform) ?? { platform: r.platform, published: 0, engagements: 0 };
+    const p = platformMap.get(r.platform) ?? { platform: r.platform, published: 0, engagements: 0, views: 0, likes: 0 };
     p.published += 1;
     p.engagements += engByRecord.get(r.id) ?? 0;
+    p.views += r.views ?? 0;
+    p.likes += r.likes ?? 0;
     platformMap.set(r.platform, p);
   }
   const byPlatform = Array.from(platformMap.values()).sort((a, b) => b.published - a.published);
@@ -78,11 +119,13 @@ router.get('/summary', authenticateToken, async (req: Request, res: Response) =>
   // ---- topContent:按互动数排序 ----
   const engByContent = new Map<string, number>();
   const pubByContent = new Map<string, number>();
+  const viewsByContent = new Map<string, number>();
   for (const e of engagements) {
     if (e.contentId) engByContent.set(e.contentId, (engByContent.get(e.contentId) ?? 0) + 1);
   }
   for (const r of records) {
     pubByContent.set(r.contentId, (pubByContent.get(r.contentId) ?? 0) + 1);
+    viewsByContent.set(r.contentId, (viewsByContent.get(r.contentId) ?? 0) + (r.views ?? 0));
   }
   const topContent = contents
     .map((c) => ({
@@ -91,9 +134,10 @@ router.get('/summary', authenticateToken, async (req: Request, res: Response) =>
       type: c.type,
       published: pubByContent.get(c.id) ?? 0,
       engagements: engByContent.get(c.id) ?? 0,
+      views: viewsByContent.get(c.id) ?? 0,
     }))
     .filter((c) => c.published > 0 || c.engagements > 0)
-    .sort((a, b) => b.engagements - a.engagements || b.published - a.published)
+    .sort((a, b) => b.views - a.views || b.engagements - a.engagements)
     .slice(0, 5);
 
   // ---- trend:最近 7 天发布与互动 ----
@@ -124,5 +168,7 @@ router.get('/summary', authenticateToken, async (req: Request, res: Response) =>
     data: { overview, byPlatform, bestTimes, topContent, trend, suggestion },
   });
 });
+
+router.post('/sync-metrics', authenticateToken, syncMetricsHandler);
 
 export default router;

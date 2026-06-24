@@ -201,6 +201,10 @@ model DistributionRecord {
   platformUrl       String?  @map("platform_url")
   status            String   // pending, success, failed
   errorMessage      String?  @map("error_message")
+  views             Int      @default(0)
+  likes             Int      @default(0)
+  shares            Int      @default(0)
+  metricsSyncedAt   DateTime? @map("metrics_synced_at")
   publishedAt        DateTime? @map("published_at")
   createdAt         DateTime @default(now())
 
