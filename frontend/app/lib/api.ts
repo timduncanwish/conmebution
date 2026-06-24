@@ -163,6 +163,56 @@ export const ideaApi = {
   delete: (id: string) => apiDelete(`/api/ideas/${id}`),
 };
 
+// ============ Schedule / Calendar API (F8 内容日历+发布队列) ============
+
+export interface PostingSchedule {
+  id: string;
+  platform: string;
+  timeSlots: string[];
+  timezone: string;
+  enabled: boolean;
+}
+
+export interface ScheduledPost {
+  id: string;
+  contentId: string;
+  postingScheduleId: string | null;
+  platforms: string[];
+  scheduledTime: string;
+  timezone: string;
+  status: 'pending' | 'sent' | 'failed' | 'cancelled';
+  error: string | null;
+  createdAt: string;
+}
+
+export const scheduleApi = {
+  // 时间槽
+  listSlots: () => apiGet<{ success: boolean; data: PostingSchedule[] }>('/api/schedule/slots'),
+
+  setSlots: (platform: string, data: { timeSlots: string[]; timezone?: string; enabled?: boolean }) =>
+    apiPut<{ success: boolean; data: PostingSchedule }>(`/api/schedule/slots/${platform}`, data),
+
+  deleteSlots: (platform: string) => apiDelete(`/api/schedule/slots/${platform}`),
+
+  // 排期内容
+  listPosts: (params?: { from?: string; to?: string; status?: string }) => {
+    const q = new URLSearchParams();
+    if (params?.from) q.set('from', params.from);
+    if (params?.to) q.set('to', params.to);
+    if (params?.status) q.set('status', params.status);
+    const qs = q.toString();
+    return apiGet<{ success: boolean; data: ScheduledPost[] }>(`/api/schedule/posts${qs ? `?${qs}` : ''}`);
+  },
+
+  createPost: (data: { contentId: string; platforms: string[]; scheduledTime?: string; autoQueue?: boolean; timezone?: string }) =>
+    apiPost<{ success: boolean; data: ScheduledPost }>('/api/schedule/posts', data),
+
+  updatePost: (id: string, data: { scheduledTime?: string; platforms?: string[]; status?: string }) =>
+    apiPut<{ success: boolean; data: ScheduledPost }>(`/api/schedule/posts/${id}`, data),
+
+  deletePost: (id: string) => apiDelete(`/api/schedule/posts/${id}`),
+};
+
 // ============ Upload API ============
 
 export const uploadFile = async (file: File) => {
@@ -216,6 +266,7 @@ export default {
   content: contentApi,
   template: templateApi,
   idea: ideaApi,
+  schedule: scheduleApi,
   upload: uploadFile,
   healthCheck,
   estimateCost,

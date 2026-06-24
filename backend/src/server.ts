@@ -5,6 +5,7 @@ import { apiRouter } from './api/routes';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
 import { apiLimiter } from './middleware/rate-limit.middleware';
 import { setupWebSocketServer, shutdownWebSocketServer } from './services/websocket';
+import { startScheduler, stopScheduler } from './services/scheduler';
 import logger from './utils/logger';
 import config from './config';
 
@@ -51,6 +52,9 @@ const server = app.listen(PORT, () => {
 // Setup WebSocket server
 setupWebSocketServer();
 
+// Start the publish-queue scheduler (F8)
+startScheduler();
+
 // Graceful shutdown handling
 const gracefulShutdown = async (signal: string) => {
   logger.info(`Received ${signal}, starting graceful shutdown...`);
@@ -59,6 +63,9 @@ const gracefulShutdown = async (signal: string) => {
   server.close(() => {
     logger.info('HTTP server closed');
   });
+
+  // Stop scheduler
+  stopScheduler();
 
   // Close WebSocket server
   await shutdownWebSocketServer();

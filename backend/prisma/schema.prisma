@@ -28,8 +28,28 @@ model User {
   workflowTasks    WorkflowTask[]
   scheduledPosts     ScheduledPost[]
   ideas            Idea[]
+  postingSchedules PostingSchedule[]
 
   @@map("users")
+}
+
+// 发布队列时间槽 (F8 — 借鉴 Buffer Publish/Queue)
+model PostingSchedule {
+  id          String   @id @default(cuid())
+  userId      String
+  platform    String   // 每个渠道一套时间槽
+  timeSlots   String   @map("time_slots") // JSON 数组,如 ["12:00","19:00"]
+  timezone    String   @default("Asia/Shanghai")
+  enabled     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // 关系
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scheduledPosts  ScheduledPost[]
+
+  @@unique([userId, platform])
+  @@map("posting_schedules")
 }
 
 // 灵感收件箱 (F7 — 借鉴 Buffer Create/Ideas)
@@ -154,18 +174,21 @@ model WorkflowTask {
 
 // 定时发布
 model ScheduledPost {
-  id              String   @id @default(cuid())
-  userId          String
-  contentId        String   @map("content_id")
-  platforms       String   // JSON
-  scheduledTime   DateTime @map("scheduled_time")
-  timezone       String   @default("Asia/Shanghai")
-  status          String   @default("pending") // pending, sent, failed, cancelled
-  createdAt       DateTime @default(now())
+  id                String   @id @default(cuid())
+  userId            String
+  contentId          String   @map("content_id")
+  postingScheduleId String?  @map("posting_schedule_id")
+  platforms         String   // JSON
+  scheduledTime     DateTime @map("scheduled_time")
+  timezone         String   @default("Asia/Shanghai")
+  status            String   @default("pending") // pending, sent, failed, cancelled
+  error             String?
+  createdAt         DateTime @default(now())
 
   // 关系
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   content         ContentHistory @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  postingSchedule PostingSchedule? @relation(fields: [postingScheduleId], references: [id], onDelete: SetNull)
 
   @@map("scheduled_posts")
 }
