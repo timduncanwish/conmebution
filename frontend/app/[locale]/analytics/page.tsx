@@ -1,117 +1,224 @@
 /**
- * Analytics Page — Bento Metric Dashboard
+ * Analytics Page — 可行动分析 (F13, 借鉴 Buffer Analyze)
+ * 真实数据 · 最佳发布时间(反哺队列)· 内容建议 · 报告导出
  */
 
 'use client';
 
-import { useState } from 'react';
-import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useState, useEffect, useCallback } from 'react';
+import { useParams } from 'next/navigation';
+import { LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import Navigation from '../../components/Navigation';
+import { analyticsApi, scheduleApi, type AnalyticsSummary } from '../../lib/api';
 
-const COLORS = ['#6366f1', '#ec4899', '#f59e0b', '#10b981', '#8b5cf6'];
+const COLORS = ['#6366f1', '#ec4899', '#f59e0b', '#10b981', '#8b5cf6', '#0ea5e9', '#f43f5e', '#64748b'];
 
-const trendData = [
-  { name: 'Mon', views: 4500, likes: 320, comments: 45, shares: 12 },
-  { name: 'Tue', views: 5200, likes: 380, comments: 52, shares: 18 },
-  { name: 'Wed', views: 4800, likes: 350, comments: 48, shares: 15 },
-  { name: 'Thu', views: 6100, likes: 420, comments: 58, shares: 22 },
-  { name: 'Fri', views: 7500, likes: 510, comments: 72, shares: 28 },
-  { name: 'Sat', views: 8900, likes: 580, comments: 85, shares: 35 },
-  { name: 'Sun', views: 8200, likes: 540, comments: 78, shares: 31 },
-];
-
-const platformData = [
-  { name: 'Douyin', value: 45, color: '#6366f1' },
-  { name: 'Bilibili', value: 35, color: '#ec4899' },
-  { name: 'XHS', value: 20, color: '#f59e0b' },
-];
-
-const contentData = [
-  { name: 'iPhone 16', views: 8500, likes: 580, platform: 'Douyin' },
-  { name: 'Spring Skincare', views: 6200, likes: 420, platform: 'XHS' },
-  { name: 'Makeup Tutorial', views: 5800, likes: 390, platform: 'Bilibili' },
-  { name: 'Food Guide', views: 4900, likes: 310, platform: 'Douyin' },
-  { name: 'Fitness Tips', views: 4200, likes: 280, platform: 'Bilibili' },
-];
-
-const metrics = [
-  { title: 'Total Views', value: '45.2K', change: '+15.2%', positive: true, icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> },
-  { title: 'Total Likes', value: '3.1K', change: '+8.5%', positive: true, icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> },
-  { title: 'Comments', value: '438', change: '+22.1%', positive: true, icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> },
-  { title: 'Shares', value: '161', change: '+5.8%', positive: true, icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> },
-];
+const PLATFORM_LABEL: Record<string, { zh: string; en: string }> = {
+  bilibili: { zh: 'B站', en: 'Bilibili' },
+  douyin: { zh: '抖音', en: 'Douyin' },
+  xiaohongshu: { zh: '小红书', en: 'Xiaohongshu' },
+  'wechat-mp': { zh: '公众号', en: 'WeChat MP' },
+  'wechat-channel': { zh: '视频号', en: 'WeChat Ch.' },
+  youtube: { zh: 'YouTube', en: 'YouTube' },
+  twitter: { zh: 'Twitter', en: 'Twitter' },
+  medium: { zh: 'Medium', en: 'Medium' },
+};
 
 export default function AnalyticsPage() {
-  const [period, setPeriod] = useState('week');
+  const locale = useParams().locale as string;
+  const zh = locale === 'zh';
+  const pLabel = (k: string) => PLATFORM_LABEL[k] ? (zh ? PLATFORM_LABEL[k].zh : PLATFORM_LABEL[k].en) : k;
+
+  const [data, setData] = useState<AnalyticsSummary | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [applied, setApplied] = useState<Record<string, boolean>>({});
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const res = await analyticsApi.summary();
+      setData(res.data);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  // 最佳时间一键应用到 F8 发布队列
+  const applyToQueue = async (platform: string, slots: string[]) => {
+    try {
+      await scheduleApi.setSlots(platform, { timeSlots: slots });
+      setApplied((m) => ({ ...m, [platform]: true }));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    }
+  };
+
+  // 导出报告 (CSV, 客户端生成下载,无外部依赖)
+  const exportReport = () => {
+    if (!data) return;
+    const rows: string[] = [];
+    rows.push('Section,Key,Value');
+    const o = data.overview;
+    rows.push(`Overview,ContentGenerated,${o.contentGenerated}`);
+    rows.push(`Overview,Published,${o.published}`);
+    rows.push(`Overview,Engagements,${o.engagements}`);
+    rows.push(`Overview,Replied,${o.replied}`);
+    rows.push(`Overview,ReplyRate,${o.replyRate}%`);
+    rows.push(`Overview,TotalCost,${o.totalCost}`);
+    data.byPlatform.forEach((p) => rows.push(`Platform,${p.platform},published=${p.published};engagements=${p.engagements}`));
+    data.bestTimes.forEach((b) => rows.push(`BestTime,${b.platform},${b.recommendedSlots.join('|')}`));
+    data.topContent.forEach((c) => rows.push(`TopContent,"${c.prompt.replace(/"/g, "'")}",eng=${c.engagements};pub=${c.published}`));
+    const blob = new Blob(['﻿' + rows.join('\n')], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `conmebution-report-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const metricCards = data ? [
+    { title: zh ? '已生成' : 'Generated', value: data.overview.contentGenerated },
+    { title: zh ? '已发布' : 'Published', value: data.overview.published },
+    { title: zh ? '互动数' : 'Engagements', value: data.overview.engagements },
+    { title: zh ? '回复率' : 'Reply Rate', value: `${data.overview.replyRate}%` },
+  ] : [];
+
+  const pieData = (data?.byPlatform || []).map((p, i) => ({ name: pLabel(p.platform), value: p.published, color: COLORS[i % COLORS.length] }));
+  const hasData = data && (data.overview.published > 0 || data.overview.engagements > 0);
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)]">
-      <nav className="h-20" /> {/* spacer */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-12">
-        {/* Header */}
+      <Navigation />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <h1 className="text-3xl font-bold text-[var(--color-text)]">Analytics</h1>
-          <div className="flex gap-1">
-            {['today', 'week', 'month'].map(p => (
-              <button key={p} onClick={() => setPeriod(p)} className={`pill cursor-pointer ${period === p ? 'pill-active' : ''}`}>
-                {p === 'today' ? 'Today' : p === 'week' ? 'Week' : 'Month'}
-              </button>
-            ))}
+          <div>
+            <h1 className="text-3xl font-bold text-[var(--color-text)]">{zh ? '数据分析' : 'Analytics'}</h1>
+            <p className="mt-1 text-[var(--color-text-secondary)]">{zh ? '基于真实发布与互动数据' : 'Based on real publish & engagement data'}</p>
+          </div>
+          <div className="flex gap-2">
+            <button onClick={load} className="px-4 py-2.5 rounded-xl border border-[var(--color-border)] text-sm font-medium text-[var(--color-text-secondary)] hover:bg-[var(--color-bg)] transition-colors cursor-pointer">{zh ? '刷新' : 'Refresh'}</button>
+            <button onClick={exportReport} disabled={!hasData} className="px-4 py-2.5 rounded-xl bg-[var(--color-primary)] text-white text-sm font-medium hover:bg-[var(--color-primary-dark)] disabled:bg-gray-300 transition-colors cursor-pointer">{zh ? '导出报告' : 'Export'}</button>
           </div>
         </div>
 
-        {/* Metric Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-          {metrics.map(m => (
-            <div key={m.title} className="bento-card-static">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="text-[var(--color-primary)]">{m.icon}</div>
-                <span className="text-xs text-[var(--color-text-muted)]">{m.title}</span>
+        {error && <div className="px-4 py-3 mb-4 bg-red-50 border border-red-200 rounded-xl"><p className="text-sm text-red-600">{error}</p></div>}
+
+        {loading ? (
+          <div className="text-center py-16 text-[var(--color-text-muted)]">
+            <svg className="animate-spin h-6 w-6 mx-auto mb-2" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
+            <p className="text-sm">{zh ? '加载中…' : 'Loading…'}</p>
+          </div>
+        ) : !hasData ? (
+          <div className="bento-card-static flex flex-col items-center justify-center py-16 text-[var(--color-text-muted)]">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mb-3 opacity-30"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg>
+            <p className="text-sm">{zh ? '暂无数据,先发布内容并在收件箱拉取互动' : 'No data yet — publish content and fetch interactions first'}</p>
+          </div>
+        ) : (
+          <>
+            {/* Metric Cards */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+              {metricCards.map((m) => (
+                <div key={m.title} className="bento-card-static">
+                  <span className="text-xs text-[var(--color-text-muted)]">{m.title}</span>
+                  <p className="text-2xl font-bold num-accent text-[var(--color-text)] mt-1">{m.value}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Charts */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+              <div className="bento-card-static">
+                <h2 className="text-base font-semibold text-[var(--color-text)] mb-4">{zh ? '近 7 天趋势' : '7-Day Trend'}</h2>
+                <ResponsiveContainer width="100%" height={260}>
+                  <LineChart data={data!.trend}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E1F0" />
+                    <XAxis dataKey="label" tick={{ fontSize: 12 }} stroke="#A5A0D2" />
+                    <YAxis tick={{ fontSize: 12 }} stroke="#A5A0D2" allowDecimals={false} />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="published" name={zh ? '发布' : 'Published'} stroke="#6366f1" strokeWidth={2} />
+                    <Line type="monotone" dataKey="engagements" name={zh ? '互动' : 'Engagements'} stroke="#ec4899" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
-              <p className="text-2xl font-bold num-accent text-[var(--color-text)]">{m.value}</p>
-              <p className={`text-xs mt-1 ${m.positive ? 'text-emerald-600' : 'text-red-600'}`}>{m.change}</p>
+              <div className="bento-card-static">
+                <h2 className="text-base font-semibold text-[var(--color-text)] mb-4">{zh ? '平台分布' : 'Platform Distribution'}</h2>
+                {pieData.length > 0 ? (
+                  <>
+                    <ResponsiveContainer width="100%" height={220}>
+                      <PieChart><Pie data={pieData} cx="50%" cy="50%" innerRadius={55} outerRadius={80} dataKey="value">{pieData.map((e, i) => <Cell key={i} fill={e.color} />)}</Pie><Tooltip /></PieChart>
+                    </ResponsiveContainer>
+                    <div className="flex flex-wrap justify-center gap-3 mt-2">
+                      {pieData.map((p) => <span key={p.name} className="flex items-center gap-1.5 text-xs text-[var(--color-text-secondary)]"><span className="w-2.5 h-2.5 rounded-full" style={{ background: p.color }} />{p.name} ({p.value})</span>)}
+                    </div>
+                  </>
+                ) : <p className="text-sm text-[var(--color-text-muted)] py-12 text-center">{zh ? '暂无发布数据' : 'No publish data'}</p>}
+              </div>
             </div>
-          ))}
-        </div>
 
-        {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-          <div className="bento-card-static">
-            <h2 className="text-base font-semibold text-[var(--color-text)] mb-4">Trends</h2>
-            <ResponsiveContainer width="100%" height={280}>
-              <LineChart data={trendData}><CartesianGrid strokeDasharray="3 3" stroke="#E5E1F0" /><XAxis dataKey="name" tick={{ fontSize: 12 }} stroke="#A5A0D2" /><YAxis tick={{ fontSize: 12 }} stroke="#A5A0D2" /><Tooltip /><Legend /><Line type="monotone" dataKey="views" stroke="#6366f1" strokeWidth={2} dot={false} /><Line type="monotone" dataKey="likes" stroke="#ec4899" strokeWidth={2} dot={false} /></LineChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="bento-card-static">
-            <h2 className="text-base font-semibold text-[var(--color-text)] mb-4">Platform Distribution</h2>
-            <ResponsiveContainer width="100%" height={220}>
-              <PieChart><Pie data={platformData} cx="50%" cy="50%" innerRadius={60} outerRadius={80} dataKey="value">{platformData.map((e, i) => <Cell key={i} fill={e.color} />)}</Pie><Tooltip /></PieChart>
-            </ResponsiveContainer>
-            <div className="flex justify-center gap-4 mt-2">
-              {platformData.map(p => <span key={p.name} className="flex items-center gap-1.5 text-xs text-[var(--color-text-secondary)]"><span className="w-2.5 h-2.5 rounded-full" style={{ background: p.color }} />{p.name} {p.value}%</span>)}
+            {/* Best Times — actionable */}
+            <div className="bento-card-static mb-6">
+              <h2 className="text-base font-semibold text-[var(--color-text)] mb-1">{zh ? '最佳发布时间' : 'Best Time to Post'}</h2>
+              <p className="text-xs text-[var(--color-text-muted)] mb-4">{zh ? '基于历史互动推荐,可一键应用到发布队列' : 'Recommended from engagement history — apply to your queue in one click'}</p>
+              {data!.bestTimes.length === 0 ? (
+                <p className="text-sm text-[var(--color-text-muted)]">{zh ? '数据不足' : 'Not enough data'}</p>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {data!.bestTimes.map((b) => (
+                    <div key={b.platform} className="flex items-center justify-between px-3 py-2.5 bg-[var(--color-bg)] rounded-xl">
+                      <div>
+                        <p className="text-sm font-medium text-[var(--color-text)]">{pLabel(b.platform)}</p>
+                        <p className="text-xs num-accent text-[var(--color-primary)]">{b.recommendedSlots.join(' · ')}</p>
+                      </div>
+                      <button
+                        onClick={() => applyToQueue(b.platform, b.recommendedSlots)}
+                        disabled={applied[b.platform]}
+                        className="px-3 py-1.5 rounded-lg text-xs font-medium bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-dark)] disabled:bg-emerald-500 disabled:cursor-default transition-colors cursor-pointer"
+                      >
+                        {applied[b.platform] ? (zh ? '已应用' : 'Applied') : (zh ? '应用到队列' : 'Apply')}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
-        </div>
 
-        {/* Top Content */}
-        <div className="bento-card-static">
-          <h2 className="text-base font-semibold text-[var(--color-text)] mb-4">Top Content</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead><tr className="border-b border-[var(--color-border)]">
-                {['Content', 'Platform', 'Views', 'Likes', 'Rate'].map(h => <th key={h} className="pb-2 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">{h}</th>)}
-              </tr></thead>
-              <tbody>{contentData.map((item, i) => (
-                <tr key={i} className="border-b border-[var(--color-border)] last:border-0 hover:bg-[var(--color-bg)] transition-colors">
-                  <td className="py-3 text-sm font-medium text-[var(--color-text)]">{item.name}</td>
-                  <td className="py-3"><span className="pill text-xs">{item.platform}</span></td>
-                  <td className="py-3 text-sm num-accent text-[var(--color-text)]">{item.views.toLocaleString()}</td>
-                  <td className="py-3 text-sm num-accent text-[var(--color-text)]">{item.likes.toLocaleString()}</td>
-                  <td className="py-3 text-sm num-accent text-emerald-600">{((item.likes / item.views) * 100).toFixed(1)}%</td>
-                </tr>
-              ))}</tbody>
-            </table>
-          </div>
-        </div>
+            {/* Content suggestion — feeds back to Ideas */}
+            {data!.suggestion && (
+              <div className="bento-card-static mb-6 border-l-4 border-l-amber-400">
+                <h2 className="text-base font-semibold text-[var(--color-text)] mb-1">{zh ? '内容建议' : 'Content Insight'}</h2>
+                <p className="text-sm text-[var(--color-text-secondary)]">{data!.suggestion}</p>
+              </div>
+            )}
+
+            {/* Top Content */}
+            <div className="bento-card-static">
+              <h2 className="text-base font-semibold text-[var(--color-text)] mb-4">{zh ? '内容效果排行' : 'Top Content'}</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead><tr className="border-b border-[var(--color-border)]">
+                    {[zh ? '内容' : 'Content', zh ? '类型' : 'Type', zh ? '发布' : 'Published', zh ? '互动' : 'Engagements'].map((h) => <th key={h} className="pb-2 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">{h}</th>)}
+                  </tr></thead>
+                  <tbody>{data!.topContent.map((c) => (
+                    <tr key={c.contentId} className="border-b border-[var(--color-border)] last:border-0 hover:bg-[var(--color-bg)] transition-colors">
+                      <td className="py-3 text-sm font-medium text-[var(--color-text)]">{c.prompt || c.contentId.slice(0, 8)}</td>
+                      <td className="py-3"><span className="pill text-xs">{c.type}</span></td>
+                      <td className="py-3 text-sm num-accent text-[var(--color-text)]">{c.published}</td>
+                      <td className="py-3 text-sm num-accent text-emerald-600">{c.engagements}</td>
+                    </tr>
+                  ))}</tbody>
+                </table>
+              </div>
+            </div>
+          </>
+        )}
       </main>
     </div>
   );

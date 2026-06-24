@@ -245,6 +245,21 @@ export const inboxApi = {
   delete: (id: string) => apiDelete(`/api/inbox/${id}`),
 };
 
+// ============ Analytics API (F13 可行动分析) ============
+
+export interface AnalyticsSummary {
+  overview: { contentGenerated: number; published: number; engagements: number; replied: number; replyRate: number; totalCost: number };
+  byPlatform: { platform: string; published: number; engagements: number }[];
+  bestTimes: { platform: string; recommendedSlots: string[]; basis: string }[];
+  topContent: { contentId: string; prompt: string; type: string; published: number; engagements: number }[];
+  trend: { date: string; label: string; published: number; engagements: number }[];
+  suggestion: string;
+}
+
+export const analyticsApi = {
+  summary: () => apiGet<{ success: boolean; data: AnalyticsSummary }>('/api/analytics/summary'),
+};
+
 // ============ Upload API ============
 
 export const uploadFile = async (file: File) => {
@@ -300,6 +315,7 @@ export default {
   idea: ideaApi,
   schedule: scheduleApi,
   inbox: inboxApi,
+  analytics: analyticsApi,
   upload: uploadFile,
   healthCheck,
   estimateCost,
