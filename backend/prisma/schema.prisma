@@ -27,8 +27,27 @@ model User {
   platformCredentials PlatformCredential[]
   workflowTasks    WorkflowTask[]
   scheduledPosts     ScheduledPost[]
+  ideas            Idea[]
 
   @@map("users")
+}
+
+// 灵感收件箱 (F7 — 借鉴 Buffer Create/Ideas)
+model Idea {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  note        String?
+  tags        String?  // JSON 数组
+  status      String   @default("pending") // pending, generated, archived
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // 关系
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contentHistory  ContentHistory[]
+
+  @@map("ideas")
 }
 
 // 内容模板
@@ -57,6 +76,7 @@ model ContentHistory {
   id               String   @id @default(cuid())
   userId           String
   templateId        String?  @map("template_id")
+  ideaId           String?  @map("idea_id")
   prompt           String
   type             String   // text, image, video, all
   generatedContent  String   @map("generated_content") // JSON
@@ -68,6 +88,7 @@ model ContentHistory {
   // 关系
   user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   template         ContentTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  idea             Idea?    @relation(fields: [ideaId], references: [id], onDelete: SetNull)
   distributionRecords DistributionRecord[]
   scheduledPosts     ScheduledPost[]
 

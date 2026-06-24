@@ -133,6 +133,36 @@ export const templateApi = {
   delete: (id: string) => apiDelete(`/api/templates/${id}`),
 };
 
+// ============ Ideas API (F7 灵感收件箱) ============
+
+export interface Idea {
+  id: string;
+  title: string;
+  note: string | null;
+  tags: string[];
+  status: 'pending' | 'generated' | 'archived';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const ideaApi = {
+  list: (params?: { status?: string; tag?: string }) => {
+    const query = new URLSearchParams();
+    if (params?.status) query.set('status', params.status);
+    if (params?.tag) query.set('tag', params.tag);
+    const qs = query.toString();
+    return apiGet<{ success: boolean; data: Idea[] }>(`/api/ideas${qs ? `?${qs}` : ''}`);
+  },
+
+  create: (data: { title: string; note?: string; tags?: string[]; status?: string }) =>
+    apiPost<{ success: boolean; data: Idea }>('/api/ideas', data),
+
+  update: (id: string, data: { title?: string; note?: string; tags?: string[]; status?: string }) =>
+    apiPut<{ success: boolean; data: Idea }>(`/api/ideas/${id}`, data),
+
+  delete: (id: string) => apiDelete(`/api/ideas/${id}`),
+};
+
 // ============ Upload API ============
 
 export const uploadFile = async (file: File) => {
@@ -185,6 +215,7 @@ export default {
   auth: authApi,
   content: contentApi,
   template: templateApi,
+  idea: ideaApi,
   upload: uploadFile,
   healthCheck,
   estimateCost,

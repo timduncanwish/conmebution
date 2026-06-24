@@ -4,8 +4,8 @@
 
 'use client';
 
-import { useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import Navigation from '../../components/Navigation';
 import { useTranslations } from 'next-intl';
 import api from '../../lib/api';
@@ -37,7 +37,14 @@ export default function CreatePage() {
   const t = useTranslations('create');
   const locale = useParams().locale as string;
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [prompt, setPrompt] = useState('');
+
+  // 来自 Ideas 灵感收件箱的「一键转生成」:预填提示词
+  useEffect(() => {
+    const presetPrompt = searchParams.get('prompt');
+    if (presetPrompt) setPrompt(presetPrompt);
+  }, [searchParams]);
   const [contentType, setContentType] = useState<'text' | 'image' | 'video' | 'all'>('all');
   const [isGenerating, setIsGenerating] = useState(false);
   const [result, setResult] = useState<any>(null);

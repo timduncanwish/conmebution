@@ -12,6 +12,7 @@ import authRoutes from './auth.routes';
 import uploadRoutes from './upload.routes';
 import contentRoutes from './content.routes';
 import templateRoutes from './template.routes';
+import ideasRoutes from './ideas.routes';
 import { optionalAuth, authenticateToken } from '../../middleware/auth.middleware';
 
 const router = Router();
@@ -43,6 +44,7 @@ router.use('/auth', authRoutes);
 router.use('/upload', authenticateToken, uploadRoutes);
 router.use('/content', authenticateToken, contentRoutes);
 router.use('/templates', authenticateToken, templateRoutes);
+router.use('/ideas', authenticateToken, ideasRoutes);
 
 /**
  * Routes with optional auth — work with or without token
