@@ -300,13 +300,23 @@ export const generateImage = (prompt: string, options?: any) =>
 export const generateVideo = (prompt: string, options?: any) =>
   apiPost('/api/generate/video', { prompt, ...options });
 
-// ============ Platform API ============
+// ============ Platform API (F4 单平台 / F6 多平台发布) ============
 
-export const publishToPlatforms = (contentId: string, platforms: string[], credentials: any) =>
-  apiPost('/api/publish', { contentId, platforms, credentials });
+export interface PublishResult {
+  platform: string;
+  status: 'success' | 'failed';
+  url?: string;
+  error?: string;
+}
 
-export const getPublishStatus = (publishId: string) =>
-  apiGet(`/api/publish/${publishId}`);
+export const publishContent = (contentId: string, platforms: string[]) =>
+  apiPost<{ success: boolean; data: { contentId: string; succeeded: number; total: number; results: PublishResult[] } }>(
+    '/api/publish',
+    { contentId, platforms },
+  );
+
+export const getPublishHistory = (contentId?: string) =>
+  apiGet(`/api/publish/history${contentId ? `?contentId=${contentId}` : ''}`);
 
 export default {
   auth: authApi,
@@ -324,6 +334,6 @@ export default {
   getTaskStatus,
   generateImage,
   generateVideo,
-  publishToPlatforms,
-  getPublishStatus,
+  publishContent,
+  getPublishHistory,
 };
