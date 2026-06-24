@@ -213,6 +213,38 @@ export const scheduleApi = {
   deletePost: (id: string) => apiDelete(`/api/schedule/posts/${id}`),
 };
 
+// ============ Inbox API (F12 互动收件箱) ============
+
+export interface Engagement {
+  id: string;
+  platform: string;
+  type: string;
+  authorName: string;
+  content: string;
+  status: 'unread' | 'replied';
+  reply: string | null;
+  repliedAt: string | null;
+  contentId: string | null;
+  createdAt: string;
+}
+
+export const inboxApi = {
+  list: (params?: { platform?: string; status?: string }) => {
+    const q = new URLSearchParams();
+    if (params?.platform) q.set('platform', params.platform);
+    if (params?.status) q.set('status', params.status);
+    const qs = q.toString();
+    return apiGet<{ success: boolean; data: Engagement[]; meta: { unreadCount: number } }>(`/api/inbox${qs ? `?${qs}` : ''}`);
+  },
+
+  sync: () => apiPost<{ success: boolean; data: { created: number } }>('/api/inbox/sync'),
+
+  reply: (id: string, reply: string) =>
+    apiPut<{ success: boolean; data: Engagement }>(`/api/inbox/${id}/reply`, { reply }),
+
+  delete: (id: string) => apiDelete(`/api/inbox/${id}`),
+};
+
 // ============ Upload API ============
 
 export const uploadFile = async (file: File) => {
@@ -267,6 +299,7 @@ export default {
   template: templateApi,
   idea: ideaApi,
   schedule: scheduleApi,
+  inbox: inboxApi,
   upload: uploadFile,
   healthCheck,
   estimateCost,

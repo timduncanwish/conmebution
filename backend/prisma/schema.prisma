@@ -29,8 +29,33 @@ model User {
   scheduledPosts     ScheduledPost[]
   ideas            Idea[]
   postingSchedules PostingSchedule[]
+  engagements      Engagement[]
 
   @@map("users")
+}
+
+// 互动消息 (F12 — 借鉴 Buffer Community)
+model Engagement {
+  id                   String    @id @default(cuid())
+  userId               String
+  distributionRecordId String?   @map("distribution_record_id")
+  contentId            String?   @map("content_id")
+  platform             String
+  type                 String    @default("comment") // comment, dm
+  externalId           String    @map("external_id") // 平台侧消息 ID(Mock 用合成 ID)
+  authorName           String    @map("author_name")
+  content              String
+  status               String    @default("unread") // unread, replied
+  reply                String?
+  repliedAt            DateTime? @map("replied_at")
+  createdAt            DateTime  @default(now())
+
+  // 关系
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  distributionRecord DistributionRecord? @relation(fields: [distributionRecordId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, externalId])
+  @@map("engagements")
 }
 
 // 发布队列时间槽 (F8 — 借鉴 Buffer Publish/Queue)
@@ -149,6 +174,7 @@ model DistributionRecord {
 
   // 关系
   content           ContentHistory @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  engagements       Engagement[]
 
   @@map("distribution_records")
 }
