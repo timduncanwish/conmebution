@@ -29,7 +29,7 @@ export class GLMService extends BaseAIService {
       AIProvider.GLM_4,
       AIModel.GLM_4
     );
-    this.glmModel = process.env.GLM_MODEL || 'glm-4-flash';
+    this.glmModel = process.env.GLM_MODEL || 'glm-4.5-flash';
   }
 
   /**
@@ -82,7 +82,7 @@ export class GLMService extends BaseAIService {
       const result: TextGenerationResult = {
         content,
         provider: this.provider,
-        model: this.model,
+        model: this.glmModel as AIModel,
         tokensUsed: {
           input: inputTokens,
           output: outputTokens,
