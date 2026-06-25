@@ -9,7 +9,9 @@ export default function RootLayout({
   return children;
 }
 
+// Fallback for non-locale routes (redirects, API). [locale]/layout.tsx
+// overrides with locale-specific title via generateMetadata.
 export const metadata = {
-  title: "Conmebution - AI内容自动化创作与分发",
-  description: "从提示词到多平台分发的一站式AI内容自动化系统",
+  title: "Conmebution - AI Content Automation System",
+  description: "AI-powered content automation for creating and distributing to multiple platforms",
 };

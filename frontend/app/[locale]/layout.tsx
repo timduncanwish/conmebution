@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import "../globals.css";
 import PageTransition from '../components/PageTransition';
@@ -15,12 +15,20 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
-  title: "Conmebution - AI内容自动化创作与分发",
-  description: "从提示词到多平台分发的一站式AI内容自动化系统",
-};
-
 const locales = ['en', 'zh'];
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'home' });
+  return {
+    title: t('title'),
+    description: t('subtitle'),
+  };
+}
 
 export default async function LocaleLayout({
   children,

@@ -34,7 +34,9 @@
     "publish": "发布",
     "inbox": "互动",
     "analytics": "数据分析",
-    "settings": "设置"
+    "settings": "设置",
+    "login": "登录",
+    "logout": "退出"
   },
   "create": {
     "title": "创建新内容",

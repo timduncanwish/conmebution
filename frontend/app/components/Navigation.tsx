@@ -188,7 +188,7 @@ export default function Navigation() {
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-medium text-[var(--color-text-secondary)] hover:bg-red-50 hover:text-red-600 transition-colors duration-150 cursor-pointer"
                 >
                   {Icons.logout}
-                  <span className="hidden xl:inline">Logout</span>
+                  <span className="hidden xl:inline">{t('logout')}</span>
                 </button>
               ) : (
                 <Link
@@ -196,7 +196,7 @@ export default function Navigation() {
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-medium text-[var(--color-primary)] hover:bg-[var(--color-bg)] transition-colors duration-150 cursor-pointer"
                 >
                   {Icons.login}
-                  <span className="hidden xl:inline">Login</span>
+                  <span className="hidden xl:inline">{t('login')}</span>
                 </Link>
               )}
             </div>

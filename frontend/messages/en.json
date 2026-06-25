@@ -34,7 +34,9 @@
     "publish": "Publish",
     "inbox": "Inbox",
     "analytics": "Analytics",
-    "settings": "Settings"
+    "settings": "Settings",
+    "login": "Login",
+    "logout": "Logout"
   },
   "create": {
     "title": "Create New Content",
