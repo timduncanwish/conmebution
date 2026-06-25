@@ -34,6 +34,7 @@ export default function AnalyticsPage() {
   const [syncing, setSyncing] = useState(false);
   const [error, setError] = useState('');
   const [applied, setApplied] = useState<Record<string, boolean>>({});
+  const [appliedInfo, setAppliedInfo] = useState<Record<string, { before: number; after: number }>>({});
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -64,11 +65,16 @@ export default function AnalyticsPage() {
     }
   };
 
-  // 最佳时间一键应用到 F8 发布队列
+  // 最佳时间合并到 F8 发布队列(不覆盖用户已有时间)
   const applyToQueue = async (platform: string, slots: string[]) => {
     try {
-      await scheduleApi.setSlots(platform, { timeSlots: slots });
+      // 先拉现有时间槽,跟推荐时间合并去重,避免静默覆盖用户手动配置
+      const existingRes = await scheduleApi.listSlots();
+      const existing = (existingRes.data || []).find((s) => s.platform === platform);
+      const merged = Array.from(new Set([...(existing?.timeSlots || []), ...slots])).sort();
+      await scheduleApi.setSlots(platform, { timeSlots: merged });
       setApplied((m) => ({ ...m, [platform]: true }));
+      setAppliedInfo((m) => ({ ...m, [platform]: { before: existing?.timeSlots?.length || 0, after: merged.length } }));
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     }
@@ -185,7 +191,7 @@ export default function AnalyticsPage() {
             {/* Best Times — actionable */}
             <div className="bento-card-static mb-6">
               <h2 className="text-base font-semibold text-[var(--color-text)] mb-1">{zh ? '最佳发布时间' : 'Best Time to Post'}</h2>
-              <p className="text-xs text-[var(--color-text-muted)] mb-4">{zh ? '基于历史互动推荐,可一键应用到发布队列' : 'Recommended from engagement history — apply to your queue in one click'}</p>
+              <p className="text-xs text-[var(--color-text-muted)] mb-4">{zh ? '基于历史互动推荐,合并到发布队列(不覆盖你已有时间)' : 'Recommended from engagement history — merged into your queue (does not overwrite existing slots)'}</p>
               {data!.bestTimes.length === 0 ? (
                 <p className="text-sm text-[var(--color-text-muted)]">{zh ? '数据不足' : 'Not enough data'}</p>
               ) : (
@@ -200,8 +206,13 @@ export default function AnalyticsPage() {
                         onClick={() => applyToQueue(b.platform, b.recommendedSlots)}
                         disabled={applied[b.platform]}
                         className="px-3 py-1.5 rounded-lg text-xs font-medium bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-dark)] disabled:bg-emerald-500 disabled:cursor-default transition-colors cursor-pointer"
+                        title={applied[b.platform] && appliedInfo[b.platform] ? (zh ? `原有 ${appliedInfo[b.platform].before} 个,合并后 ${appliedInfo[b.platform].after} 个` : `Was ${appliedInfo[b.platform].before}, now ${appliedInfo[b.platform].after}`) : ''}
                       >
-                        {applied[b.platform] ? (zh ? '已应用' : 'Applied') : (zh ? '应用到队列' : 'Apply')}
+                        {applied[b.platform]
+                          ? (appliedInfo[b.platform]
+                              ? (zh ? `已合并(${appliedInfo[b.platform].after})` : `Merged (${appliedInfo[b.platform].after})`)
+                              : (zh ? '已应用' : 'Applied'))
+                          : (zh ? '合并到队列' : 'Merge')}
                       </button>
                     </div>
                   ))}
