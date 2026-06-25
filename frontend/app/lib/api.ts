@@ -380,6 +380,11 @@ export const generateImage = (prompt: string, options?: any) =>
 export const generateVideo = (prompt: string, options?: any) =>
   apiPost('/api/generate/video', { prompt, ...options });
 
+export const getVideoStatus = (taskId: string) =>
+  apiGet<{ success: boolean; status?: string; videoUrl?: string; thumbnailUrl?: string; error?: string }>(
+    `/api/generate/video/status/${taskId}`,
+  );
+
 // ============ Platform API (F4 单平台 / F6 多平台发布) ============
 
 export interface PublishResult {
@@ -417,6 +422,7 @@ export default {
   getTaskStatus,
   generateImage,
   generateVideo,
+  getVideoStatus,
   publishContent,
   getPublishHistory,
 };

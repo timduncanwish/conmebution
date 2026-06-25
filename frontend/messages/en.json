@@ -68,6 +68,8 @@
     "cost": "Cost",
     "optimizedPrompt": "Optimized prompt",
     "generatingVideo": "Video generating...",
+    "videoAsyncNote": "Video task submitted. Typically takes 1-3 minutes; loads automatically when ready.",
+    "videoFailed": "Video generation failed. Please try again later.",
     "taskId": "Task ID",
     "duration": "Duration",
     "seconds": "seconds",

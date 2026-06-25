@@ -54,6 +54,32 @@ export default function CreatePage() {
   const [editedContent, setEditedContent] = useState('');
   const [savedDrafts, setSavedDrafts] = useState<any[]>([]);
 
+  // 视频异步任务轮询:后端返回 processing + taskId 时,每 5s 查一次直到 success/failed
+  useEffect(() => {
+    if (result?.type !== 'video') return;
+    const data = result.data || {};
+    if (data.status !== 'processing' || !data.taskId) return;
+    let cancelled = false;
+    const interval = setInterval(async () => {
+      try {
+        const res = await api.getVideoStatus(data.taskId);
+        if (cancelled) return;
+        if (res.status === 'success' && res.videoUrl) {
+          clearInterval(interval);
+          setResult({ type: 'video', data: { status: 'success', videoUrl: res.videoUrl, thumbnailUrl: res.thumbnailUrl } });
+          try {
+            await api.content.create({ prompt, type: 'video', generatedContent: { videoUrl: res.videoUrl, thumbnailUrl: res.thumbnailUrl }, aiProvider: 'cogvideox-flash', cost: 0 });
+          } catch { /* 持久化失败不阻断预览 */ }
+        } else if (res.status === 'failed' || res.success === false) {
+          clearInterval(interval);
+          setResult({ type: 'video', data: { status: 'failed', error: res.error || t('videoFailed') } });
+        }
+      } catch { /* 瞬时网络错误忽略,下个 tick 重试 */ }
+    }, 5000);
+    return () => { cancelled = true; clearInterval(interval); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result?.type, result?.data?.taskId, result?.data?.status]);
+
   const saveDraft = (content: any) => {
     const drafts = JSON.parse(localStorage.getItem('drafts') || '[]');
     drafts.unshift({ id: Date.now(), prompt, contentType, content, timestamp: new Date().toISOString() });
@@ -89,10 +115,16 @@ export default function CreatePage() {
         } else setError(res.error?.message || t('generating'));
       } else if (contentType === 'video') {
         const res = await api.generateVideo(prompt, { duration: 15 });
-        if (res.success) {
+        if (!res.success) {
+          setError(res.error?.message || t('videoFailed'));
+        } else {
+          // 后端可能直接给最终结果(success)或异步任务(processing + taskId)
           setResult({ type: 'video', data: res.data });
-          await persist('video', res.data, 'cogvideox-flash', res.data.cost);
-        } else setError(res.error?.message || t('generating'));
+          // 只有拿到最终 videoUrl 才入库;processing 的等轮询完成再入
+          if (res.data.status === 'success' && res.data.videoUrl) {
+            await persist('video', { videoUrl: res.data.videoUrl, thumbnailUrl: res.data.thumbnailUrl }, 'cogvideox-flash', res.data.cost);
+          }
+        }
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err));
@@ -237,8 +269,22 @@ export default function CreatePage() {
                   <img key={idx} src={img.url} alt={`Generated ${idx + 1}`} className="w-full rounded-xl mb-3" />
                 ))}
                 {result.type === 'video' && (
-                  <div className="text-center py-6 text-[var(--color-text-muted)]">
-                    <p className="text-sm">{t('generatingVideo')}</p>
+                  <div>
+                    {result.data.status === 'success' && result.data.videoUrl && (
+                      <video src={result.data.videoUrl} poster={result.data.thumbnailUrl} controls className="w-full rounded-xl mb-3 bg-black" />
+                    )}
+                    {result.data.status === 'processing' && (
+                      <div className="text-center py-8 text-[var(--color-text-muted)]">
+                        <svg className="animate-spin h-8 w-8 mx-auto mb-3 opacity-60" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
+                        <p className="text-sm">{t('generatingVideo')}</p>
+                        <p className="text-xs mt-1 opacity-70">{t('videoAsyncNote')}</p>
+                      </div>
+                    )}
+                    {result.data.status === 'failed' && (
+                      <div className="px-4 py-3 bg-red-50 border border-red-200 rounded-xl">
+                        <p className="text-sm text-red-600">{result.data.error || t('videoFailed')}</p>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
