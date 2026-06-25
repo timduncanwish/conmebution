@@ -129,8 +129,9 @@ export default function CreatePage() {
     const runImage = async () => {
       const res = await api.generateImage(prompt, { n: 1 });
       if (res.success) {
-        await persist('image', { images: res.data.images }, 'cogview-3-flash', res.data.cost);
-        return { status: 'success' as const, data: res.data };
+        // /api/generate/image 直接返回顶层 {images, cost},无 data 包裹
+        await persist('image', { images: res.images }, 'cogview-3-flash', res.cost);
+        return { status: 'success' as const, data: { images: res.images } };
       }
       return { status: 'error' as const, error: res.error?.message || t('generating') };
     };
