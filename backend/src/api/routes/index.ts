@@ -18,6 +18,7 @@ import inboxRoutes from './inbox.routes';
 import analyticsRoutes from './analytics.routes';
 import publishRoutes from './publish.routes';
 import settingsRoutes from './settings.routes';
+import batchRoutes from './batch.routes';
 import { optionalAuth, authenticateToken } from '../../middleware/auth.middleware';
 
 const router = Router();
@@ -55,6 +56,7 @@ router.use('/inbox', authenticateToken, inboxRoutes);
 router.use('/analytics', authenticateToken, analyticsRoutes);
 router.use('/publish', authenticateToken, publishRoutes);
 router.use('/settings', authenticateToken, settingsRoutes);
+router.use('/batch', authenticateToken, batchRoutes);
 
 /**
  * Routes with optional auth — work with or without token

@@ -291,6 +291,30 @@ export const analyticsApi = {
   syncMetrics: () => apiPost<{ success: boolean; data: { updated: number } }>('/api/analytics/sync-metrics'),
 };
 
+// ============ Batch API (F15 批量 SKU 推广) ============
+
+export interface SkuResult {
+  product: string;
+  status: 'generated' | 'published' | 'failed';
+  contentId?: string;
+  publishedTo?: string[];
+  error?: string;
+}
+
+export const batchApi = {
+  skus: (data: {
+    products: { name: string; keywords?: string }[];
+    promptTemplate?: string;
+    provider?: string;
+    platforms?: string[];
+    autoPublish?: boolean;
+  }) =>
+    apiPost<{ success: boolean; data: { total: number; generated: number; published: number; results: SkuResult[] } }>(
+      '/api/batch/skus',
+      data,
+    ),
+};
+
 // ============ Upload API ============
 
 export const uploadFile = async (file: File) => {
@@ -358,6 +382,7 @@ export default {
   inbox: inboxApi,
   analytics: analyticsApi,
   settings: settingsApi,
+  batch: batchApi,
   upload: uploadFile,
   healthCheck,
   estimateCost,
