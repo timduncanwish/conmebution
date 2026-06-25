@@ -25,7 +25,8 @@ export class GLMService extends BaseAIService {
   constructor(apiKey: string) {
     super(
       apiKey,
-      'https://open.bigmodel.cn/api/paas/v4',
+      // 编码套餐绑定 /api/coding/paas/v4;标准额度用 /api/paas/v4。可用 GLM_BASE_URL 覆盖
+      process.env.GLM_BASE_URL || 'https://open.bigmodel.cn/api/paas/v4',
       AIProvider.GLM_4,
       AIModel.GLM_4
     );
@@ -66,7 +67,7 @@ export class GLMService extends BaseAIService {
         },
         {
           headers: this.getHeaders(),
-          timeout: 30000,
+          timeout: 60000,
         }
       );
 
