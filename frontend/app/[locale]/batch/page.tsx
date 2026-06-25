@@ -36,7 +36,7 @@ export default function BatchPage() {
 
   const [raw, setRaw] = useState('');
   const [template, setTemplate] = useState(DEFAULT_TEMPLATE);
-  const [provider, setProvider] = useState('doubao');
+  const [provider, setProvider] = useState('glm-4');
   const [autoPublish, setAutoPublish] = useState(false);
   const [selPlatforms, setSelPlatforms] = useState<string[]>([]);
   const [running, setRunning] = useState(false);

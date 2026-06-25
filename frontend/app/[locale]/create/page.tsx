@@ -70,7 +70,7 @@ export default function CreatePage() {
     setIsGenerating(true); setError(''); setResult(null);
     try {
       if (contentType === 'text' || contentType === 'all') {
-        const res = await api.generateTextSync(prompt, 'doubao');
+        const res = await api.generateTextSync(prompt, 'glm-4');
         setResult(res.success ? { type: 'text', data: res.data } : null);
         if (!res.success) setError(res.error?.message || t('generating'));
       } else if (contentType === 'image') {
@@ -90,7 +90,7 @@ export default function CreatePage() {
   const handleEstimateCost = async () => {
     if (!prompt.trim() || prompt.length < 10) return;
     try {
-      const res = await api.estimateCost(prompt, 'doubao');
+      const res = await api.estimateCost(prompt, 'glm-4');
       if (res.success) setEstimatedCost(res.data.estimatedCost);
     } catch {}
   };

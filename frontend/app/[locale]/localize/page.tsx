@@ -44,7 +44,7 @@ export default function LocalizePage() {
   const [contentId, setContentId] = useState('');
   const [text, setText] = useState('');
   const [langs, setLangs] = useState<string[]>(['en']);
-  const [provider, setProvider] = useState('doubao');
+  const [provider, setProvider] = useState('glm-4');
   const [autoPublish, setAutoPublish] = useState(false);
   const [selPlatforms, setSelPlatforms] = useState<string[]>([]);
   const [running, setRunning] = useState(false);
