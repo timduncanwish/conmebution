@@ -64,6 +64,7 @@ router.post('/', authenticateToken, async (req: Request, res: Response) => {
         cost: data.cost ?? null,
         status: data.status,
         templateId: data.templateId ?? null,
+        ideaId: data.ideaId ?? null,
       },
     });
 

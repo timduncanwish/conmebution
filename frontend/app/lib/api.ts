@@ -111,7 +111,7 @@ export const contentApi = {
 
   get: (id: string) => apiGet(`/api/content/${id}`),
 
-  create: (data: { prompt: string; type?: string; generatedContent: any; aiProvider?: string; cost?: number }) =>
+  create: (data: { prompt: string; type?: string; generatedContent: any; aiProvider?: string; cost?: number; ideaId?: string }) =>
     apiPost('/api/content', data),
 
   update: (id: string, data: { generatedContent?: any; status?: string }) =>

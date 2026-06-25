@@ -39,11 +39,14 @@ export default function CreatePage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [prompt, setPrompt] = useState('');
+  // 来自 Ideas 灵感收件箱的「一键转生成」:URL 带 ideaId 时记下,生成入库时回链
+  const [ideaId, setIdeaId] = useState<string | null>(null);
 
-  // 来自 Ideas 灵感收件箱的「一键转生成」:预填提示词
   useEffect(() => {
     const presetPrompt = searchParams.get('prompt');
     if (presetPrompt) setPrompt(presetPrompt);
+    const ideaIdParam = searchParams.get('ideaId');
+    if (ideaIdParam) setIdeaId(ideaIdParam);
   }, [searchParams]);
   const [contentType, setContentType] = useState<'text' | 'image' | 'video' | 'all'>('all');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -79,7 +82,12 @@ export default function CreatePage() {
             setResult({ ...result, data: { ...result.data, video: { status: 'success', data: finalData } } });
           }
           try {
-            await api.content.create({ prompt, type: 'video', generatedContent: { videoUrl: res.videoUrl, thumbnailUrl: res.thumbnailUrl }, aiProvider: 'cogvideox-flash', cost: 0 });
+            await api.content.create({
+              prompt, type: 'video',
+              generatedContent: { videoUrl: res.videoUrl, thumbnailUrl: res.thumbnailUrl },
+              aiProvider: 'cogvideox-flash', cost: 0,
+              ...(ideaId ? { ideaId } : {}),
+            });
           } catch { /* 持久化失败不阻断预览 */ }
         } else if (res.status === 'failed' || res.success === false) {
           clearInterval(interval);
@@ -111,9 +119,15 @@ export default function CreatePage() {
     if (!prompt.trim() || prompt.length < 10) { setError(t('minPromptError')); return; }
     setIsGenerating(true); setError(''); setResult(null);
     // 生成成功后持久化到内容库,使其可在内容库/发布/排期/本地化中使用
+    // 带 ideaId 时回链到灵感(闭环)
     const persist = async (type: string, generatedContent: unknown, aiProvider?: string, cost?: number) => {
       try {
-        await api.content.create({ prompt, type, generatedContent, aiProvider: aiProvider || 'glm-4', cost: cost ? Math.round(cost) : 0 });
+        await api.content.create({
+          prompt, type, generatedContent,
+          aiProvider: aiProvider || 'glm-4',
+          cost: cost ? Math.round(cost) : 0,
+          ...(ideaId ? { ideaId } : {}),
+        });
       } catch { /* 持久化失败不阻断预览 */ }
     };
 

@@ -11,6 +11,7 @@ export const createContentSchema = z.object({
   aiProvider: z.string().max(50).default('unknown'),
   cost: z.number().int().min(0).optional(),
   templateId: z.string().optional(),
+  ideaId: z.string().optional(),
   status: z.enum(['draft', 'generated', 'published']).default('draft'),
 });
 
