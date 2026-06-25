@@ -4,9 +4,46 @@
  */
 
 import { Router, Request, Response } from 'express';
+import axios from 'axios';
 import { ZhipuImageGenerator, ZhipuVideoGenerator } from '../../services/ai/zhipu-media.service';
+import { saveFile, getFileUrl } from '../../services/storage';
 import config from '../../config';
 import logger from '../../utils/logger';
+
+/**
+ * 把外部媒体 URL 下载到本地存储,返回 /uploads/... 本地 URL。
+ * 用于 AI 生成结果(Zhipu 签名 URL 几小时就过期,内容库/发布页会 404)。
+ * 下载失败时回退原 URL,不阻断生成。
+ */
+async function localizeMedia(
+  externalUrl: string,
+  userId: string | undefined,
+  kind: 'image' | 'video',
+): Promise<string> {
+  try {
+    const resp = await axios.get(externalUrl, {
+      responseType: 'arraybuffer',
+      timeout: kind === 'video' ? 120000 : 30000,
+      maxContentLength: 200 * 1024 * 1024,
+    });
+    const buffer = Buffer.from(resp.data);
+    const mimeType = (resp.headers['content-type'] || '').split(';')[0].trim();
+    const ext = mimeType.includes('png') ? '.png'
+      : mimeType.includes('webp') ? '.webp'
+      : mimeType.includes('mp4') ? '.mp4'
+      : mimeType.includes('webm') ? '.webm'
+      : kind === 'image' ? '.jpg' : '.mp4';
+    const filename = `ai-${kind}-${Date.now()}${ext}`;
+    const owner = userId || 'ai-generated';
+    const relativePath = saveFile(owner, buffer, filename, mimeType);
+    return getFileUrl(relativePath);
+  } catch (error: any) {
+    logger.error('Failed to localize AI media, falling back to external URL', {
+      kind, error: error.message, url: externalUrl.slice(0, 80),
+    });
+    return externalUrl;
+  }
+}
 
 const router = Router();
 
@@ -55,9 +92,17 @@ router.post('/image', async (req: Request, res: Response) => {
       n,
     });
 
-    if (result.success) {
+    if (result.success && result.images?.length) {
+      // Zhipu 返回的签名 URL 几小时就过期,内容库/发布页里的图会变 404。
+      // 下载到本地 /uploads/ 持久化。
+      result.images = await Promise.all(
+        result.images.map(async (img) => ({
+          ...img,
+          url: await localizeMedia(img.url, req.userId, 'image'),
+        })),
+      );
       logger.info('Image generation completed', {
-        count: result.images?.length,
+        count: result.images.length,
         cost: result.cost,
       });
     }
@@ -120,6 +165,11 @@ router.post('/video', async (req: Request, res: Response) => {
     const videoGenerator = new ZhipuVideoGenerator(config.ai.glm.apiKey);
     const result = await videoGenerator.generateVideoBlocking({ prompt, duration, resolution, style, ratio });
 
+    // 同步路径下成功完成 → 下载到本地,避免签名 URL 过期
+    if (result.success && result.status === 'success' && result.videoUrl) {
+      result.videoUrl = await localizeMedia(result.videoUrl, req.userId, 'video');
+    }
+
     logger.info('Video generation result', { status: result.status, taskId: result.taskId, videoUrl: result.videoUrl });
 
     // processing/success 都算成功受理;前端可用 taskId 继续轮询 /video/status/:taskId
@@ -150,6 +200,12 @@ router.get('/video/status/:taskId', async (req: Request, res: Response) => {
     }
     const videoGenerator = new ZhipuVideoGenerator(config.ai.glm.apiKey);
     const result = await videoGenerator.poll(String(req.params.taskId));
+
+    // 轮询拿到最终结果时也下载到本地
+    if (result.success && result.status === 'success' && result.videoUrl) {
+      result.videoUrl = await localizeMedia(result.videoUrl, req.userId, 'video');
+    }
+
     res.json(result);
   } catch (error: any) {
     res.status(500).json({ success: false, error: { type: 'GENERATION_ERROR', message: error.message || 'Failed to poll video status' } });

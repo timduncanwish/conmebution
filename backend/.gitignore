@@ -3,3 +3,9 @@ node_modules
 .env
 
 /src/generated/prisma
+
+# Runtime user uploads (AI-generated media, user-uploaded files)
+/uploads
+/logs/*.log
+*.db
+*.db-journal
