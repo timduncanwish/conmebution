@@ -315,6 +315,31 @@ export const batchApi = {
     ),
 };
 
+// ============ Localize API (F16 跨语言本地化) ============
+
+export interface LangResult {
+  lang: string;
+  status: 'translated' | 'published' | 'failed';
+  contentId?: string;
+  publishedTo?: string[];
+  error?: string;
+}
+
+export const localizeApi = {
+  run: (data: {
+    contentId?: string;
+    text?: string;
+    targetLangs: string[];
+    provider?: string;
+    platforms?: string[];
+    autoPublish?: boolean;
+  }) =>
+    apiPost<{ success: boolean; data: { sourceContentId: string | null; translated: number; published: number; results: LangResult[] } }>(
+      '/api/localize',
+      data,
+    ),
+};
+
 // ============ Upload API ============
 
 export const uploadFile = async (file: File) => {
@@ -383,6 +408,7 @@ export default {
   analytics: analyticsApi,
   settings: settingsApi,
   batch: batchApi,
+  localize: localizeApi,
   upload: uploadFile,
   healthCheck,
   estimateCost,
