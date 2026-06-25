@@ -20,6 +20,7 @@ const PLATFORMS = [
 ];
 
 const PROVIDERS = ['glm-4', 'gpt-4', 'gemini-pro', 'doubao'];
+const PROVIDER_LABEL: Record<string, string> = { 'glm-4': 'GLM-5.2', 'gpt-4': 'GPT-4', 'gemini-pro': 'Gemini Pro', doubao: '豆包' };
 const DEFAULT_TEMPLATE = '为「{product}」写一段适合社交媒体的推广文案,卖点:{keywords}';
 
 const statusColor: Record<string, string> = {
@@ -116,7 +117,7 @@ export default function BatchPage() {
             <div className="bento-card-static">
               <label className="block text-sm font-medium text-[var(--color-text)] mb-2">{zh ? 'AI 服务' : 'AI provider'}</label>
               <select value={provider} onChange={(e) => setProvider(e.target.value)} className="w-full px-4 py-2.5 border border-[var(--color-border)] rounded-xl bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]">
-                {PROVIDERS.map((p) => <option key={p} value={p}>{p}</option>)}
+                {PROVIDERS.map((p) => <option key={p} value={p}>{PROVIDER_LABEL[p] || p}</option>)}
               </select>
             </div>
 

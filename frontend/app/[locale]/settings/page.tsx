@@ -12,7 +12,7 @@ import Navigation from '../../components/Navigation';
 import { settingsApi, type ProviderConfig } from '../../lib/api';
 
 const PROVIDER_NAMES: Record<string, string> = {
-  'glm-4': 'GLM-4.7 (智谱AI)',
+  'glm-4': 'GLM-5.2 (智谱AI · 编码套餐)',
   'gpt-4': 'OpenAI GPT-4',
   'gemini-pro': 'Google Gemini Pro',
   doubao: '豆包 Doubao (字节)',

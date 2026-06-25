@@ -25,6 +25,7 @@ const INTL_PLATFORMS = [
 ];
 
 const PROVIDERS = ['glm-4', 'gpt-4', 'gemini-pro', 'doubao'];
+const PROVIDER_LABEL: Record<string, string> = { 'glm-4': 'GLM-5.2', 'gpt-4': 'GPT-4', 'gemini-pro': 'Gemini Pro', doubao: '豆包' };
 
 interface ContentItem { id: string; prompt: string; type: string; }
 
@@ -136,7 +137,7 @@ export default function LocalizePage() {
           <div className="bento-card-static">
             <label className="block text-sm font-medium text-[var(--color-text)] mb-2">{zh ? 'AI 服务' : 'AI provider'}</label>
             <select value={provider} onChange={(e) => setProvider(e.target.value)} className="w-full px-4 py-2.5 mb-4 border border-[var(--color-border)] rounded-xl bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]">
-              {PROVIDERS.map((p) => <option key={p} value={p}>{p}</option>)}
+              {PROVIDERS.map((p) => <option key={p} value={p}>{PROVIDER_LABEL[p] || p}</option>)}
             </select>
             <label className="flex items-center gap-2 cursor-pointer mb-3">
               <input type="checkbox" checked={autoPublish} onChange={(e) => setAutoPublish(e.target.checked)} className="w-4 h-4 rounded accent-[var(--color-primary)]" />
