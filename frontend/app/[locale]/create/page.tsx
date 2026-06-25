@@ -68,19 +68,31 @@ export default function CreatePage() {
   const handleGenerate = async () => {
     if (!prompt.trim() || prompt.length < 10) { setError(t('minPromptError')); return; }
     setIsGenerating(true); setError(''); setResult(null);
+    // 生成成功后持久化到内容库,使其可在内容库/发布/排期/本地化中使用
+    const persist = async (type: string, generatedContent: unknown, aiProvider?: string, cost?: number) => {
+      try {
+        await api.content.create({ prompt, type, generatedContent, aiProvider: aiProvider || 'glm-4', cost: cost ? Math.round(cost) : 0 });
+      } catch { /* 持久化失败不阻断预览 */ }
+    };
     try {
       if (contentType === 'text' || contentType === 'all') {
         const res = await api.generateTextSync(prompt, 'glm-4');
-        setResult(res.success ? { type: 'text', data: res.data } : null);
-        if (!res.success) setError(res.error?.message || t('generating'));
+        if (res.success) {
+          setResult({ type: 'text', data: res.data });
+          await persist('text', { content: res.data.content }, res.data.provider, res.data.cost);
+        } else setError(res.error?.message || t('generating'));
       } else if (contentType === 'image') {
         const res = await api.generateImage(prompt, { n: 1 });
-        setResult(res.success ? { type: 'image', data: res.data } : null);
-        if (!res.success) setError(res.error?.message || t('generating'));
+        if (res.success) {
+          setResult({ type: 'image', data: res.data });
+          await persist('image', { images: res.data.images }, 'cogview-3-flash', res.data.cost);
+        } else setError(res.error?.message || t('generating'));
       } else if (contentType === 'video') {
         const res = await api.generateVideo(prompt, { duration: 15 });
-        setResult(res.success ? { type: 'video', data: res.data } : null);
-        if (!res.success) setError(res.error?.message || t('generating'));
+        if (res.success) {
+          setResult({ type: 'video', data: res.data });
+          await persist('video', res.data, 'cogvideox-flash', res.data.cost);
+        } else setError(res.error?.message || t('generating'));
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err));
