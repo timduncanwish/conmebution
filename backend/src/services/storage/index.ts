@@ -132,8 +132,11 @@ export function deleteFile(relativePath: string): boolean {
 }
 
 /**
- * Get file URL for serving
+ * Get file URL for serving.
+ * 返回绝对 URL — 前端(:3000)与后端(:4000)不同源,相对 /uploads 会请求到前端导致 404。
+ * 生产环境用 PUBLIC_BASE_URL 指向后端公网地址。
  */
 export function getFileUrl(relativePath: string): string {
-  return `/uploads/${relativePath}`;
+  const base = (process.env.PUBLIC_BASE_URL || `http://localhost:${process.env.PORT || 4000}`).replace(/\/$/, '');
+  return `${base}/uploads/${relativePath}`;
 }
