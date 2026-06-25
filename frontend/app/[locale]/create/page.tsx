@@ -137,11 +137,12 @@ export default function CreatePage() {
     const runVideo = async () => {
       const res = await api.generateVideo(prompt, { duration: 15 });
       if (!res.success) return { status: 'error' as const, error: res.error?.message || t('videoFailed') };
-      // 后端可能直接给最终结果(success)或异步任务(processing + taskId)
-      if (res.data.status === 'success' && res.data.videoUrl) {
-        await persist('video', { videoUrl: res.data.videoUrl, thumbnailUrl: res.data.thumbnailUrl }, 'cogvideox-flash', res.data.cost);
+      // /api/generate/video 直接返回顶层 {status, videoUrl, taskId},无 data 包裹
+      const vid = { status: res.status, videoUrl: res.videoUrl, thumbnailUrl: res.thumbnailUrl, taskId: res.taskId };
+      if (vid.status === 'success' && vid.videoUrl) {
+        await persist('video', { videoUrl: vid.videoUrl, thumbnailUrl: vid.thumbnailUrl }, 'cogvideox-flash', 0);
       }
-      return { status: 'success' as const, data: res.data };
+      return { status: 'success' as const, data: vid };
     };
 
     try {
