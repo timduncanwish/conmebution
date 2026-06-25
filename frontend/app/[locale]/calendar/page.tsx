@@ -363,10 +363,17 @@ function QueueModal({ zh, slots, onClose, onDone, platformLabel }: { zh: boolean
   };
 
   const save = async () => {
+    // 用户在输入框里填了时间但没点「添加」时,保存也应纳入,避免静默丢失
+    const pending = /^([01]\d|2[0-3]):([0-5]\d)$/.test(newTime) && !times.includes(newTime) ? [newTime] : [];
+    const finalTimes = Array.from(new Set([...times, ...pending])).sort();
+    if (finalTimes.length === 0) {
+      setErr(zh ? '请先添加至少一个时间槽' : 'Add at least one time slot');
+      return;
+    }
     setSaving(true);
     setErr('');
     try {
-      await scheduleApi.setSlots(platform, { timeSlots: times });
+      await scheduleApi.setSlots(platform, { timeSlots: finalTimes });
       onDone();
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e));
