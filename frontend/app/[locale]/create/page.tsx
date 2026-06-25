@@ -54,31 +54,47 @@ export default function CreatePage() {
   const [editedContent, setEditedContent] = useState('');
   const [savedDrafts, setSavedDrafts] = useState<any[]>([]);
 
-  // 视频异步任务轮询:后端返回 processing + taskId 时,每 5s 查一次直到 success/failed
+  // 视频异步任务轮询:单一 video 或 all 内嵌的 video,processing 时每 5s 查一次
   useEffect(() => {
-    if (result?.type !== 'video') return;
-    const data = result.data || {};
-    if (data.status !== 'processing' || !data.taskId) return;
+    if (!result) return;
+    // 找出当前需要轮询的视频数据 + 它在 result 里的位置
+    let videoData: any = null;
+    let mode: 'single' | 'all' | null = null;
+    if (result.type === 'video') { videoData = result.data; mode = 'single'; }
+    else if (result.type === 'all' && result.data?.video?.status === 'success') { videoData = result.data.video.data; mode = 'all'; }
+    if (!mode || !videoData || videoData.status !== 'processing' || !videoData.taskId) return;
+
+    const taskId = videoData.taskId;
     let cancelled = false;
     const interval = setInterval(async () => {
       try {
-        const res = await api.getVideoStatus(data.taskId);
+        const res = await api.getVideoStatus(taskId);
         if (cancelled) return;
         if (res.status === 'success' && res.videoUrl) {
           clearInterval(interval);
-          setResult({ type: 'video', data: { status: 'success', videoUrl: res.videoUrl, thumbnailUrl: res.thumbnailUrl } });
+          const finalData = { status: 'success', videoUrl: res.videoUrl, thumbnailUrl: res.thumbnailUrl };
+          if (mode === 'single') {
+            setResult({ type: 'video', data: finalData });
+          } else {
+            setResult({ ...result, data: { ...result.data, video: { status: 'success', data: finalData } } });
+          }
           try {
             await api.content.create({ prompt, type: 'video', generatedContent: { videoUrl: res.videoUrl, thumbnailUrl: res.thumbnailUrl }, aiProvider: 'cogvideox-flash', cost: 0 });
           } catch { /* 持久化失败不阻断预览 */ }
         } else if (res.status === 'failed' || res.success === false) {
           clearInterval(interval);
-          setResult({ type: 'video', data: { status: 'failed', error: res.error || t('videoFailed') } });
+          const errData = { status: 'failed', error: res.error || t('videoFailed') };
+          if (mode === 'single') {
+            setResult({ type: 'video', data: errData });
+          } else {
+            setResult({ ...result, data: { ...result.data, video: { status: 'success', data: errData } } });
+          }
         }
       } catch { /* 瞬时网络错误忽略,下个 tick 重试 */ }
     }, 5000);
     return () => { cancelled = true; clearInterval(interval); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [result?.type, result?.data?.taskId, result?.data?.status]);
+  }, [result?.type, result?.data?.video?.status, result?.data?.taskId, result?.data?.status]);
 
   const saveDraft = (content: any) => {
     const drafts = JSON.parse(localStorage.getItem('drafts') || '[]');
@@ -100,31 +116,58 @@ export default function CreatePage() {
         await api.content.create({ prompt, type, generatedContent, aiProvider: aiProvider || 'glm-4', cost: cost ? Math.round(cost) : 0 });
       } catch { /* 持久化失败不阻断预览 */ }
     };
+
+    // 各类型独立运行,便于 'all' 并行
+    const runText = async () => {
+      const res = await api.generateTextSync(prompt, 'glm-4');
+      if (res.success) {
+        await persist('text', { content: res.data.content }, res.data.provider, res.data.cost);
+        return { status: 'success' as const, data: res.data };
+      }
+      return { status: 'error' as const, error: res.error?.message || t('generating') };
+    };
+    const runImage = async () => {
+      const res = await api.generateImage(prompt, { n: 1 });
+      if (res.success) {
+        await persist('image', { images: res.data.images }, 'cogview-3-flash', res.data.cost);
+        return { status: 'success' as const, data: res.data };
+      }
+      return { status: 'error' as const, error: res.error?.message || t('generating') };
+    };
+    const runVideo = async () => {
+      const res = await api.generateVideo(prompt, { duration: 15 });
+      if (!res.success) return { status: 'error' as const, error: res.error?.message || t('videoFailed') };
+      // 后端可能直接给最终结果(success)或异步任务(processing + taskId)
+      if (res.data.status === 'success' && res.data.videoUrl) {
+        await persist('video', { videoUrl: res.data.videoUrl, thumbnailUrl: res.data.thumbnailUrl }, 'cogvideox-flash', res.data.cost);
+      }
+      return { status: 'success' as const, data: res.data };
+    };
+
     try {
-      if (contentType === 'text' || contentType === 'all') {
-        const res = await api.generateTextSync(prompt, 'glm-4');
-        if (res.success) {
-          setResult({ type: 'text', data: res.data });
-          await persist('text', { content: res.data.content }, res.data.provider, res.data.cost);
-        } else setError(res.error?.message || t('generating'));
+      if (contentType === 'text') {
+        const r = await runText();
+        if (r.status === 'success') setResult({ type: 'text', data: r.data });
+        else setError(r.error);
       } else if (contentType === 'image') {
-        const res = await api.generateImage(prompt, { n: 1 });
-        if (res.success) {
-          setResult({ type: 'image', data: res.data });
-          await persist('image', { images: res.data.images }, 'cogview-3-flash', res.data.cost);
-        } else setError(res.error?.message || t('generating'));
+        const r = await runImage();
+        if (r.status === 'success') setResult({ type: 'image', data: r.data });
+        else setError(r.error);
       } else if (contentType === 'video') {
-        const res = await api.generateVideo(prompt, { duration: 15 });
-        if (!res.success) {
-          setError(res.error?.message || t('videoFailed'));
-        } else {
-          // 后端可能直接给最终结果(success)或异步任务(processing + taskId)
-          setResult({ type: 'video', data: res.data });
-          // 只有拿到最终 videoUrl 才入库;processing 的等轮询完成再入
-          if (res.data.status === 'success' && res.data.videoUrl) {
-            await persist('video', { videoUrl: res.data.videoUrl, thumbnailUrl: res.data.thumbnailUrl }, 'cogvideox-flash', res.data.cost);
-          }
-        }
+        const r = await runVideo();
+        if (r.status === 'success') setResult({ type: 'video', data: r.data });
+        else setError(r.error);
+      } else if (contentType === 'all') {
+        // 并行跑三种,失败的分支不影响其它;每个独立入库
+        const [text, image, video] = await Promise.allSettled([runText(), runImage(), runVideo()]);
+        setResult({
+          type: 'all',
+          data: {
+            text: text.status === 'fulfilled' ? text.value : { status: 'error', error: String(text.reason?.message || text.reason) },
+            image: image.status === 'fulfilled' ? image.value : { status: 'error', error: String(image.reason?.message || image.reason) },
+            video: video.status === 'fulfilled' ? video.value : { status: 'error', error: String(video.reason?.message || video.reason) },
+          },
+        });
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err));
@@ -285,6 +328,58 @@ export default function CreatePage() {
                         <p className="text-sm text-red-600">{result.data.error || t('videoFailed')}</p>
                       </div>
                     )}
+                  </div>
+                )}
+                {result.type === 'all' && (
+                  <div className="space-y-4">
+                    {/* 文案 */}
+                    <section>
+                      <h3 className="text-xs uppercase tracking-wide text-[var(--color-text-muted)] mb-2">{t('types.text')}</h3>
+                      {result.data.text?.status === 'success' ? (
+                        <>
+                          <div className="px-4 py-3 bg-[var(--color-bg)] rounded-xl">
+                            <p className="text-sm text-[var(--color-text)] whitespace-pre-wrap leading-relaxed">{result.data.text.data.content}</p>
+                          </div>
+                          <p className="text-xs text-[var(--color-text-muted)] mt-1">{result.data.text.data.provider} · ${result.data.text.data.cost.toFixed(4)}</p>
+                        </>
+                      ) : (
+                        <div className="px-3 py-2 bg-red-50 border border-red-200 rounded-lg"><p className="text-xs text-red-600">{result.data.text?.error}</p></div>
+                      )}
+                    </section>
+                    {/* 图片 */}
+                    <section>
+                      <h3 className="text-xs uppercase tracking-wide text-[var(--color-text-muted)] mb-2">{t('types.image')}</h3>
+                      {result.data.image?.status === 'success' && result.data.image.data.images?.length ? (
+                        result.data.image.data.images.map((img: any, idx: number) => (
+                          <img key={idx} src={img.url} alt={`Generated ${idx + 1}`} className="w-full rounded-xl" />
+                        ))
+                      ) : (
+                        <div className="px-3 py-2 bg-red-50 border border-red-200 rounded-lg"><p className="text-xs text-red-600">{result.data.image?.error}</p></div>
+                      )}
+                    </section>
+                    {/* 视频 */}
+                    <section>
+                      <h3 className="text-xs uppercase tracking-wide text-[var(--color-text-muted)] mb-2">{t('types.video')}</h3>
+                      {result.data.video?.status === 'success' ? (
+                        <>
+                          {result.data.video.data.status === 'success' && result.data.video.data.videoUrl && (
+                            <video src={result.data.video.data.videoUrl} poster={result.data.video.data.thumbnailUrl} controls className="w-full rounded-xl bg-black" />
+                          )}
+                          {result.data.video.data.status === 'processing' && (
+                            <div className="text-center py-6 text-[var(--color-text-muted)]">
+                              <svg className="animate-spin h-6 w-6 mx-auto mb-2 opacity-60" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
+                              <p className="text-xs">{t('generatingVideo')}</p>
+                              <p className="text-xs mt-1 opacity-70">{t('videoAsyncNote')}</p>
+                            </div>
+                          )}
+                          {result.data.video.data.status === 'failed' && (
+                            <div className="px-3 py-2 bg-red-50 border border-red-200 rounded-lg"><p className="text-xs text-red-600">{result.data.video.data.error || t('videoFailed')}</p></div>
+                          )}
+                        </>
+                      ) : (
+                        <div className="px-3 py-2 bg-red-50 border border-red-200 rounded-lg"><p className="text-xs text-red-600">{result.data.video?.error}</p></div>
+                      )}
+                    </section>
                   </div>
                 )}
               </div>
