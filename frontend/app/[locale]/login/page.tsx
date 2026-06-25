@@ -26,7 +26,7 @@ export default function LoginPage() {
     try {
       const result = isLogin
         ? await authApi.login(email, password)
-        : await authApi.register(email, password, name);
+        : await authApi.register(email, password, name.trim() || undefined);
       if (result.success && result.data.token) {
         setToken(result.data.token);
         router.push(`/${locale}`);
@@ -84,7 +84,7 @@ export default function LoginPage() {
             </div>
             <div>
               <label className="text-xs font-medium text-[var(--color-text-secondary)] mb-1 block">Password</label>
-              <input type="password" value={password} onChange={e => setPassword(e.target.value)} required minLength={6} className="w-full px-4 py-2.5 border border-[var(--color-border)] rounded-xl bg-[var(--color-bg)] text-[var(--color-text)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" placeholder={locale === 'zh' ? '至少6位' : 'At least 6 characters'} />
+              <input type="password" value={password} onChange={e => setPassword(e.target.value)} required minLength={8} className="w-full px-4 py-2.5 border border-[var(--color-border)] rounded-xl bg-[var(--color-bg)] text-[var(--color-text)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" placeholder={locale === 'zh' ? '至少8位,含字母和数字' : '8+ chars, letters & numbers'} />
             </div>
             <button type="submit" disabled={loading} className="w-full py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-medium hover:bg-[var(--color-primary-dark)] disabled:bg-gray-300 transition-colors cursor-pointer">
               {loading ? (locale === 'zh' ? '请稍候...' : 'Please wait...') : isLogin ? (locale === 'zh' ? '登录' : 'Login') : (locale === 'zh' ? '注册' : 'Register')}
