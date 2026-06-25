@@ -3,6 +3,7 @@
  */
 
 import Navigation from '../components/Navigation';
+import DashboardStats from '../components/DashboardStats';
 import Link from 'next/link';
 
 const icons = {
@@ -80,40 +81,18 @@ export default async function HomePage({
           ))}
         </div>
 
-        {/* Main Bento — 2 columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-          {/* Recent Activity — spans 2 cols */}
-          <div className="lg:col-span-2 bento-card-static">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-[var(--color-text)]">
-                {t.recentActivity}
-              </h2>
-              <span className="pill text-xs">{locale === 'zh' ? '查看全部' : 'View All'}</span>
-            </div>
-            <div className="flex flex-col items-center justify-center py-10 text-[var(--color-text-muted)]">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mb-3 opacity-40">
-                <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
-              </svg>
-              <p className="text-sm">{t.noRecentActivity}</p>
-            </div>
-          </div>
-
-          {/* Stats Column */}
-          <div className="flex flex-col gap-4">
-            <div className="bento-card-static flex-1">
-              <p className="text-sm text-[var(--color-text-muted)] mb-1">{t.stats.totalContent}</p>
-              <p className="text-3xl font-bold num-accent text-[var(--color-text)]">0</p>
-            </div>
-            <div className="bento-card-static flex-1">
-              <p className="text-sm text-[var(--color-text-muted)] mb-1">{t.stats.published}</p>
-              <p className="text-3xl font-bold num-accent text-emerald-600">0</p>
-            </div>
-            <div className="bento-card-static flex-1">
-              <p className="text-sm text-[var(--color-text-muted)] mb-1">{t.stats.costThisMonth}</p>
-              <p className="text-3xl font-bold num-accent text-[var(--color-primary)]">¥0</p>
-            </div>
-          </div>
-        </div>
+        {/* Main Bento — real stats + recent activity (client) */}
+        <DashboardStats
+          locale={locale}
+          labels={{
+            recentActivity: t.recentActivity,
+            noRecentActivity: t.noRecentActivity,
+            viewAll: locale === 'zh' ? '查看全部' : 'View All',
+            totalContent: t.stats.totalContent,
+            published: t.stats.published,
+            costThisMonth: t.stats.costThisMonth,
+          }}
+        />
       </main>
     </div>
   );
