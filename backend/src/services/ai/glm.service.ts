@@ -19,6 +19,9 @@ import logger from '../../utils/logger';
  * GLM-4 Service Implementation
  */
 export class GLMService extends BaseAIService {
+  // 可通过 GLM_MODEL 覆盖;默认用免费的 glm-4-flash
+  private readonly glmModel: string;
+
   constructor(apiKey: string) {
     super(
       apiKey,
@@ -26,6 +29,7 @@ export class GLMService extends BaseAIService {
       AIProvider.GLM_4,
       AIModel.GLM_4
     );
+    this.glmModel = process.env.GLM_MODEL || 'glm-4-flash';
   }
 
   /**
@@ -49,7 +53,7 @@ export class GLMService extends BaseAIService {
       const response = await axios.post(
         `${this.baseUrl}/chat/completions`,
         {
-          model: 'glm-4',
+          model: this.glmModel,
           messages: [
             {
               role: 'user',
@@ -132,7 +136,7 @@ export class GLMService extends BaseAIService {
       await axios.post(
         `${this.baseUrl}/chat/completions`,
         {
-          model: 'glm-4',
+          model: this.glmModel,
           messages: [{ role: 'user', content: 'test' }],
           max_tokens: 1,
         },
