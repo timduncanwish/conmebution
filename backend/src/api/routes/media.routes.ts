@@ -4,9 +4,7 @@
  */
 
 import { Router, Request, Response } from 'express';
-import { v4 as uuidv4 } from 'uuid';
-import { DalleImageGenerator } from '../../services/ai/image-generation';
-import { SeedanceVideoGenerator } from '../../services/ai/video-generation';
+import { ZhipuImageGenerator, ZhipuVideoGenerator } from '../../services/ai/zhipu-media.service';
 import config from '../../config';
 import logger from '../../utils/logger';
 
@@ -37,18 +35,18 @@ router.post('/image', async (req: Request, res: Response) => {
       size,
     });
 
-    // Check if API key is configured
-    if (!config.ai.openai.apiKey) {
+    // 用 GLM key 调智谱 CogView(免费档 cogview-3-flash)
+    if (!config.ai.glm.apiKey) {
       return res.status(500).json({
         success: false,
         error: {
           type: 'CONFIGURATION_ERROR',
-          message: 'OpenAI API key not configured',
+          message: 'GLM API key not configured (set GLM_API_KEY for real image generation)',
         },
       });
     }
 
-    const imageGenerator = new DalleImageGenerator(config.ai.openai.apiKey);
+    const imageGenerator = new ZhipuImageGenerator(config.ai.glm.apiKey);
     const result = await imageGenerator.generateImages({
       prompt,
       style,
@@ -111,27 +109,20 @@ router.post('/video', async (req: Request, res: Response) => {
       style,
     });
 
-    // Check if API key is configured
-    // Note: Using placeholder API key check
-    const apiKey = process.env.SEEDANCE_API_KEY || 'demo_key';
-
-    const videoGenerator = new SeedanceVideoGenerator(apiKey);
-    const result = await videoGenerator.generateVideo({
-      prompt,
-      duration,
-      resolution,
-      style,
-      ratio,
-    });
-
-    if (result.success) {
-      logger.info('Video generation completed', {
-        videoId: result.videoId,
-        duration: result.duration,
-        cost: result.cost,
+    // 用 GLM key 调智谱 CogVideoX(免费档 cogvideox-flash,异步)
+    if (!config.ai.glm.apiKey) {
+      return res.status(500).json({
+        success: false,
+        error: { type: 'CONFIGURATION_ERROR', message: 'GLM API key not configured (set GLM_API_KEY for real video generation)' },
       });
     }
 
+    const videoGenerator = new ZhipuVideoGenerator(config.ai.glm.apiKey);
+    const result = await videoGenerator.generateVideoBlocking({ prompt, duration, resolution, style, ratio });
+
+    logger.info('Video generation result', { status: result.status, taskId: result.taskId, videoUrl: result.videoUrl });
+
+    // processing/success 都算成功受理;前端可用 taskId 继续轮询 /video/status/:taskId
     res.status(result.success ? 200 : 500).json(result);
   } catch (error: any) {
     logger.error('Video generation failed', {
@@ -145,6 +136,23 @@ router.post('/video', async (req: Request, res: Response) => {
         message: error.message || 'Failed to generate video',
       },
     });
+  }
+});
+
+/**
+ * GET /api/generate/video/status/:taskId
+ * 轮询异步视频任务结果
+ */
+router.get('/video/status/:taskId', async (req: Request, res: Response) => {
+  try {
+    if (!config.ai.glm.apiKey) {
+      return res.status(500).json({ success: false, error: { type: 'CONFIGURATION_ERROR', message: 'GLM API key not configured' } });
+    }
+    const videoGenerator = new ZhipuVideoGenerator(config.ai.glm.apiKey);
+    const result = await videoGenerator.poll(String(req.params.taskId));
+    res.json(result);
+  } catch (error: any) {
+    res.status(500).json({ success: false, error: { type: 'GENERATION_ERROR', message: error.message || 'Failed to poll video status' } });
   }
 });
 
