@@ -166,8 +166,10 @@ router.post('/video', async (req: Request, res: Response) => {
     const result = await videoGenerator.generateVideoBlocking({ prompt, duration, resolution, style, ratio });
 
     // 同步路径下成功完成 → 下载到本地,避免签名 URL 过期
-    if (result.success && result.status === 'success' && result.videoUrl) {
-      result.videoUrl = await localizeMedia(result.videoUrl, req.userId, 'video');
+    if (result.success && result.status === 'success') {
+      if (result.videoUrl) result.videoUrl = await localizeMedia(result.videoUrl, req.userId, 'video');
+      // 缩略图也是 Zhipu 签名 URL,会过期;一起下载到本地
+      if (result.thumbnailUrl) result.thumbnailUrl = await localizeMedia(result.thumbnailUrl, req.userId, 'image');
     }
 
     logger.info('Video generation result', { status: result.status, taskId: result.taskId, videoUrl: result.videoUrl });
@@ -201,9 +203,10 @@ router.get('/video/status/:taskId', async (req: Request, res: Response) => {
     const videoGenerator = new ZhipuVideoGenerator(config.ai.glm.apiKey);
     const result = await videoGenerator.poll(String(req.params.taskId));
 
-    // 轮询拿到最终结果时也下载到本地
-    if (result.success && result.status === 'success' && result.videoUrl) {
-      result.videoUrl = await localizeMedia(result.videoUrl, req.userId, 'video');
+    // 轮询拿到最终结果时也下载到本地(video + thumbnail)
+    if (result.success && result.status === 'success') {
+      if (result.videoUrl) result.videoUrl = await localizeMedia(result.videoUrl, req.userId, 'video');
+      if (result.thumbnailUrl) result.thumbnailUrl = await localizeMedia(result.thumbnailUrl, req.userId, 'image');
     }
 
     res.json(result);
