@@ -125,7 +125,40 @@ router.get('/posts', authenticateToken, async (req: Request, res: Response) => {
 });
 
 /**
+ * 求某绝对时刻在指定时区的 UTC 偏移(毫秒)。
+ */
+function offsetMsForZone(instant: Date, timeZone: string): number {
+  const dtf = new Intl.DateTimeFormat('en-US', {
+    timeZone,
+    hourCycle: 'h23',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+  });
+  const m: Record<string, number> = {};
+  for (const p of dtf.formatToParts(instant)) {
+    if (p.type !== 'literal') m[p.type] = Number(p.value);
+  }
+  const asUTC = Date.UTC(m.year, m.month - 1, m.day, m.hour, m.minute, m.second);
+  return asUTC - instant.getTime();
+}
+
+/**
+ * 把"某时区里的墙上时间 y-mo-d h:mi"转换为绝对 UTC Date(两次迭代处理 DST 边界)。
+ */
+function zonedWallTimeToUtc(year: number, month0: number, day: number, hour: number, minute: number, timeZone: string): Date {
+  let utc = Date.UTC(year, month0, day, hour, minute, 0);
+  for (let i = 0; i < 2; i++) {
+    const offset = offsetMsForZone(new Date(utc), timeZone);
+    const corrected = Date.UTC(year, month0, day, hour, minute, 0) - offset;
+    if (corrected === utc) break;
+    utc = corrected;
+  }
+  return new Date(utc);
+}
+
+/**
  * 计算某渠道在 now 之后、尚未被 pending 排期占用的下一个时间槽。
+ * 时间槽 HH:MM 按 schedule.timezone(默认 Asia/Shanghai)解释,而非服务器本地时区。
  */
 async function computeNextSlot(userId: string, platform: string): Promise<Date | null> {
   const schedule = await prisma.postingSchedule.findUnique({
@@ -135,6 +168,8 @@ async function computeNextSlot(userId: string, platform: string): Promise<Date |
   const slots = parseJsonArray(schedule.timeSlots);
   if (slots.length === 0) return null;
 
+  const tz = schedule.timezone || 'Asia/Shanghai';
+
   // 已被该用户 pending 排期占用的时间点(毫秒集合)
   const taken = await prisma.scheduledPost.findMany({
     where: { userId, status: 'pending', platforms: { contains: `"${platform}"` } },
@@ -143,12 +178,17 @@ async function computeNextSlot(userId: string, platform: string): Promise<Date |
   const takenSet = new Set(taken.map((t) => t.scheduledTime.getTime()));
 
   const now = new Date();
+  // 起点:now 在目标时区里的年月日
+  const baseParts: Record<string, number> = {};
+  for (const p of new Intl.DateTimeFormat('en-US', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(now)) {
+    if (p.type !== 'literal') baseParts[p.type] = Number(p.value);
+  }
+
   for (let dayOffset = 0; dayOffset < 60; dayOffset++) {
     for (const slot of slots) {
       const [h, m] = slot.split(':').map(Number);
-      const d = new Date(now);
-      d.setDate(now.getDate() + dayOffset);
-      d.setHours(h, m, 0, 0);
+      // 用目标时区里的 (baseDay + dayOffset) 这一天的 HH:MM
+      const d = zonedWallTimeToUtc(baseParts.year, baseParts.month - 1, baseParts.day + dayOffset, h, m, tz);
       if (d.getTime() > now.getTime() && !takenSet.has(d.getTime())) {
         return d;
       }
